@@ -22,11 +22,13 @@
   --accent2: #ff4d4d;
   --accent3: #990000; 
   --text: #f0f0f0; 
-  --muted: #b3b3b3; /* Lightened from #999 */
-  --success: #ff3333; 
+  --muted: #b3b3b3;
+  --success: #00ff88; 
   --blue: #ff6666; 
   --work: #ff1a1a; 
   --rest: #ff6666;
+  --nav-height: 70px;
+  --header-height: 60px;
 }
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 html, body { height:100%; overflow:hidden; }
@@ -44,14 +46,18 @@ body::before {
 
 .app-header {
   display:flex; justify-content:space-between; align-items:center;
-  padding:16px 20px 10px; border-bottom:1px solid var(--border);
+  padding:12px 20px;
+  height: var(--header-height);
   flex-shrink:0;
+  background: rgba(5,0,0,0.9);
+  backdrop-filter: blur(10px);
+  z-index: 100;
 }
-.logo { font-family:'Bebas Neue',sans-serif; font-size:32px; letter-spacing:4px; color:var(--accent); line-height:1; text-shadow:0 0 20px rgba(255,26,26,0.5); }
+.logo { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:4px; color:var(--accent); line-height:1; text-shadow:0 0 20px rgba(255,26,26,0.5); }
 .logo span { color:var(--text); }
 .user-badge {
   background:var(--surface2); border:1px solid var(--border);
-  border-radius:20px; padding:6px 14px; font-size:11px; /* Slightly bigger */
+  border-radius:20px; padding:6px 14px; font-size:11px;
   font-family:'JetBrains Mono',monospace; color:var(--muted);
   cursor:pointer; transition:all .2s; font-weight: 600;
 }
@@ -59,30 +65,79 @@ body::before {
 .user-badge.authed { border-color:var(--success); color:var(--success); }
 
 .nav {
-  display:flex; border-bottom:1px solid var(--border);
-  flex-shrink:0; overflow-x:auto; scrollbar-width:none;
-  background: rgba(5,0,0,0.8);
-  backdrop-filter: blur(5px);
+  display:flex; 
+  border-top:1px solid var(--border);
+  flex-shrink:0; 
+  overflow-x:auto; 
+  scrollbar-width:none;
+  background: rgba(5,0,0,0.95);
+  backdrop-filter: blur(10px);
+  height: var(--nav-height);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: 430px;
+  margin: 0 auto;
+  z-index: 100;
 }
 .nav::-webkit-scrollbar { display:none; }
 .nav-btn {
-  flex:1; padding:14px 4px; background:none; border:none;
-  color:var(--muted); font-family:'Bebas Neue',sans-serif;
-  font-size:14px; /* Bigger */
-  font-weight: bold; /* Bolder */
-  letter-spacing:1.5px; 
+  flex:1; 
+  padding:8px 2px 4px; 
+  background:none; 
+  border:none;
+  color:var(--muted); 
+  font-family:'Bebas Neue',sans-serif;
+  font-size:12px;
+  font-weight: bold;
+  letter-spacing:1px; 
   cursor:pointer;
-  position:relative; transition:all .2s; white-space:nowrap;
-  min-width:70px;
+  position:relative; 
+  transition:all .2s; 
+  white-space:nowrap;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
 }
+.nav-btn::before {
+    content: '';
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    opacity: 0.7;
+}
+.nav-btn[data-tab="sprint"]::before { content: '⏱'; }
+.nav-btn[data-tab="workout"]::before { content: '💪'; }
+.nav-btn[data-tab="library"]::before { content: '📚'; }
+.nav-btn[data-tab="progress"]::before { content: '📊'; }
+.nav-btn[data-tab="program"]::before { content: '📅'; }
+
 .nav-btn:hover { color:var(--accent2); }
 .nav-btn.active { color:var(--accent); text-shadow:0 0 10px rgba(255,26,26,0.5); }
 .nav-btn.active::after {
-  content:''; position:absolute; bottom:0; left:15%; right:15%;
-  height:3px; background:var(--accent); box-shadow:0 0 10px var(--accent);
+  content:''; 
+  position:absolute; 
+  top:0; 
+  left:25%; 
+  right:25%;
+  height:3px; 
+  background:var(--accent); 
+  box-shadow:0 0 10px var(--accent);
+  border-radius: 0 0 4px 4px;
 }
 
-.screen { display:none; flex:1; overflow-y:auto; padding:16px 16px 100px; }
+.screen { 
+  display:none; 
+  flex:1; 
+  overflow-y:auto; 
+  padding:16px 16px calc(var(--nav-height) + 20px);
+  height: calc(100vh - var(--header-height));
+  margin-top: var(--header-height);
+}
 .screen.active { display:block; animation:fadeIn .2s ease; }
 @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
 
@@ -90,8 +145,8 @@ body::before {
 ::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
 
 .lbl {
-  font-family:'JetBrains Mono',monospace; font-size:11px; /* Bigger */
-  font-weight: 700; /* Bolder */
+  font-family:'JetBrains Mono',monospace; font-size:11px;
+  font-weight: 700;
   letter-spacing:2px; 
   color:var(--muted); 
   margin:20px 0 10px;
@@ -106,8 +161,6 @@ body::before {
 }
 .card:hover { border-color:var(--accent3); }
 
-/* SPRINT SCREEN */
-/* Removed .app-title and .app-sub from here to remove logo redundancy */
 .stepper{display:flex;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:5px;overflow:hidden;margin-bottom:16px;transition:all .2s;}
 .stepper:hover{border-color:var(--accent3);}
 .step-btn{background:none;border:none;color:var(--text);font-family:'Bebas Neue',sans-serif;font-size:28px;padding:14px 20px;cursor:pointer;flex-shrink:0;line-height:1;transition:all .1s}
@@ -124,8 +177,7 @@ body::before {
 .btn-start:hover{box-shadow:0 0 30px rgba(255,26,26,0.5);transform:translateY(-2px);}
 .btn-start:active{transform:scale(.98);box-shadow:0 0 10px rgba(255,26,26,0.3);}
 
-/* TIMER OVERLAY */
-#timerScreen{display:none;position:fixed;inset:0;background:var(--bg);z-index:100;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+#timerScreen{display:none;position:fixed;inset:0;background:var(--bg);z-index:200;flex-direction:column;align-items:center;justify-content:center;padding:20px}
 #timerScreen.active{display:flex}
 .phase-lbl{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:12px;margin-bottom:6px;color:var(--work);text-shadow:0 0 20px rgba(255,26,26,0.5);}
 .round-lbl{font-size:12px;color:var(--muted);letter-spacing:3px;margin-bottom:36px; font-weight: 600;}
@@ -148,7 +200,52 @@ body::before {
 .done-overlay.on{display:flex}
 .done-big{font-family:'Bebas Neue',sans-serif;font-size:72px;color:var(--accent);letter-spacing:6px;line-height:1;margin-bottom:6px;text-shadow:0 0 40px rgba(255,26,26,0.6);}
 
-/* TRACKER */
+#pipWindow {
+    display: none;
+    position: fixed;
+    bottom: calc(var(--nav-height) + 10px);
+    right: 10px;
+    width: 140px;
+    height: 140px;
+    background: rgba(10, 0, 0, 0.95);
+    border: 2px solid var(--accent);
+    border-radius: 12px;
+    z-index: 150;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 30px rgba(255, 26, 26, 0.4);
+    backdrop-filter: blur(5px);
+}
+#pipWindow.active { display: flex; }
+.pip-timer {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--accent);
+    text-shadow: 0 0 10px rgba(255,26,26,0.5);
+}
+.pip-phase {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+.pip-progress {
+    width: 80%;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-top: 8px;
+    overflow: hidden;
+}
+.pip-bar {
+    height: 100%;
+    background: var(--accent);
+    width: 100%;
+    transition: width 1s linear;
+}
+
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:24px}
 .cal-day{aspect-ratio:1;border-radius:6px;background:var(--surface);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;position:relative;font-size:14px;font-family:'Bebas Neue',sans-serif;letter-spacing:1px}
 .cal-day:hover{border-color:var(--accent3);}
@@ -158,7 +255,6 @@ body::before {
 .cal-day.done::after{content:'✓';position:absolute;bottom:2px;right:4px;font-size:10px;color:var(--accent);font-family:sans-serif;font-weight:bold;}
 .cal-day.future{opacity:.3;cursor:default}
 
-/* WORKOUT */
 .workout-banner {
   background:var(--surface); border:1px solid var(--border);
   border-radius:6px; padding:18px; margin-bottom:16px;
@@ -254,12 +350,11 @@ body::before {
 .btn-sm.danger { border-color:var(--accent2); color:var(--accent2); }
 .btn-sm.danger:hover { box-shadow:0 0 10px rgba(255,77,77,0.3); }
 
-/* REST TIMER */
 .timer-bar {
-  position:fixed; bottom:0; left:50%; transform:translateX(-50%);
+  position:fixed; bottom:var(--nav-height); left:50%; transform:translateX(-50%);
   width:100%; max-width:430px;
   background:var(--surface); border-top:2px solid var(--accent);
-  padding:14px 18px; z-index:200; display:none;
+  padding:14px 18px; z-index:90; display:none;
   box-shadow:0 -10px 40px rgba(255,26,26,0.2);
 }
 .timer-bar.on { display:block; animation:slideUp .3s ease; }
@@ -268,7 +363,6 @@ body::before {
 .timer-disp.warn { color:var(--accent2); animation:blink .5s infinite; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-/* LIBRARY */
 .search-box {
   width:100%; background:var(--surface2); border:1px solid var(--border);
   border-radius:6px; color:var(--text); font-family:'DM Sans',sans-serif;
@@ -305,7 +399,6 @@ body::before {
 .tag.primary { border-color:var(--accent); color:var(--accent); }
 .tag.equipment { border-color:var(--accent2); color:var(--accent2); }
 
-/* PROGRAM */
 .prog-card {
   background:var(--surface); border:1px solid var(--border);
   border-radius:6px; padding:16px; margin-bottom:10px;
@@ -339,7 +432,6 @@ body::before {
   box-shadow:0 0 10px rgba(255,26,26,0.3);
 }
 
-/* BUILDER */
 .builder-day {
   background:var(--surface); border:1px solid var(--border);
   border-radius:6px; margin-bottom:12px; overflow:hidden;
@@ -380,7 +472,6 @@ body::before {
 }
 .add-ex-btn:hover { border-color:var(--accent); color:var(--accent); }
 
-/* MODALS */
 .modal-overlay {
   display:none; position:fixed; inset:0;
   background:rgba(5,0,0,.95); z-index:300;
@@ -393,6 +484,7 @@ body::before {
   width:100%; max-width:430px; max-height:85vh;
   overflow-y:auto; animation:slideUp .3s ease; position:relative;
   box-shadow:0 -20px 60px rgba(255,26,26,0.2);
+  margin-bottom: var(--nav-height);
 }
 .modal-title { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:3px; margin-bottom:6px;color:var(--accent);text-shadow:0 0 15px rgba(255,26,26,0.3);}
 .modal-close { position:absolute; top:18px; right:18px; background:none; border:none; color:var(--muted); font-size:20px; cursor:pointer; transition:all .2s;}
@@ -424,11 +516,10 @@ body::before {
   padding:12px; background:var(--surface2); border-radius:6px;
   font-size:12px; color:var(--muted); border:1px solid var(--border);
 }
-.sync-dot { width:10px; height:10px; border-radius:50%; background:var(--success);box-shadow:0 0 10px rgba(255,51,51,0.5); }
+.sync-dot { width:10px; height:10px; border-radius:50%; background:var(--success);box-shadow:0 0 10px rgba(0,255,136,0.5); }
 .sync-dot.pending { background:var(--accent2); animation:pulse 1s infinite;box-shadow:0 0 10px rgba(255,77,77,0.5); }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-/* TOAST */
 .toast {
   position:fixed; top:80px; left:50%; transform:translateX(-50%);
   background:var(--accent); color:#000;
@@ -440,7 +531,6 @@ body::before {
 }
 @keyframes toastIn { from{opacity:0;transform:translate(-50%,-8px)} to{opacity:1;transform:translate(-50%,0)} }
 
-/* LOGIN */
 .login-screen {
   position:fixed; inset:0; background:var(--bg); z-index:1000;
   display:flex; flex-direction:column; align-items:center;
@@ -465,7 +555,6 @@ body::before {
 .stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
 .sb-val { font-family:'Bebas Neue',sans-serif; font-size:32px; color:var(--accent); letter-spacing:1px; line-height:1; margin-bottom:4px;text-shadow:0 0 15px rgba(255,26,26,0.3);}
 
-/* History List */
 .history-list {
   margin-top: 10px;
 }
@@ -498,10 +587,17 @@ body::before {
 <div class="login-screen" id="loginScreen">
   <div class="login-logo">KINETIX</div>
   <div class="login-sub">INTENSITY REDEFINED</div>
-  <input type="email" class="form-input" id="loginEmail" placeholder="Email" style="max-width:320px;margin-bottom:14px;">
-  <input type="password" class="form-input" id="loginPassword" placeholder="Password" style="max-width:320px;margin-bottom:24px;">
-  <button class="btn-start" onclick="signIn()" style="max-width:320px;">SIGN IN</button>
-  <button class="btn-secondary" onclick="signUp()" style="max-width:320px;">CREATE ACCOUNT</button>
+  
+  <!-- Auth Tabs -->
+  <div class="auth-tabs" style="width:100%; max-width:320px; margin-bottom:20px;">
+    <button class="auth-tab active" id="signInTab" onclick="switchAuthTab('signin')">SIGN IN</button>
+    <button class="auth-tab" id="signUpTab" onclick="switchAuthTab('signup')">CREATE ACCOUNT</button>
+  </div>
+  
+  <input type="email" class="form-input" id="loginEmail" placeholder="Email" style="max-width:320px;">
+  <input type="password" class="form-input" id="loginPassword" placeholder="Password" style="max-width:320px; margin-bottom:20px;">
+  
+  <button class="btn-start" id="authActionBtn" onclick="handleAuthAction()" style="max-width:320px;">SIGN IN</button>
   <button class="btn-sm" onclick="skipLogin()" style="margin-top:24px;max-width:320px;background:none;border:none;color:var(--muted);">Continue Offline</button>
 </div>
 
@@ -510,18 +606,8 @@ body::before {
   <div class="user-badge" id="userBadge" onclick="openAuthModal()">OFFLINE</div>
 </div>
 
-<nav class="nav">
-  <button class="nav-btn active" onclick="goTab('sprint')">SPRINT</button>
-  <button class="nav-btn" onclick="goTab('workout')">WORKOUT</button>
-  <button class="nav-btn" onclick="goTab('library')">LIBRARY</button>
-  <button class="nav-btn" onclick="goTab('progress')">PROGRESS</button>
-  <button class="nav-btn" onclick="goTab('program')">PROGRAM</button>
-</nav>
-
 <!-- SPRINT -->
 <div class="screen active" id="screen-sprint">
-  <!-- Removed KINETIX Logo Header -->
-  
   <div class="lbl" style="margin-top:0">WORK TIME</div>
   <div class="stepper">
     <button class="step-btn" onclick="adj('work',-5)">−</button>
@@ -596,6 +682,15 @@ body::before {
   </div>
 </div>
 
+<!-- PIP WINDOW -->
+<div id="pipWindow">
+    <div class="pip-phase" id="pipPhase">WORK</div>
+    <div class="pip-timer" id="pipTimer">0:30</div>
+    <div class="pip-progress">
+        <div class="pip-bar" id="pipBar"></div>
+    </div>
+</div>
+
 <!-- WORKOUT -->
 <div class="screen" id="screen-workout">
   <div class="workout-banner" id="wbanner">
@@ -630,7 +725,7 @@ body::before {
   <button class="btn-start" onclick="openNewProgram()">+ CREATE PROGRAM</button>
 </div>
 
-<!-- PROGRESS (Merged with Body) -->
+<!-- PROGRESS -->
 <div class="screen" id="screen-progress">
   <div class="lbl">THIS WEEK</div>
   <div class="week-grid" id="weekGrid"></div>
@@ -649,9 +744,7 @@ body::before {
   <div id="bwHistory"></div>
 
   <div class="lbl">HISTORY</div>
-  <div id="historyList" class="history-list">
-    <!-- Populated by JS -->
-  </div>
+  <div id="historyList" class="history-list"></div>
 </div>
 
 <!-- MODALS -->
@@ -705,44 +798,325 @@ body::before {
 
 <div class="toast" id="toast"></div>
 
+<!-- BOTTOM NAVIGATION -->
+<nav class="nav">
+  <button class="nav-btn active" data-tab="sprint" onclick="goTab('sprint')">SPRINT</button>
+  <button class="nav-btn" data-tab="workout" onclick="goTab('workout')">WORKOUT</button>
+  <button class="nav-btn" data-tab="library" onclick="goTab('library')">LIBRARY</button>
+  <button class="nav-btn" data-tab="progress" onclick="goTab('progress')">PROGRESS</button>
+  <button class="nav-btn" data-tab="program" onclick="goTab('program')">PROGRAM</button>
+</nav>
+
 <script>
 // ═══════════════════════════════════════════════════════════════
-// SUPABASE CONFIGURATION - REPLACE THESE WITH YOUR KEYS
+// SUPABASE CONFIGURATION - REPLACE WITH YOUR ACTUAL CREDENTIALS
 // ═══════════════════════════════════════════════════════════════
 const SUPABASE_URL = 'https://umrnxwdnqcfhszwvsrcn.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVtcm54d2RucWNmaHN6d3ZzcmNuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxMjM1NzAsImV4cCI6MjA4NzY5OTU3MH0.IqS4tRb45yr3pEBQK2INVQgJTI2WXOl4dc0hfCOtXO0';
 
-// Initialize Supabase client
 let supabaseClient = null;
 let currentUser = null;
+let currentAuthMode = 'signin'; // 'signin' or 'signup'
 
 // ═══════════════════════════════════════════════════════════════
-// DATABASE SETUP
+// AUTHENTICATION FUNCTIONS
 // ═══════════════════════════════════════════════════════════════
-const DB_NAME = 'KinetixDB_v2'; // Incremented version to clear old potential corrupted data
+
+function switchAuthTab(mode) {
+    currentAuthMode = mode;
+    document.getElementById('signInTab').classList.toggle('active', mode === 'signin');
+    document.getElementById('signUpTab').classList.toggle('active', mode === 'signup');
+    document.getElementById('authActionBtn').textContent = mode === 'signin' ? 'SIGN IN' : 'CREATE ACCOUNT';
+}
+
+async function handleAuthAction() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    
+    if (!email || !password) {
+        showToast('Please enter email and password');
+        return;
+    }
+    
+    if (password.length < 6) {
+        showToast('Password must be at least 6 characters');
+        return;
+    }
+    
+    if (currentAuthMode === 'signin') {
+        await signIn(email, password);
+    } else {
+        await signUp(email, password);
+    }
+}
+
+async function initSupabase() {
+    try {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        // Check for existing session
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (session) {
+            currentUser = session.user;
+            hideLoginScreen();
+            updateAuthUI();
+            await loadUserData();
+            showToast('Welcome back!');
+        }
+        
+        // Listen for auth state changes
+        supabaseClient.auth.onAuthStateChange((event, session) => {
+            if (event === 'SIGNED_IN' && session) {
+                currentUser = session.user;
+                hideLoginScreen();
+                updateAuthUI();
+            } else if (event === 'SIGNED_OUT') {
+                currentUser = null;
+                showLoginScreen();
+                updateAuthUI();
+            }
+        });
+        
+        return true;
+    } catch (e) {
+        console.error('Supabase init failed:', e);
+        showToast('Failed to connect to server');
+        return false;
+    }
+}
+
+async function signIn(email, password) {
+    try {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ 
+            email, 
+            password 
+        });
+        
+        if (error) throw error;
+        
+        currentUser = data.user;
+        hideLoginScreen();
+        updateAuthUI();
+        await loadUserData();
+        showToast('Signed in successfully!');
+        
+    } catch (error) {
+        console.error('Sign in error:', error);
+        showToast(error.message || 'Failed to sign in');
+    }
+}
+
+async function signUp(email, password) {
+    try {
+        const { data, error } = await supabaseClient.auth.signUp({ 
+            email, 
+            password,
+            options: {
+                emailRedirectTo: window.location.origin
+            }
+        });
+        
+        if (error) throw error;
+        
+        if (data.user) {
+            showToast('Account created! Check your email to confirm.');
+            // Auto sign in if email confirmation is disabled
+            if (data.session) {
+                currentUser = data.user;
+                hideLoginScreen();
+                updateAuthUI();
+                await createUserDataRecord();
+                showToast('Welcome to KINETIX!');
+            } else {
+                showToast('Please check your email to verify your account');
+            }
+        }
+        
+    } catch (error) {
+        console.error('Sign up error:', error);
+        showToast(error.message || 'Failed to create account');
+    }
+}
+
+async function signOut() {
+    try {
+        await supabaseClient.auth.signOut();
+        currentUser = null;
+        closeModal('authModal');
+        showLoginScreen();
+        updateAuthUI();
+        showToast('Signed out');
+    } catch (error) {
+        showToast('Failed to sign out');
+    }
+}
+
+function skipLogin() {
+    hideLoginScreen();
+    showToast('Continuing in offline mode');
+}
+
+function hideLoginScreen() {
+    document.getElementById('loginScreen').style.display = 'none';
+}
+
+function showLoginScreen() {
+    document.getElementById('loginScreen').style.display = 'flex';
+    switchAuthTab('signin');
+}
+
+function updateAuthUI() {
+    const badge = document.getElementById('userBadge');
+    if (currentUser) {
+        badge.textContent = currentUser.email.split('@')[0].toUpperCase();
+        badge.classList.add('authed');
+    } else {
+        badge.textContent = 'OFFLINE';
+        badge.classList.remove('authed');
+    }
+}
+
+function openAuthModal() {
+    document.getElementById('authModal').classList.add('on');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// DATABASE & SYNC
+// ═══════════════════════════════════════════════════════════════
+
+const DB_NAME = 'KinetixDB_v4';
 let DB;
 
 function openDB() {
-  return new Promise((res, rej) => {
-    const req = indexedDB.open(DB_NAME, 1);
-    req.onupgradeneeded = e => {
-      const db = e.target.result;
-      if(!db.objectStoreNames.contains('days')) db.createObjectStore('days', {keyPath: 'date'});
-      if(!db.objectStoreNames.contains('config')) db.createObjectStore('config', {keyPath: 'key'});
-      if(!db.objectStoreNames.contains('workouts')) db.createObjectStore('workouts', {keyPath: 'id', autoIncrement: true});
-      if(!db.objectStoreNames.contains('exercises')) db.createObjectStore('exercises', {keyPath: 'id', autoIncrement: true});
-      if(!db.objectStoreNames.contains('programs')) db.createObjectStore('programs', {keyPath: 'id', autoIncrement: true});
-      if(!db.objectStoreNames.contains('bodyweight')) db.createObjectStore('bodyweight', {keyPath: 'date'});
-    };
-    req.onsuccess = e => { DB = e.target.result; res(DB); };
-    req.onerror = rej;
-  });
+    return new Promise((res, rej) => {
+        const req = indexedDB.open(DB_NAME, 1);
+        req.onupgradeneeded = e => {
+            const db = e.target.result;
+            if(!db.objectStoreNames.contains('days')) db.createObjectStore('days', {keyPath: 'date'});
+            if(!db.objectStoreNames.contains('config')) db.createObjectStore('config', {keyPath: 'key'});
+            if(!db.objectStoreNames.contains('workouts')) db.createObjectStore('workouts', {keyPath: 'id', autoIncrement: true});
+            if(!db.objectStoreNames.contains('programs')) db.createObjectStore('programs', {keyPath: 'id', autoIncrement: true});
+            if(!db.objectStoreNames.contains('bodyweight')) db.createObjectStore('bodyweight', {keyPath: 'date'});
+        };
+        req.onsuccess = e => { DB = e.target.result; res(DB); };
+        req.onerror = rej;
+    });
 }
 
 const dbGet = (s, k) => new Promise((r, j) => { const t = DB.transaction(s, 'readonly'), q = t.objectStore(s).get(k); q.onsuccess = e => r(e.target.result); q.onerror = j; });
 const dbPut = (s, o) => new Promise((r, j) => { const t = DB.transaction(s, 'readwrite'), q = t.objectStore(s).put(o); q.onsuccess = e => r(e.target.result); q.onerror = j; });
 const dbAll = (s) => new Promise((r, j) => { const t = DB.transaction(s, 'readonly'), q = t.objectStore(s).getAll(); q.onsuccess = e => r(e.target.result); q.onerror = j; });
 const dbDel = (s, k) => new Promise((r, j) => { const t = DB.transaction(s, 'readwrite'), q = t.objectStore(s).delete(k); q.onsuccess = () => r(); q.onerror = j; });
+
+async function createUserDataRecord() {
+    if (!currentUser) return;
+    
+    try {
+        const { error } = await supabaseClient
+            .from('user_data')
+            .insert({
+                user_id: currentUser.id,
+                workouts: '[]',
+                programs: '[]',
+                days: '[]',
+                bodyweight: '[]',
+                updated_at: new Date().toISOString()
+            });
+            
+        if (error && error.code !== '23505') { // Ignore duplicate key error
+            console.error('Error creating user data:', error);
+        }
+    } catch (e) {
+        console.error('Failed to create user data record:', e);
+    }
+}
+
+async function loadUserData() {
+    if (!currentUser) return;
+    
+    try {
+        const { data, error } = await supabaseClient
+            .from('user_data')
+            .select('*')
+            .eq('user_id', currentUser.id)
+            .single();
+            
+        if (error) {
+            if (error.code === 'PGRST116') {
+                // No data found, create new record
+                await createUserDataRecord();
+            } else {
+                throw error;
+            }
+        } else if (data) {
+            // Load data into IndexedDB
+            if (data.workouts) {
+                const workouts = JSON.parse(data.workouts);
+                for (const w of workouts) await dbPut('workouts', w);
+            }
+            if (data.programs) {
+                const programs = JSON.parse(data.programs);
+                for (const p of programs) await dbPut('programs', p);
+            }
+            if (data.days) {
+                const days = JSON.parse(data.days);
+                for (const d of days) await dbPut('days', d);
+            }
+            if (data.bodyweight) {
+                const bw = JSON.parse(data.bodyweight);
+                for (const b of bw) await dbPut('bodyweight', b);
+            }
+            showToast('Data loaded from cloud');
+        }
+    } catch (e) {
+        console.error('Failed to load user data:', e);
+        showToast('Failed to load cloud data');
+    }
+}
+
+async function syncData() {
+    if (!currentUser) {
+        showToast('Not signed in');
+        return;
+    }
+    
+    document.getElementById('syncDot').classList.add('pending');
+    document.getElementById('syncText').textContent = 'Syncing...';
+    
+    try {
+        const [workouts, programs, days, bw] = await Promise.all([
+            dbAll('workouts'), 
+            dbAll('programs'), 
+            dbAll('days'), 
+            dbAll('bodyweight')
+        ]);
+        
+        const { error } = await supabaseClient
+            .from('user_data')
+            .upsert({
+                user_id: currentUser.id,
+                workouts: JSON.stringify(workouts),
+                programs: JSON.stringify(programs),
+                days: JSON.stringify(days),
+                bodyweight: JSON.stringify(bw),
+                updated_at: new Date().toISOString()
+            }, {
+                onConflict: 'user_id'
+            });
+            
+        if (error) throw error;
+        
+        showToast('Synced to cloud');
+        document.getElementById('syncDot').classList.remove('pending');
+        document.getElementById('syncText').textContent = 'Synced';
+        
+    } catch (error) {
+        console.error('Sync error:', error);
+        showToast('Sync failed: ' + error.message);
+        document.getElementById('syncDot').classList.remove('pending');
+        document.getElementById('syncText').textContent = 'Error';
+    }
+}
 
 // ═══════════════════════════════════════════════════════════════
 // APP STATE
@@ -753,7 +1127,7 @@ let editingProgram = null;
 let currentPickerDay = null;
 
 // ═══════════════════════════════════════════════════════════════
-// EXERCISE DATABASE (150+ exercises)
+// EXERCISE DATABASE
 // ═══════════════════════════════════════════════════════════════
 const exerciseDatabase = [
   {name: 'Bench Press', muscle: 'Chest', equipment: 'Barbell', tags: ['Compound']},
@@ -807,210 +1181,47 @@ const exerciseDatabase = [
 ];
 
 // ═══════════════════════════════════════════════════════════════
-// AUTHENTICATION
-// ═══════════════════════════════════════════════════════════════
-async function initSupabase() {
-  if (SUPABASE_URL.includes('your-project') || SUPABASE_KEY.includes('your-anon')) {
-    console.log('Supabase not configured - running offline mode');
-    return false;
-  }
-  
-  try {
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    if (session) {
-      currentUser = session.user;
-      updateAuthUI();
-      await syncFromCloud();
-    }
-    return true;
-  } catch (e) {
-    console.error('Supabase init failed:', e);
-    return false;
-  }
-}
-
-async function signIn() {
-  const email = document.getElementById('loginEmail').value;
-  const password = document.getElementById('loginPassword').value;
-  
-  if (!supabaseClient) {
-    showToast('Offline mode - cloud not configured');
-    return;
-  }
-  
-  if (!email || !password) {
-    showToast('Enter email and password');
-    return;
-  }
-  
-  const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-  if (error) {
-    showToast(error.message);
-    return;
-  }
-  
-  currentUser = data.user;
-  document.getElementById('loginScreen').style.display = 'none';
-  updateAuthUI();
-  await syncFromCloud();
-  showToast('Welcome back');
-}
-
-async function signUp() {
-  const email = document.getElementById('loginEmail').value;
-  const password = document.getElementById('loginPassword').value;
-  
-  if (!supabaseClient) {
-    showToast('Offline mode - cloud not configured');
-    return;
-  }
-  
-  if (!email || !password) {
-    showToast('Enter email and password');
-    return;
-  }
-  
-  if (password.length < 6) {
-    showToast('Password must be 6+ characters');
-    return;
-  }
-  
-  const { data, error } = await supabaseClient.auth.signUp({ email, password });
-  if (error) {
-    showToast(error.message);
-    return;
-  }
-  
-  // FIX: Auto sign in after sign up if session is returned (often requires email confirmation, but handling UI anyway)
-  if(data.user) {
-      showToast('Account created! Please check email to confirm.');
-      // Optionally auto-login if Supabase allows immediate session
-      if(data.session) {
-          currentUser = data.user;
-          document.getElementById('loginScreen').style.display = 'none';
-          updateAuthUI();
-      }
-  }
-}
-
-function skipLogin() {
-  document.getElementById('loginScreen').style.display = 'none';
-  showToast('Offline mode');
-}
-
-async function signOut() {
-  if (supabaseClient) await supabaseClient.auth.signOut();
-  currentUser = null;
-  closeModal('authModal');
-  location.reload();
-}
-
-function updateAuthUI() {
-  const badge = document.getElementById('userBadge');
-  if (currentUser) {
-    badge.textContent = currentUser.email.split('@')[0].toUpperCase();
-    badge.classList.add('authed');
-  } else {
-    badge.textContent = 'OFFLINE';
-  }
-}
-
-function openAuthModal() {
-  document.getElementById('authModal').classList.add('on');
-}
-
-// ═══════════════════════════════════════════════════════════════
-// SYNC
-// ═══════════════════════════════════════════════════════════════
-async function syncData() {
-  if (!currentUser || !supabaseClient) {
-    showToast('Not connected');
-    return;
-  }
-  
-  document.getElementById('syncDot').classList.add('pending');
-  document.getElementById('syncText').textContent = 'Syncing...';
-  
-  const [workouts, programs, days, bw] = await Promise.all([
-    dbAll('workouts'), dbAll('programs'), dbAll('days'), dbAll('bodyweight')
-  ]);
-  
-  const { error } = await supabaseClient.from('user_data').upsert({
-    user_id: currentUser.id,
-    workouts: JSON.stringify(workouts),
-    programs: JSON.stringify(programs),
-    days: JSON.stringify(days),
-    bodyweight: JSON.stringify(bw),
-    updated_at: new Date().toISOString()
-  });
-  
-  if (error) {
-    showToast('Sync failed');
-    document.getElementById('syncDot').classList.remove('pending');
-    document.getElementById('syncText').textContent = 'Error';
-  } else {
-    showToast('Synced to cloud');
-    document.getElementById('syncDot').classList.remove('pending');
-    document.getElementById('syncText').textContent = 'Synced';
-  }
-}
-
-async function syncFromCloud() {
-  if (!currentUser || !supabaseClient) return;
-  
-  const { data, error } = await supabaseClient
-    .from('user_data')
-    .select('*')
-    .eq('user_id', currentUser.id)
-    .single();
-  
-  if (data) {
-    if (data.workouts) {
-      const workouts = JSON.parse(data.workouts);
-      for (const w of workouts) await dbPut('workouts', w);
-    }
-    if (data.programs) {
-      const programs = JSON.parse(data.programs);
-      for (const p of programs) await dbPut('programs', p);
-    }
-    showToast('Data loaded from cloud');
-  }
-}
-
-// ═══════════════════════════════════════════════════════════════
 // NAVIGATION
 // ═══════════════════════════════════════════════════════════════
 function goTab(name) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('screen-' + name).classList.add('active');
-  const tabs = ['sprint', 'workout', 'library', 'progress', 'program'];
-  tabs.forEach((n, i) => { if (n === name) document.querySelectorAll('.nav-btn')[i].classList.add('active'); });
-  
-  if (name === 'sprint') renderCalendar();
-  if (name === 'workout') loadWorkoutDay();
-  if (name === 'library') renderLibrary();
-  if (name === 'progress') renderProgress();
-  if (name === 'program') renderPrograms();
+    const timerScreen = document.getElementById('timerScreen');
+    const pipWindow = document.getElementById('pipWindow');
+    
+    if (timerScreen.classList.contains('active') && name !== 'sprint') {
+        pipWindow.classList.add('active');
+    } else if (name === 'sprint' && timerScreen.classList.contains('active')) {
+        pipWindow.classList.remove('active');
+    }
+
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('screen-' + name).classList.add('active');
+    const tabs = ['sprint', 'workout', 'library', 'progress', 'program'];
+    tabs.forEach((n, i) => { if (n === name) document.querySelectorAll('.nav-btn')[i].classList.add('active'); });
+    
+    if (name === 'sprint') renderCalendar();
+    if (name === 'workout') loadWorkoutDay();
+    if (name === 'library') renderLibrary();
+    if (name === 'progress') renderProgress();
+    if (name === 'program') renderPrograms();
 }
 
 // ═══════════════════════════════════════════════════════════════
-// SPRINT TIMER
+// SPRINT TIMER & PIP
 // ═══════════════════════════════════════════════════════════════
 function adj(f, d) {
-  const mn = { work: 5, rest: 5, rounds: 1, goal: 1 }, mx = { work: 300, rest: 300, rounds: 99, goal: 99 };
-  C[f] = Math.max(mn[f], Math.min(mx[f], C[f] + d));
-  updateSetupUI();
-  saveConfig();
+    const mn = { work: 5, rest: 5, rounds: 1, goal: 1 }, mx = { work: 300, rest: 300, rounds: 99, goal: 99 };
+    C[f] = Math.max(mn[f], Math.min(mx[f], C[f] + d));
+    updateSetupUI();
+    saveConfig();
 }
 
 function updateSetupUI() {
-  document.getElementById('workVal').textContent = C.work;
-  document.getElementById('restVal').textContent = C.rest;
-  document.getElementById('roundsVal').textContent = C.rounds;
-  document.getElementById('goalVal').textContent = C.goal;
-  document.getElementById('totalVal').textContent = fmtTime((C.work + C.rest) * C.rounds);
+    document.getElementById('workVal').textContent = C.work;
+    document.getElementById('restVal').textContent = C.rest;
+    document.getElementById('roundsVal').textContent = C.rounds;
+    document.getElementById('goalVal').textContent = C.goal;
+    document.getElementById('totalVal').textContent = fmtTime((C.work + C.rest) * C.rounds);
 }
 
 function fmtTime(s) { const m = Math.floor(s / 60), r = s % 60; return m + ':' + String(r).padStart(2, '0'); }
@@ -1019,239 +1230,252 @@ const T = { phase: 'work', round: 1, secsLeft: 0, phaseDur: 0, paused: false, in
 const circ = 2 * Math.PI * 113;
 
 function startTimer() {
-  document.getElementById('timerScreen').classList.add('active');
-  T.round = 1; T.phase = 'work'; T.completed = 0;
-  startPhase();
+    document.getElementById('timerScreen').classList.add('active');
+    T.round = 1; T.phase = 'work'; T.completed = 0;
+    startPhase();
 }
 
 function startPhase() {
-  T.phaseDur = T.phase === 'work' ? C.work : C.rest;
-  T.secsLeft = T.phaseDur;
-  T.paused = false;
-  updateClock();
-  clearInterval(T.interval);
-  T.interval = setInterval(tick, 1000);
-  document.getElementById('pulseRing').classList.toggle('on', T.phase === 'work');
+    T.phaseDur = T.phase === 'work' ? C.work : C.rest;
+    T.secsLeft = T.phaseDur;
+    T.paused = false;
+    updateClock();
+    clearInterval(T.interval);
+    T.interval = setInterval(tick, 1000);
+    document.getElementById('pulseRing').classList.toggle('on', T.phase === 'work');
 }
 
 function tick() {
-  if (T.paused) return;
-  T.secsLeft--;
-  updateClock();
-  if (T.secsLeft <= 0) nextPhase();
+    if (T.paused) return;
+    T.secsLeft--;
+    updateClock();
+    if (T.secsLeft <= 0) nextPhase();
 }
 
 function nextPhase() {
-  if (T.phase === 'work') { T.phase = 'rest'; T.completed++; }
-  else {
-    T.phase = 'work';
-    if (T.round < C.rounds) T.round++;
-    else { finishTimer(); return; }
-  }
-  startPhase();
+    if (T.phase === 'work') { T.phase = 'rest'; T.completed++; }
+    else {
+        T.phase = 'work';
+        if (T.round < C.rounds) T.round++;
+        else { finishTimer(); return; }
+    }
+    startPhase();
 }
 
 function updateClock() {
-  document.getElementById('clockDigits').textContent = fmtTime(T.secsLeft);
-  const off = circ - (T.secsLeft / T.phaseDur) * circ;
-  const c = document.getElementById('cProg');
-  c.style.strokeDasharray = circ;
-  c.style.strokeDashoffset = off;
-  c.style.stroke = T.phase === 'work' ? '#ff1a1a' : '#ff6666';
-  document.getElementById('phaseLbl').textContent = T.phase === 'work' ? 'WORK' : 'REST';
-  document.getElementById('phaseLbl').style.color = T.phase === 'work' ? '#ff1a1a' : '#ff6666';
-  document.getElementById('clockDigits').style.color = T.phase === 'work' ? '#ff1a1a' : '#ff6666';
-  document.getElementById('roundLbl').textContent = `ROUND ${T.round} OF ${C.rounds}`;
+    document.getElementById('clockDigits').textContent = fmtTime(T.secsLeft);
+    const off = circ - (T.secsLeft / T.phaseDur) * circ;
+    const c = document.getElementById('cProg');
+    c.style.strokeDasharray = circ;
+    c.style.strokeDashoffset = off;
+    c.style.stroke = T.phase === 'work' ? '#ff1a1a' : '#ff6666';
+    document.getElementById('phaseLbl').textContent = T.phase === 'work' ? 'WORK' : 'REST';
+    document.getElementById('phaseLbl').style.color = T.phase === 'work' ? '#ff1a1a' : '#ff6666';
+    document.getElementById('clockDigits').style.color = T.phase === 'work' ? '#ff1a1a' : '#ff6666';
+    document.getElementById('roundLbl').textContent = `ROUND ${T.round} OF ${C.rounds}`;
+
+    const pipWindow = document.getElementById('pipWindow');
+    if (pipWindow.classList.contains('active')) {
+        document.getElementById('pipTimer').textContent = fmtTime(T.secsLeft);
+        document.getElementById('pipPhase').textContent = T.phase === 'work' ? 'WORK' : 'REST';
+        document.getElementById('pipPhase').style.color = T.phase === 'work' ? '#ff1a1a' : '#ff6666';
+        document.getElementById('pipTimer').style.color = T.phase === 'work' ? '#ff1a1a' : '#ff6666';
+        const progressPct = (T.secsLeft / T.phaseDur) * 100;
+        document.getElementById('pipBar').style.width = progressPct + '%';
+    }
 }
 
-function togglePause() { T.paused = !T.paused; document.getElementById('pauseBtn').textContent = T.paused ? 'RESUME' : 'PAUSE'; }
+function togglePause() { 
+    T.paused = !T.paused; 
+    document.getElementById('pauseBtn').textContent = T.paused ? 'RESUME' : 'PAUSE'; 
+}
 function skipPhase() { nextPhase(); }
 
 function finishTimer() {
-  clearInterval(T.interval);
-  document.querySelector('.clock-wrap').style.display = 'none';
-  document.querySelector('.timer-controls').style.display = 'none';
-  document.getElementById('doneOverlay').classList.add('on');
-  document.getElementById('doneRounds').textContent = T.completed;
-  
-  const goalMet = T.completed >= C.goal;
-  document.getElementById('goalAchieved').style.display = goalMet ? 'block' : 'none';
-  
-  const today = new Date().toISOString().slice(0, 10);
-  dbPut('days', { date: today, rounds: T.completed, goal: C.goal, met: goalMet, type: 'sprint' });
-  if (goalMet) showToast(`Goal crushed! ${T.completed} rounds`);
-  syncData();
+    clearInterval(T.interval);
+    document.getElementById('pipWindow').classList.remove('active');
+    document.querySelector('.clock-wrap').style.display = 'none';
+    document.querySelector('.timer-controls').style.display = 'none';
+    document.getElementById('doneOverlay').classList.add('on');
+    document.getElementById('doneRounds').textContent = T.completed;
+    
+    const goalMet = T.completed >= C.goal;
+    document.getElementById('goalAchieved').style.display = goalMet ? 'block' : 'none';
+    
+    const today = new Date().toISOString().slice(0, 10);
+    dbPut('days', { date: today, rounds: T.completed, goal: C.goal, met: goalMet, type: 'sprint' });
+    if (goalMet) showToast(`Goal crushed! ${T.completed} rounds`);
+    syncData();
 }
 
 function resetTimer() {
-  document.getElementById('timerScreen').classList.remove('active');
-  document.getElementById('doneOverlay').classList.remove('on');
-  document.querySelector('.clock-wrap').style.display = 'block';
-  document.querySelector('.timer-controls').style.display = 'flex';
-  clearInterval(T.interval);
+    document.getElementById('timerScreen').classList.remove('active');
+    document.getElementById('doneOverlay').classList.remove('on');
+    document.querySelector('.clock-wrap').style.display = 'block';
+    document.querySelector('.timer-controls').style.display = 'flex';
+    document.getElementById('pipWindow').classList.remove('active');
+    clearInterval(T.interval);
 }
 
-function stopTimer() { clearInterval(T.interval); resetTimer(); }
+function stopTimer() { 
+    clearInterval(T.interval); 
+    document.getElementById('pipWindow').classList.remove('active');
+    resetTimer(); 
+}
 
 async function renderCalendar() {
-  const days = await dbAll('days');
-  const dayMap = new Map(days.map(d => [d.date, d]));
-  const today = new Date().toISOString().slice(0, 10);
-  
-  let html = '';
-  for (let i = 0; i < 7; i++) {
-    const d = new Date(); d.setDate(d.getDate() - d.getDay() + i);
-    const dateStr = d.toISOString().slice(0, 10);
-    const data = dayMap.get(dateStr);
-    const done = data?.met;
-    const isToday = dateStr === today;
+    const days = await dbAll('days');
+    const dayMap = new Map(days.map(d => [d.date, d]));
+    const today = new Date().toISOString().slice(0, 10);
     
-    html += `<div class="cal-day ${done ? 'done' : ''} ${isToday ? 'today' : ''}" style="font-size:12px;">
-      ${['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][i]}
-      <div style="font-size:16px;margin-top:4px;">${d.getDate()}</div>
-    </div>`;
-  }
-  document.getElementById('calGrid').innerHTML = html;
+    let html = '';
+    for (let i = 0; i < 7; i++) {
+        const d = new Date(); d.setDate(d.getDate() - d.getDay() + i);
+        const dateStr = d.toISOString().slice(0, 10);
+        const data = dayMap.get(dateStr);
+        const done = data?.met;
+        const isToday = dateStr === today;
+        
+        html += `<div class="cal-day ${done ? 'done' : ''} ${isToday ? 'today' : ''}" style="font-size:12px;">
+            ${['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][i]}
+            <div style="font-size:16px;margin-top:4px;">${d.getDate()}</div>
+        </div>`;
+    }
+    document.getElementById('calGrid').innerHTML = html;
 }
 
 // ═══════════════════════════════════════════════════════════════
 // WORKOUT
 // ═══════════════════════════════════════════════════════════════
 async function loadWorkoutDay() {
-  const programs = await dbAll('programs');
-  const active = programs.find(p => p.active);
-  
-  if (active) {
-    const today = new Date().getDay();
-    const dayIndex = active.currentDay || 0;
-    const day = active.days[dayIndex];
+    const programs = await dbAll('programs');
+    const active = programs.find(p => p.active);
     
-    if (day && !day.rest) {
-      document.getElementById('wbName').textContent = day.name.toUpperCase();
-      document.getElementById('wbType').textContent = active.name.toUpperCase();
-      
-      if (currentWorkout.exercises.length === 0 && day.exercises) {
-        currentWorkout.exercises = day.exercises.map(ex => ({
-          ...ex,
-          sets: [{ weight: 0, reps: 0, done: false }]
-        }));
-        currentWorkout.programDay = dayIndex;
-      }
+    if (active) {
+        const dayIndex = active.currentDay || 0;
+        const day = active.days[dayIndex];
+        
+        if (day && !day.rest) {
+            document.getElementById('wbName').textContent = day.name.toUpperCase();
+            document.getElementById('wbType').textContent = active.name.toUpperCase();
+            
+            if (currentWorkout.exercises.length === 0 && day.exercises) {
+                currentWorkout.exercises = day.exercises.map(ex => ({
+                    ...ex,
+                    sets: [{ weight: 0, reps: 0, done: false }]
+                }));
+                currentWorkout.programDay = dayIndex;
+            }
+        }
     }
-  }
-  
-  renderWorkout();
+    
+    renderWorkout();
 }
 
 function renderWorkout() {
-  if (!currentWorkout.startTime) currentWorkout.startTime = Date.now();
-  
-  let sets = 0, vol = 0;
-  const list = document.getElementById('exList');
-  list.innerHTML = '';
-  
-  currentWorkout.exercises.forEach((ex, idx) => {
-    sets += ex.sets.length;
-    ex.sets.forEach(s => { if (s.done && s.weight && s.reps) vol += s.weight * s.reps; });
+    if (!currentWorkout.startTime) currentWorkout.startTime = Date.now();
     
-    const card = document.createElement('div');
-    card.className = 'ex-card';
-    // FIX: Prevent click on inputs from toggling the card
-    card.innerHTML = `
-      <div class="ex-header" onclick="toggleCard(this.parentElement)">
-        <div>
-          <div class="ex-name">${ex.name}</div>
-          <div class="ex-meta">${ex.sets.filter(s => s.done).length}/${ex.sets.length} SETS • ${ex.muscle}</div>
-        </div>
-        <div class="ex-chevron">▼</div>
-      </div>
-      <div class="ex-body">
-        <div class="set-row" style="border-bottom:1px solid var(--border);margin-bottom:6px;">
-          <div class="lbl">SET</div>
-          <div class="lbl">KG</div>
-          <div class="lbl">REPS</div>
-          <div></div>
-        </div>
-        <div id="sets-${idx}"></div>
-        <button class="add-set-btn" onclick="addSet(${idx})">+ ADD SET</button>
-      </div>
-    `;
-    list.appendChild(card);
+    let sets = 0, vol = 0;
+    const list = document.getElementById('exList');
+    list.innerHTML = '';
     
-    const setsContainer = card.querySelector(`#sets-${idx}`);
-    setsContainer.innerHTML = ex.sets.map((s, i) => `
-      <div class="set-row ${s.done ? 'done-row' : ''}">
-        <div style="text-align:center;color:var(--muted);font-family:'JetBrains Mono';font-size:12px;">${i + 1}</div>
-        <input class="set-input" type="number" value="${s.weight || ''}" onchange="updateSet(${idx},${i},'weight',this.value)">
-        <input class="set-input" type="number" value="${s.reps || ''}" onchange="updateSet(${idx},${i},'reps',this.value)">
-        <button class="set-done-btn ${s.done ? 'done' : ''}" onclick="toggleSet(${idx},${i})">${s.done ? '✓' : '○'}</button>
-      </div>
-    `).join('');
-  });
-  
-  document.getElementById('statSets').textContent = sets;
-  document.getElementById('statVol').textContent = vol;
+    currentWorkout.exercises.forEach((ex, idx) => {
+        sets += ex.sets.length;
+        ex.sets.forEach(s => { if (s.done && s.weight && s.reps) vol += s.weight * s.reps; });
+        
+        const card = document.createElement('div');
+        card.className = 'ex-card';
+        card.innerHTML = `
+            <div class="ex-header" onclick="toggleCard(this.parentElement)">
+                <div>
+                    <div class="ex-name">${ex.name}</div>
+                    <div class="ex-meta">${ex.sets.filter(s => s.done).length}/${ex.sets.length} SETS • ${ex.muscle}</div>
+                </div>
+                <div class="ex-chevron">▼</div>
+            </div>
+            <div class="ex-body">
+                <div class="set-row" style="border-bottom:1px solid var(--border);margin-bottom:6px;">
+                    <div class="lbl">SET</div>
+                    <div class="lbl">KG</div>
+                    <div class="lbl">REPS</div>
+                    <div></div>
+                </div>
+                <div id="sets-${idx}"></div>
+                <button class="add-set-btn" onclick="addSet(${idx})">+ ADD SET</button>
+            </div>
+        `;
+        list.appendChild(card);
+        
+        const setsContainer = card.querySelector(`#sets-${idx}`);
+        setsContainer.innerHTML = ex.sets.map((s, i) => `
+            <div class="set-row ${s.done ? 'done-row' : ''}">
+                <div style="text-align:center;color:var(--muted);font-family:'JetBrains Mono';font-size:12px;">${i + 1}</div>
+                <input class="set-input" type="number" value="${s.weight || ''}" onchange="updateSet(${idx},${i},'weight',this.value)">
+                <input class="set-input" type="number" value="${s.reps || ''}" onchange="updateSet(${idx},${i},'reps',this.value)">
+                <button class="set-done-btn ${s.done ? 'done' : ''}" onclick="toggleSet(${idx},${i})">${s.done ? '✓' : '○'}</button>
+            </div>
+        `).join('');
+    });
+    
+    document.getElementById('statSets').textContent = sets;
+    document.getElementById('statVol').textContent = vol;
 }
 
-// FIX: Separate toggle function to handle logic
 function toggleCard(card) {
     card.classList.toggle('open');
 }
 
 function updateSet(exIdx, setIdx, field, val) {
-  currentWorkout.exercises[exIdx].sets[setIdx][field] = parseFloat(val) || 0;
-  renderWorkout();
-  // FIX: Re-open the card after re-render
-  setTimeout(() => {
-      document.querySelectorAll('.ex-card')[exIdx].classList.add('open');
-  }, 0);
+    currentWorkout.exercises[exIdx].sets[setIdx][field] = parseFloat(val) || 0;
+    renderWorkout();
+    setTimeout(() => {
+        document.querySelectorAll('.ex-card')[exIdx].classList.add('open');
+    }, 0);
 }
 
 function toggleSet(exIdx, setIdx) {
-  const s = currentWorkout.exercises[exIdx].sets[setIdx];
-  s.done = !s.done;
-  if (s.done) startRestTimer(90);
-  renderWorkout();
-   // FIX: Re-open the card after re-render
-   setTimeout(() => {
-      document.querySelectorAll('.ex-card')[exIdx].classList.add('open');
-  }, 0);
+    const s = currentWorkout.exercises[exIdx].sets[setIdx];
+    s.done = !s.done;
+    if (s.done) startRestTimer(90);
+    renderWorkout();
+    setTimeout(() => {
+        document.querySelectorAll('.ex-card')[exIdx].classList.add('open');
+    }, 0);
 }
 
 function addSet(idx) {
-  currentWorkout.exercises[idx].sets.push({ weight: 0, reps: 0, done: false });
-  renderWorkout();
-  // FIX: Ensure card stays open
-  setTimeout(() => {
-      document.querySelectorAll('.ex-card')[idx].classList.add('open');
-  }, 0);
+    currentWorkout.exercises[idx].sets.push({ weight: 0, reps: 0, done: false });
+    renderWorkout();
+    setTimeout(() => {
+        document.querySelectorAll('.ex-card')[idx].classList.add('open');
+    }, 0);
 }
 
 async function finishWorkout() {
-  if (currentWorkout.exercises.length === 0) return;
-  
-  const workout = {
-    date: new Date().toISOString().slice(0, 10),
-    exercises: currentWorkout.exercises,
-    duration: Math.floor((Date.now() - currentWorkout.startTime) / 60000),
-    volume: currentWorkout.exercises.reduce((v, ex) => v + ex.sets.reduce((s, set) => s + (set.done && set.weight && set.reps ? set.weight * set.reps : 0), 0), 0),
-    programDay: currentWorkout.programDay,
-    type: 'workout'
-  };
-  
-  await dbPut('workouts', workout);
-  
-  const programs = await dbAll('programs');
-  const active = programs.find(p => p.active);
-  if (active) {
-    active.currentDay = ((active.currentDay || 0) + 1) % active.days.length;
-    await dbPut('programs', active);
-  }
-  
-  currentWorkout = { exercises: [], startTime: null, programDay: null };
-  showToast('Workout complete');
-  syncData();
-  goTab('progress');
+    if (currentWorkout.exercises.length === 0) return;
+    
+    const workout = {
+        date: new Date().toISOString().slice(0, 10),
+        exercises: currentWorkout.exercises,
+        duration: Math.floor((Date.now() - currentWorkout.startTime) / 60000),
+        volume: currentWorkout.exercises.reduce((v, ex) => v + ex.sets.reduce((s, set) => s + (set.done && set.weight && set.reps ? set.weight * set.reps : 0), 0), 0),
+        programDay: currentWorkout.programDay,
+        type: 'workout'
+    };
+    
+    await dbPut('workouts', workout);
+    
+    const programs = await dbAll('programs');
+    const active = programs.find(p => p.active);
+    if (active) {
+        active.currentDay = ((active.currentDay || 0) + 1) % active.days.length;
+        await dbPut('programs', active);
+    }
+    
+    currentWorkout = { exercises: [], startTime: null, programDay: null };
+    showToast('Workout complete');
+    syncData();
+    goTab('progress');
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1259,31 +1483,31 @@ async function finishWorkout() {
 // ═══════════════════════════════════════════════════════════════
 let restTimer = null, restSecs = 90;
 function startRestTimer(secs) {
-  restSecs = secs;
-  document.getElementById('timerBar').classList.add('on');
-  updateRestTimer();
-  clearInterval(restTimer);
-  restTimer = setInterval(() => {
-    restSecs--;
+    restSecs = secs;
+    document.getElementById('timerBar').classList.add('on');
     updateRestTimer();
-    if (restSecs <= 0) stopRestTimer();
-  }, 1000);
+    clearInterval(restTimer);
+    restTimer = setInterval(() => {
+        restSecs--;
+        updateRestTimer();
+        if (restSecs <= 0) stopRestTimer();
+    }, 1000);
 }
 
 function updateRestTimer() {
-  const m = Math.floor(restSecs / 60), s = restSecs % 60;
-  document.getElementById('timerDisp').textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-  document.getElementById('timerDisp').classList.toggle('warn', restSecs <= 10);
+    const m = Math.floor(restSecs / 60), s = restSecs % 60;
+    document.getElementById('timerDisp').textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    document.getElementById('timerDisp').classList.toggle('warn', restSecs <= 10);
 }
 
 function adjRestTimer(d) {
-  restSecs = Math.max(0, restSecs + d);
-  updateRestTimer();
+    restSecs = Math.max(0, restSecs + d);
+    updateRestTimer();
 }
 
 function stopRestTimer() {
-  clearInterval(restTimer);
-  document.getElementById('timerBar').classList.remove('on');
+    clearInterval(restTimer);
+    document.getElementById('timerBar').classList.remove('on');
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1294,320 +1518,317 @@ const muscles = ['All', 'Chest', 'Back', 'Legs', 'Shoulders', 'Biceps', 'Triceps
 const equipment = ['All', 'Barbell', 'Dumbbell', 'Cable', 'Machine', 'Bodyweight'];
 
 function renderLibrary() {
-  document.getElementById('muscleChips').innerHTML = muscles.map(m =>
-    `<div class="chip ${m === selectedMuscle ? 'active' : ''}" onclick="selectedMuscle='${m}';renderLibrary()">${m}</div>`
-  ).join('');
-  
-  document.getElementById('equipmentChips').innerHTML = equipment.map(e =>
-    `<div class="chip equipment ${e === selectedEquipment ? 'active' : ''}" onclick="selectedEquipment='${e}';renderLibrary()">${e}</div>`
-  ).join('');
-  
-  filterLibrary();
+    document.getElementById('muscleChips').innerHTML = muscles.map(m =>
+        `<div class="chip ${m === selectedMuscle ? 'active' : ''}" onclick="selectedMuscle='${m}';renderLibrary()">${m}</div>`
+    ).join('');
+    
+    document.getElementById('equipmentChips').innerHTML = equipment.map(e =>
+        `<div class="chip equipment ${e === selectedEquipment ? 'active' : ''}" onclick="selectedEquipment='${e}';renderLibrary()">${e}</div>`
+    ).join('');
+    
+    filterLibrary();
 }
 
 function filterLibrary() {
-  const search = document.getElementById('searchBox').value.toLowerCase();
-  let filtered = exerciseDatabase;
-  
-  if (selectedMuscle !== 'All') filtered = filtered.filter(e => e.muscle === selectedMuscle || e.name.includes(selectedMuscle));
-  if (selectedEquipment !== 'All') filtered = filtered.filter(e => e.equipment === selectedEquipment);
-  if (search) filtered = filtered.filter(e => e.name.toLowerCase().includes(search));
-  
-  document.getElementById('exCount').textContent = filtered.length;
-  document.getElementById('libList').innerHTML = filtered.map(ex => `
-    <div class="lib-card" onclick="addToWorkout('${ex.name}','${ex.muscle}','${ex.equipment}')">
-      <div class="lib-name">${ex.name}</div>
-      <div>
-        <span class="tag primary">${ex.muscle}</span>
-        <span class="tag equipment">${ex.equipment}</span>
-      </div>
-    </div>
-  `).join('');
+    const search = document.getElementById('searchBox').value.toLowerCase();
+    let filtered = exerciseDatabase;
+    
+    if (selectedMuscle !== 'All') filtered = filtered.filter(e => e.muscle === selectedMuscle || e.name.includes(selectedMuscle));
+    if (selectedEquipment !== 'All') filtered = filtered.filter(e => e.equipment === selectedEquipment);
+    if (search) filtered = filtered.filter(e => e.name.toLowerCase().includes(search));
+    
+    document.getElementById('exCount').textContent = filtered.length;
+    document.getElementById('libList').innerHTML = filtered.map(ex => `
+        <div class="lib-card" onclick="addToWorkout('${ex.name}','${ex.muscle}','${ex.equipment}')">
+            <div class="lib-name">${ex.name}</div>
+            <div>
+                <span class="tag primary">${ex.muscle}</span>
+                <span class="tag equipment">${ex.equipment}</span>
+            </div>
+        </div>
+    `).join('');
 }
 
 function addToWorkout(name, muscle, equipment) {
-  currentWorkout.exercises.push({
-    name, muscle, equipment,
-    sets: [{ weight: 0, reps: 0, done: false }]
-  });
-  showToast(`${name} added`);
-  goTab('workout');
+    currentWorkout.exercises.push({
+        name, muscle, equipment,
+        sets: [{ weight: 0, reps: 0, done: false }]
+    });
+    showToast(`${name} added`);
+    goTab('workout');
 }
 
 // ═══════════════════════════════════════════════════════════════
 // PROGRAM BUILDER
 // ═══════════════════════════════════════════════════════════════
 async function renderPrograms() {
-  const programs = await dbAll('programs');
-  const active = programs.find(p => p.active);
-  
-  const activeDisplay = document.getElementById('activeProgramDisplay');
-  if (active) {
-    const today = active.currentDay || 0;
-    activeDisplay.innerHTML = `
-      <div class="prog-card active-prog">
-        <span class="active-badge">ACTIVE</span>
-        <div class="prog-name">${active.name}</div>
-        <div class="prog-meta">Day ${today + 1} of ${active.days.length}</div>
-        <div class="prog-days-preview">
-          ${active.days.map((d, i) => `
-            <span class="day-pill ${d.rest ? 'rest' : ''} ${i === today ? 'today' : ''}">${i + 1}</span>
-          `).join('')}
+    const programs = await dbAll('programs');
+    const active = programs.find(p => p.active);
+    
+    const activeDisplay = document.getElementById('activeProgramDisplay');
+    if (active) {
+        const today = active.currentDay || 0;
+        activeDisplay.innerHTML = `
+            <div class="prog-card active-prog">
+                <span class="active-badge">ACTIVE</span>
+                <div class="prog-name">${active.name}</div>
+                <div class="prog-meta">Day ${today + 1} of ${active.days.length}</div>
+                <div class="prog-days-preview">
+                    ${active.days.map((d, i) => `
+                        <span class="day-pill ${d.rest ? 'rest' : ''} ${i === today ? 'today' : ''}">${i + 1}</span>
+                    `).join('')}
+                </div>
+                <div class="day-progress-bar">
+                    <div class="day-progress-fill" style="width:${(today / active.days.length) * 100}%"></div>
+                </div>
+                <div class="prog-actions" style="margin-top:12px;">
+                    <button class="btn-sm accent" onclick="startProgramDay()">START TODAY</button>
+                    <button class="btn-sm" onclick="editProgram(${active.id})">EDIT</button>
+                    <button class="btn-sm danger" onclick="deactivateProgram()">STOP</button>
+                </div>
+            </div>
+        `;
+    } else {
+        activeDisplay.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);padding:24px;">No active program<br><button class="btn-sm" onclick="openNewProgram()" style="margin-top:14px;">Create One</button></div>`;
+    }
+    
+    document.getElementById('programList').innerHTML = programs.filter(p => !p.active).map(p => `
+        <div class="prog-card">
+            <div class="prog-name">${p.name}</div>
+            <div class="prog-meta">${p.days.length} days • ${p.days.filter(d => !d.rest).length} workouts</div>
+            <div class="prog-actions">
+                <button class="btn-sm accent" onclick="activateProgram(${p.id})">ACTIVATE</button>
+                <button class="btn-sm" onclick="editProgram(${p.id})">EDIT</button>
+                <button class="btn-sm danger" onclick="deleteProgram(${p.id})">DELETE</button>
+            </div>
         </div>
-        <div class="day-progress-bar">
-          <div class="day-progress-fill" style="width:${(today / active.days.length) * 100}%"></div>
-        </div>
-        <div class="prog-actions" style="margin-top:12px;">
-          <button class="btn-sm accent" onclick="startProgramDay()">START TODAY</button>
-          <button class="btn-sm" onclick="editProgram(${active.id})">EDIT</button>
-          <button class="btn-sm danger" onclick="deactivateProgram()">STOP</button>
-        </div>
-      </div>
-    `;
-  } else {
-    activeDisplay.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);padding:24px;">No active program<br><button class="btn-sm" onclick="openNewProgram()" style="margin-top:14px;">Create One</button></div>`;
-  }
-  
-  document.getElementById('programList').innerHTML = programs.filter(p => !p.active).map(p => `
-    <div class="prog-card">
-      <div class="prog-name">${p.name}</div>
-      <div class="prog-meta">${p.days.length} days • ${p.days.filter(d => !d.rest).length} workouts</div>
-      <div class="prog-actions">
-        <button class="btn-sm accent" onclick="activateProgram(${p.id})">ACTIVATE</button>
-        <button class="btn-sm" onclick="editProgram(${p.id})">EDIT</button>
-        <button class="btn-sm danger" onclick="deleteProgram(${p.id})">DELETE</button>
-      </div>
-    </div>
-  `).join('');
+    `).join('');
 }
 
 function openNewProgram() {
-  editingProgram = null;
-  document.getElementById('builderTitle').textContent = 'New Program';
-  document.getElementById('builderName').value = '';
-  renderBuilderDays([{ name: 'Day 1', rest: false, exercises: [] }]);
-  document.getElementById('builderModal').classList.add('on');
+    editingProgram = null;
+    document.getElementById('builderTitle').textContent = 'New Program';
+    document.getElementById('builderName').value = '';
+    renderBuilderDays([{ name: 'Day 1', rest: false, exercises: [] }]);
+    document.getElementById('builderModal').classList.add('on');
 }
 
 async function editProgram(id) {
-  const prog = await dbGet('programs', id);
-  editingProgram = prog;
-  document.getElementById('builderTitle').textContent = 'Edit Program';
-  document.getElementById('builderName').value = prog.name;
-  renderBuilderDays(prog.days);
-  document.getElementById('builderModal').classList.add('on');
+    const prog = await dbGet('programs', id);
+    editingProgram = prog;
+    document.getElementById('builderTitle').textContent = 'Edit Program';
+    document.getElementById('builderName').value = prog.name;
+    renderBuilderDays(prog.days);
+    document.getElementById('builderModal').classList.add('on');
 }
 
 function renderBuilderDays(days) {
-  const container = document.getElementById('builderDays');
-  container.innerHTML = days.map((day, idx) => `
-    <div class="builder-day ${day.rest ? 'rest' : ''}" data-idx="${idx}">
-      <div class="builder-day-header" onclick="this.parentElement.classList.toggle('open')">
-        <div class="builder-day-name">${day.rest ? 'REST DAY' : day.name}</div>
-        <button class="builder-day-toggle ${day.rest ? 'rest' : ''}" onclick="event.stopPropagation();toggleRestDay(${idx})">${day.rest ? 'REST' : 'WORKOUT'}</button>
-      </div>
-      <div class="builder-day-body">
-        <div class="builder-ex-list" id="dayEx-${idx}">
-          ${day.exercises ? day.exercises.map((ex, exIdx) => `
-            <div class="builder-ex-item">
-              <span class="builder-ex-name">${ex.name}</span>
-              <button class="builder-ex-remove" onclick="removeExFromDay(${idx},${exIdx})">×</button>
+    const container = document.getElementById('builderDays');
+    container.innerHTML = days.map((day, idx) => `
+        <div class="builder-day ${day.rest ? 'rest' : ''}" data-idx="${idx}">
+            <div class="builder-day-header" onclick="this.parentElement.classList.toggle('open')">
+                <div class="builder-day-name">${day.rest ? 'REST DAY' : day.name}</div>
+                <button class="builder-day-toggle ${day.rest ? 'rest' : ''}" onclick="event.stopPropagation();toggleRestDay(${idx})">${day.rest ? 'REST' : 'WORKOUT'}</button>
             </div>
-          `).join('') : ''}
+            <div class="builder-day-body">
+                <div class="builder-ex-list" id="dayEx-${idx}">
+                    ${day.exercises ? day.exercises.map((ex, exIdx) => `
+                        <div class="builder-ex-item">
+                            <span class="builder-ex-name">${ex.name}</span>
+                            <button class="builder-ex-remove" onclick="removeExFromDay(${idx},${exIdx})">×</button>
+                        </div>
+                    `).join('') : ''}
+                </div>
+                ${!day.rest ? `<button class="add-ex-btn" onclick="openExercisePicker(${idx})">+ ADD EXERCISE</button>` : ''}
+            </div>
         </div>
-        ${!day.rest ? `<button class="add-ex-btn" onclick="openExercisePicker(${idx})">+ ADD EXERCISE</button>` : ''}
-      </div>
-    </div>
-  `).join('');
-  
-  container.dataset.days = JSON.stringify(days);
+    `).join('');
+    
+    container.dataset.days = JSON.stringify(days);
 }
 
 function toggleRestDay(idx) {
-  const days = JSON.parse(document.getElementById('builderDays').dataset.days);
-  days[idx].rest = !days[idx].rest;
-  if (days[idx].rest) days[idx].exercises = [];
-  renderBuilderDays(days);
+    const days = JSON.parse(document.getElementById('builderDays').dataset.days);
+    days[idx].rest = !days[idx].rest;
+    if (days[idx].rest) days[idx].exercises = [];
+    renderBuilderDays(days);
 }
 
 function openExercisePicker(dayIdx) {
-  currentPickerDay = dayIdx;
-  document.getElementById('pickerSearch').value = '';
-  filterPicker();
-  document.getElementById('pickerModal').classList.add('on');
+    currentPickerDay = dayIdx;
+    document.getElementById('pickerSearch').value = '';
+    filterPicker();
+    document.getElementById('pickerModal').classList.add('on');
 }
 
 function filterPicker() {
-  const search = document.getElementById('pickerSearch').value.toLowerCase();
-  let filtered = exerciseDatabase;
-  if (search) filtered = filtered.filter(e => e.name.toLowerCase().includes(search));
-  
-  document.getElementById('pickerList').innerHTML = filtered.map(ex => `
-    <div class="ex-picker-item" onclick="addExToDay('${ex.name}','${ex.muscle}','${ex.equipment}')">
-      <div class="ex-picker-name">${ex.name}</div>
-      <div class="ex-picker-meta">${ex.muscle} • ${ex.equipment}</div>
-    </div>
-  `).join('');
+    const search = document.getElementById('pickerSearch').value.toLowerCase();
+    let filtered = exerciseDatabase;
+    if (search) filtered = filtered.filter(e => e.name.toLowerCase().includes(search));
+    
+    document.getElementById('pickerList').innerHTML = filtered.map(ex => `
+        <div class="ex-picker-item" onclick="addExToDay('${ex.name}','${ex.muscle}','${ex.equipment}')">
+            <div class="ex-picker-name">${ex.name}</div>
+            <div class="ex-picker-meta">${ex.muscle} • ${ex.equipment}</div>
+        </div>
+    `).join('');
 }
 
 function addExToDay(name, muscle, equipment) {
-  const days = JSON.parse(document.getElementById('builderDays').dataset.days);
-  if (!days[currentPickerDay].exercises) days[currentPickerDay].exercises = [];
-  days[currentPickerDay].exercises.push({ name, muscle, equipment });
-  renderBuilderDays(days);
-  closeModal('pickerModal');
+    const days = JSON.parse(document.getElementById('builderDays').dataset.days);
+    if (!days[currentPickerDay].exercises) days[currentPickerDay].exercises = [];
+    days[currentPickerDay].exercises.push({ name, muscle, equipment });
+    renderBuilderDays(days);
+    closeModal('pickerModal');
 }
 
 function removeExFromDay(dayIdx, exIdx) {
-  const days = JSON.parse(document.getElementById('builderDays').dataset.days);
-  days[dayIdx].exercises.splice(exIdx, 1);
-  renderBuilderDays(days);
+    const days = JSON.parse(document.getElementById('builderDays').dataset.days);
+    days[dayIdx].exercises.splice(exIdx, 1);
+    renderBuilderDays(days);
 }
 
 async function saveProgram() {
-  const name = document.getElementById('builderName').value || 'New Program';
-  const days = JSON.parse(document.getElementById('builderDays').dataset.days);
-  
-  const program = {
-    id: editingProgram?.id || undefined,
-    name,
-    days,
-    active: editingProgram?.active || false,
-    currentDay: editingProgram?.currentDay || 0
-  };
-  
-  await dbPut('programs', program);
-  closeModal('builderModal');
-  renderPrograms();
-  syncData();
+    const name = document.getElementById('builderName').value || 'New Program';
+    const days = JSON.parse(document.getElementById('builderDays').dataset.days);
+    
+    const program = {
+        id: editingProgram?.id || undefined,
+        name,
+        days,
+        active: editingProgram?.active || false,
+        currentDay: editingProgram?.currentDay || 0
+    };
+    
+    await dbPut('programs', program);
+    closeModal('builderModal');
+    renderPrograms();
+    syncData();
 }
 
 async function activateProgram(id) {
-  const programs = await dbAll('programs');
-  for (const p of programs) {
-    p.active = (p.id === id);
-    await dbPut('programs', p);
-  }
-  renderPrograms();
-  showToast('Program activated');
+    const programs = await dbAll('programs');
+    for (const p of programs) {
+        p.active = (p.id === id);
+        await dbPut('programs', p);
+    }
+    renderPrograms();
+    showToast('Program activated');
 }
 
 async function deactivateProgram() {
-  const programs = await dbAll('programs');
-  for (const p of programs) {
-    p.active = false;
-    await dbPut('programs', p);
-  }
-  renderPrograms();
+    const programs = await dbAll('programs');
+    for (const p of programs) {
+        p.active = false;
+        await dbPut('programs', p);
+    }
+    renderPrograms();
 }
 
 async function deleteProgram(id) {
-  await dbDel('programs', id);
-  renderPrograms();
+    await dbDel('programs', id);
+    renderPrograms();
 }
 
 function startProgramDay() {
-  goTab('workout');
+    goTab('workout');
 }
 
 // ═══════════════════════════════════════════════════════════════
-// PROGRESS & BODY (MERGED)
+// PROGRESS & BODY
 // ═══════════════════════════════════════════════════════════════
 async function renderProgress() {
-  const workouts = await dbAll('workouts');
-  const days = await dbAll('days');
-  
-  const weekDays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-  const today = new Date();
-  document.getElementById('weekGrid').innerHTML = weekDays.map((d, i) => {
-    const date = new Date(); date.setDate(today.getDate() - today.getDay() + i);
-    const dateStr = date.toISOString().slice(0, 10);
-    const hasWorkout = workouts.some(w => w.date === dateStr);
-    const hasSprint = days.some(d => d.date === dateStr && d.met);
-    const isToday = i === today.getDay();
-    return `<div class="wd ${hasWorkout || hasSprint ? 'done' : ''} ${isToday ? 'today' : ''}">
-      <div class="wd-lbl">${d}</div>
-      <div class="wd-dot"></div>
-    </div>`;
-  }).join('');
-  
-  document.getElementById('streakVal').textContent = calculateStreak(days);
-  document.getElementById('totalWorkouts').textContent = workouts.length;
+    const workouts = await dbAll('workouts');
+    const days = await dbAll('days');
+    
+    const weekDays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    const today = new Date();
+    document.getElementById('weekGrid').innerHTML = weekDays.map((d, i) => {
+        const date = new Date(); date.setDate(today.getDate() - today.getDay() + i);
+        const dateStr = date.toISOString().slice(0, 10);
+        const hasWorkout = workouts.some(w => w.date === dateStr);
+        const hasSprint = days.some(d => d.date === dateStr && d.met);
+        const isToday = i === today.getDay();
+        return `<div class="wd ${hasWorkout || hasSprint ? 'done' : ''} ${isToday ? 'today' : ''}">
+            <div class="wd-lbl">${d}</div>
+            <div class="wd-dot"></div>
+        </div>`;
+    }).join('');
+    
+    document.getElementById('streakVal').textContent = calculateStreak(days);
+    document.getElementById('totalWorkouts').textContent = workouts.length;
 
-  // Render Bodyweight
-  const bw = await dbAll('bodyweight');
-  const sortedBw = bw.sort((a, b) => new Date(b.date) - new Date(a.date));
-  document.getElementById('bwHistory').innerHTML = sortedBw.slice(0,3).map(b => `
-    <div class="card" style="display:flex;justify-content:space-between;margin-bottom:8px;padding:10px 14px;">
-      <span style="color:var(--muted);font-size:12px;">${b.date}</span>
-      <span style="font-family:'Bebas Neue';font-size:22px;color:var(--accent);">${b.weight} <span style="font-size:14px;color:var(--muted)">KG</span></span>
-    </div>
-  `).join('');
-
-  // Render History List
-  const historyList = document.getElementById('historyList');
-  // Combine and sort
-  const allHistory = [
-      ...workouts.map(w => ({...w, displayType: 'LIFT', label: `${w.exercises.length} Exercises`})),
-      ...days.filter(d => d.type === 'sprint').map(d => ({...d, displayType: 'SPRINT', label: `${d.rounds} Rounds`}))
-  ].sort((a, b) => new Date(b.date) - new Date(a.date));
-
-  historyList.innerHTML = allHistory.slice(0, 10).map(h => `
-    <div class="history-item">
-        <div>
-            <div style="font-family:'Bebas Neue'; font-size:18px; color:var(--text);">${h.displayType}</div>
-            <div class="history-date">${h.date}</div>
+    const bw = await dbAll('bodyweight');
+    const sortedBw = bw.sort((a, b) => new Date(b.date) - new Date(a.date));
+    document.getElementById('bwHistory').innerHTML = sortedBw.slice(0,3).map(b => `
+        <div class="card" style="display:flex;justify-content:space-between;margin-bottom:8px;padding:10px 14px;">
+            <span style="color:var(--muted);font-size:12px;">${b.date}</span>
+            <span style="font-family:'Bebas Neue';font-size:22px;color:var(--accent);">${b.weight} <span style="font-size:14px;color:var(--muted)">KG</span></span>
         </div>
-        <div class="history-stat">${h.label}</div>
-    </div>
-  `).join('');
+    `).join('');
+
+    const historyList = document.getElementById('historyList');
+    const allHistory = [
+        ...workouts.map(w => ({...w, displayType: 'LIFT', label: `${w.exercises.length} Exercises`})),
+        ...days.filter(d => d.type === 'sprint').map(d => ({...d, displayType: 'SPRINT', label: `${d.rounds} Rounds`}))
+    ].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    historyList.innerHTML = allHistory.slice(0, 10).map(h => `
+        <div class="history-item">
+            <div>
+                <div style="font-family:'Bebas Neue'; font-size:18px; color:var(--text);">${h.displayType}</div>
+                <div class="history-date">${h.date}</div>
+            </div>
+            <div class="history-stat">${h.label}</div>
+        </div>
+    `).join('');
 }
 
 function calculateStreak(days) {
-  if (days.length === 0) return 0;
-  const sorted = days.filter(d => d.met).sort((a, b) => new Date(b.date) - new Date(a.date));
-  if (sorted.length === 0) return 0;
-  
-  let streak = 1;
-  const today = new Date().toISOString().slice(0, 10);
-  const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-  
-  if (sorted[0].date !== today && sorted[0].date !== yesterday) return 0;
-  
-  for (let i = 1; i < sorted.length; i++) {
-    const prev = new Date(sorted[i - 1].date);
-    const curr = new Date(sorted[i].date);
-    if ((prev - curr) / 86400000 === 1) streak++;
-    else break;
-  }
-  return streak;
+    if (days.length === 0) return 0;
+    const sorted = days.filter(d => d.met).sort((a, b) => new Date(b.date) - new Date(a.date));
+    if (sorted.length === 0) return 0;
+    
+    let streak = 1;
+    const today = new Date().toISOString().slice(0, 10);
+    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+    
+    if (sorted[0].date !== today && sorted[0].date !== yesterday) return 0;
+    
+    for (let i = 1; i < sorted.length; i++) {
+        const prev = new Date(sorted[i - 1].date);
+        const curr = new Date(sorted[i].date);
+        if ((prev - curr) / 86400000 === 1) streak++;
+        else break;
+    }
+    return streak;
 }
 
 async function logBodyweight() {
-  const val = parseFloat(document.getElementById('bwInput').value);
-  if (!val) return;
-  await dbPut('bodyweight', { date: new Date().toISOString().slice(0, 10), weight: val });
-  document.getElementById('bwInput').value = '';
-  renderProgress(); // Refresh to show new entry
-  syncData();
+    const val = parseFloat(document.getElementById('bwInput').value);
+    if (!val) return;
+    await dbPut('bodyweight', { date: new Date().toISOString().slice(0, 10), weight: val });
+    document.getElementById('bwInput').value = '';
+    renderProgress();
+    syncData();
 }
 
 // ═══════════════════════════════════════════════════════════════
 // UTILS
 // ═══════════════════════════════════════════════════════════════
 function closeModal(id) {
-  document.getElementById(id).classList.remove('on');
+    document.getElementById(id).classList.remove('on');
 }
 
 function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.display = 'block';
-  setTimeout(() => t.style.display = 'none', 2000);
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.display = 'block';
+    setTimeout(() => t.style.display = 'none', 2000);
 }
 
 async function saveConfig() {
-  await dbPut('config', { key: 'settings', ...C });
+    await dbPut('config', { key: 'settings', ...C });
 }
 
 async function loadConfig() {
@@ -1625,11 +1846,11 @@ async function loadConfig() {
 // INIT
 // ═══════════════════════════════════════════════════════════════
 async function init() {
-  await openDB();
-  await initSupabase();
-  await loadConfig(); // Load saved preferences
-  updateSetupUI();
-  renderCalendar();
+    await openDB();
+    await initSupabase();
+    await loadConfig();
+    updateSetupUI();
+    renderCalendar();
 }
 
 init();
