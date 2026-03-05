@@ -14,101 +14,101 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
-  --bg: #050000; 
-  --surface: #110505; 
-  --surface2: #1f0808;
-  --border: #330000; 
-  --accent: #ff1a1a; 
-  --accent2: #ff4d4d;
-  --accent3: #990000; 
-  --text: #f0f0f0; 
-  --muted: #b3b3b3;
-  --success: #00ff88; 
-  --blue: #ff6666; 
-  --work: #ff1a1a; 
-  --rest: #ff6666;
-  --nav-height: 70px;
-  --header-height: 60px;
+ --bg: #050000; 
+ --surface: #110505; 
+ --surface2: #1f0808;
+ --border: #330000; 
+ --accent: #ff1a1a; 
+ --accent2: #ff4d4d;
+ --accent3: #990000; 
+ --text: #f0f0f0; 
+ --muted: #b3b3b3;
+ --success: #00ff88; 
+ --blue: #ff6666; 
+ --work: #ff1a1a; 
+ --rest: #ff6666;
+ --nav-height: 70px;
+ --header-height: 60px;
 }
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 html, body { height:100%; overflow:hidden; }
 body {
-  background:var(--bg); color:var(--text);
-  font-family:'DM Sans',sans-serif;
-  max-width:430px; margin:0 auto;
-  display:flex; flex-direction:column;
-  position:relative;
+ background:var(--bg); color:var(--text);
+ font-family:'DM Sans',sans-serif;
+ max-width:430px; margin:0 auto;
+ display:flex; flex-direction:column;
+ position:relative;
 }
 body::before {
-  content:''; position:fixed; inset:0; pointer-events:none; z-index:999; opacity:.3;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+ content:''; position:fixed; inset:0; pointer-events:none; z-index:999; opacity:.3;
+ background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
 }
 
 .app-header {
-  display:flex; justify-content:space-between; align-items:center;
-  padding:12px 20px;
-  height: var(--header-height);
-  flex-shrink:0;
-  background: rgba(5,0,0,0.9);
-  backdrop-filter: blur(10px);
-  z-index: 100;
+ display:flex; justify-content:space-between; align-items:center;
+ padding:12px 20px;
+ height: var(--header-height);
+ flex-shrink:0;
+ background: rgba(5,0,0,0.9);
+ backdrop-filter: blur(10px);
+ z-index: 100;
 }
 .logo { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:4px; color:var(--accent); line-height:1; text-shadow:0 0 20px rgba(255,26,26,0.5); }
 .logo span { color:var(--text); }
 .user-badge {
-  background:var(--surface2); border:1px solid var(--border);
-  border-radius:20px; padding:6px 14px; font-size:11px;
-  font-family:'JetBrains Mono',monospace; color:var(--muted);
-  cursor:pointer; transition:all .2s; font-weight: 600;
+ background:var(--surface2); border:1px solid var(--border);
+ border-radius:20px; padding:6px 14px; font-size:11px;
+ font-family:'JetBrains Mono',monospace; color:var(--muted);
+ cursor:pointer; transition:all .2s; font-weight: 600;
 }
 .user-badge:hover { border-color:var(--accent); color:var(--accent); box-shadow:0 0 10px rgba(255,26,26,0.3); }
 .user-badge.authed { border-color:var(--success); color:var(--success); }
 
 .nav {
-  display:flex; 
-  border-top:1px solid var(--border);
-  flex-shrink:0; 
-  overflow-x:auto; 
-  scrollbar-width:none;
-  background: rgba(5,0,0,0.95);
-  backdrop-filter: blur(10px);
-  height: var(--nav-height);
-  padding-bottom: env(safe-area-inset-bottom, 0);
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  max-width: 430px;
-  margin: 0 auto;
-  z-index: 100;
+ display:flex; 
+ border-top:1px solid var(--border);
+ flex-shrink:0; 
+ overflow-x:auto; 
+ scrollbar-width:none;
+ background: rgba(5,0,0,0.95);
+ backdrop-filter: blur(10px);
+ height: var(--nav-height);
+ padding-bottom: env(safe-area-inset-bottom, 0);
+ position: fixed;
+ bottom: 0;
+ left: 0;
+ right: 0;
+ max-width: 430px;
+ margin: 0 auto;
+ z-index: 100;
 }
 .nav::-webkit-scrollbar { display:none; }
 .nav-btn {
-  flex:1; 
-  padding:8px 2px 4px; 
-  background:none; 
-  border:none;
-  color:var(--muted); 
-  font-family:'Bebas Neue',sans-serif;
-  font-size:12px;
-  font-weight: bold;
-  letter-spacing:1px; 
-  cursor:pointer;
-  position:relative; 
-  transition:all .2s; 
-  white-space:nowrap;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 4px;
+ flex:1; 
+ padding:8px 2px 4px; 
+ background:none; 
+ border:none;
+ color:var(--muted); 
+ font-family:'Bebas Neue',sans-serif;
+ font-size:12px;
+ font-weight: bold;
+ letter-spacing:1px; 
+ cursor:pointer;
+ position:relative; 
+ transition:all .2s; 
+ white-space:nowrap;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: flex-start;
+ gap: 4px;
 }
 .nav-btn::before {
-    content: '';
-    font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    opacity: 0.7;
+   content: '';
+   font-family: 'DM Sans', sans-serif;
+   font-size: 16px;
+   font-weight: 400;
+   opacity: 0.7;
 }
 .nav-btn[data-tab="sprint"]::before { content: '⏱'; }
 .nav-btn[data-tab="workout"]::before { content: '💪'; }
@@ -119,24 +119,24 @@ body::before {
 .nav-btn:hover { color:var(--accent2); }
 .nav-btn.active { color:var(--accent); text-shadow:0 0 10px rgba(255,26,26,0.5); }
 .nav-btn.active::after {
-  content:''; 
-  position:absolute; 
-  top:0; 
-  left:25%; 
-  right:25%;
-  height:3px; 
-  background:var(--accent); 
-  box-shadow:0 0 10px var(--accent);
-  border-radius: 0 0 4px 4px;
+ content:''; 
+ position:absolute; 
+ top:0; 
+ left:25%; 
+ right:25%;
+ height:3px; 
+ background:var(--accent); 
+ box-shadow:0 0 10px var(--accent);
+ border-radius: 0 0 4px 4px;
 }
 
 .screen { 
-  display:none; 
-  flex:1; 
-  overflow-y:auto; 
-  padding:16px 16px calc(var(--nav-height) + 20px);
-  height: calc(100vh - var(--header-height));
-  margin-top: var(--header-height);
+ display:none; 
+ flex:1; 
+ overflow-y:auto; 
+ padding:16px 16px calc(var(--nav-height) + 20px);
+ height: calc(100vh - var(--header-height));
+ margin-top: var(--header-height);
 }
 .screen.active { display:block; animation:fadeIn .2s ease; }
 @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
@@ -145,19 +145,19 @@ body::before {
 ::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
 
 .lbl {
-  font-family:'JetBrains Mono',monospace; font-size:11px;
-  font-weight: 700;
-  letter-spacing:2px; 
-  color:var(--muted); 
-  margin:20px 0 10px;
-  text-transform: uppercase;
+ font-family:'JetBrains Mono',monospace; font-size:11px;
+ font-weight: 700;
+ letter-spacing:2px; 
+ color:var(--muted); 
+ margin:20px 0 10px;
+ text-transform: uppercase;
 }
 .lbl:first-child { margin-top:0; }
 
 .card {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:6px; padding:16px; margin-bottom:10px;
-  transition:all .2s;
+ background:var(--surface); border:1px solid var(--border);
+ border-radius:6px; padding:16px; margin-bottom:10px;
+ transition:all .2s;
 }
 .card:hover { border-color:var(--accent3); }
 
@@ -201,49 +201,49 @@ body::before {
 .done-big{font-family:'Bebas Neue',sans-serif;font-size:72px;color:var(--accent);letter-spacing:6px;line-height:1;margin-bottom:6px;text-shadow:0 0 40px rgba(255,26,26,0.6);}
 
 #pipWindow {
-    display: none;
-    position: fixed;
-    bottom: calc(var(--nav-height) + 10px);
-    right: 10px;
-    width: 140px;
-    height: 140px;
-    background: rgba(10, 0, 0, 0.95);
-    border: 2px solid var(--accent);
-    border-radius: 12px;
-    z-index: 150;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 30px rgba(255, 26, 26, 0.4);
-    backdrop-filter: blur(5px);
+   display: none;
+   position: fixed;
+   bottom: calc(var(--nav-height) + 10px);
+   right: 10px;
+   width: 140px;
+   height: 140px;
+   background: rgba(10, 0, 0, 0.95);
+   border: 2px solid var(--accent);
+   border-radius: 12px;
+   z-index: 150;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   box-shadow: 0 0 30px rgba(255, 26, 26, 0.4);
+   backdrop-filter: blur(5px);
 }
 #pipWindow.active { display: flex; }
 .pip-timer {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 36px;
-    color: var(--accent);
-    text-shadow: 0 0 10px rgba(255,26,26,0.5);
+   font-family: 'Bebas Neue', sans-serif;
+   font-size: 36px;
+   color: var(--accent);
+   text-shadow: 0 0 10px rgba(255,26,26,0.5);
 }
 .pip-phase {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 1px;
-    margin-bottom: 4px;
+   font-family: 'JetBrains Mono', monospace;
+   font-size: 10px;
+   color: var(--muted);
+   letter-spacing: 1px;
+   margin-bottom: 4px;
 }
 .pip-progress {
-    width: 80%;
-    height: 4px;
-    background: var(--border);
-    border-radius: 2px;
-    margin-top: 8px;
-    overflow: hidden;
+   width: 80%;
+   height: 4px;
+   background: var(--border);
+   border-radius: 2px;
+   margin-top: 8px;
+   overflow: hidden;
 }
 .pip-bar {
-    height: 100%;
-    background: var(--accent);
-    width: 100%;
-    transition: width 1s linear;
+   height: 100%;
+   background: var(--accent);
+   width: 100%;
+   transition: width 1s linear;
 }
 
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:24px}
@@ -256,34 +256,34 @@ body::before {
 .cal-day.future{opacity:.3;cursor:default}
 
 .workout-banner {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:6px; padding:18px; margin-bottom:16px;
-  position:relative; overflow:hidden;
+ background:var(--surface); border:1px solid var(--border);
+ border-radius:6px; padding:18px; margin-bottom:16px;
+ position:relative; overflow:hidden;
 }
 .workout-banner::before {
-  content:''; position:absolute; top:0; left:0; right:0; height:3px;
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  box-shadow:0 0 10px rgba(255,26,26,0.5);
+ content:''; position:absolute; top:0; left:0; right:0; height:3px;
+ background:linear-gradient(90deg,var(--accent),var(--accent2));
+ box-shadow:0 0 10px rgba(255,26,26,0.5);
 }
 .wb-name { font-family:'Bebas Neue',sans-serif; font-size:32px; letter-spacing:3px; line-height:1; margin-bottom:6px; color:var(--accent);text-shadow:0 0 15px rgba(255,26,26,0.3);}
 .wb-type {
-  display:inline-block; background:var(--accent); color:#000;
-  font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700;
-  letter-spacing:2px; padding:4px 10px; border-radius:2px; margin-bottom:12px;
-  box-shadow:0 0 10px rgba(255,26,26,0.3);
+ display:inline-block; background:var(--accent); color:#000;
+ font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700;
+ letter-spacing:2px; padding:4px 10px; border-radius:2px; margin-bottom:12px;
+ box-shadow:0 0 10px rgba(255,26,26,0.3);
 }
 .wb-stats { display:flex; gap:24px; }
 .ws-val { font-family:'Bebas Neue',sans-serif; font-size:24px; color:var(--accent); letter-spacing:1px;text-shadow:0 0 10px rgba(255,26,26,0.3); }
 
 .ex-card {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:6px; margin-bottom:10px; overflow:hidden;
-  transition:all .2s;
+ background:var(--surface); border:1px solid var(--border);
+ border-radius:6px; margin-bottom:10px; overflow:hidden;
+ transition:all .2s;
 }
 .ex-card:hover{border-color:var(--accent3);}
 .ex-header {
-  display:flex; justify-content:space-between; align-items:center;
-  padding:14px 16px; cursor:pointer;
+ display:flex; justify-content:space-between; align-items:center;
+ padding:14px 16px; cursor:pointer;
 }
 .ex-name { font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:1.5px; }
 .ex-meta { font-size:13px; color:var(--muted); font-family:'JetBrains Mono',monospace; margin-top:2px; font-weight: 600;}
@@ -293,57 +293,57 @@ body::before {
 .ex-card.open .ex-body { display:block; }
 
 .set-row {
-  display:grid; grid-template-columns:30px 1fr 1fr 40px;
-  gap:8px; align-items:center; padding:6px 0;
-  border-bottom:1px solid var(--border);
+ display:grid; grid-template-columns:30px 1fr 1fr 40px;
+ gap:8px; align-items:center; padding:6px 0;
+ border-bottom:1px solid var(--border);
 }
 .set-row:last-of-type { border-bottom:none; }
 .set-row.done-row { background:rgba(255,26,26,0.08); }
 .set-input {
-  background:var(--surface2); border:1px solid var(--border);
-  border-radius:4px; color:var(--text);
-  font-family:'JetBrains Mono',monospace; font-size:16px; font-weight:600;
-  text-align:center; padding:8px 4px; width:100%; outline:none;
-  transition:all .2s;
+ background:var(--surface2); border:1px solid var(--border);
+ border-radius:4px; color:var(--text);
+ font-family:'JetBrains Mono',monospace; font-size:16px; font-weight:600;
+ text-align:center; padding:8px 4px; width:100%; outline:none;
+ transition:all .2s;
 }
 .set-input:focus { border-color:var(--accent);box-shadow:0 0 10px rgba(255,26,26,0.1); }
 .set-done-btn {
-  background:var(--surface2); border:1px solid var(--border);
-  border-radius:4px; color:var(--muted); padding:8px;
-  cursor:pointer; text-align:center; font-size:14px;
-  transition:all .2s; width:100%;
+ background:var(--surface2); border:1px solid var(--border);
+ border-radius:4px; color:var(--muted); padding:8px;
+ cursor:pointer; text-align:center; font-size:14px;
+ transition:all .2s; width:100%;
 }
 .set-done-btn.done { background:var(--accent); border-color:var(--accent); color:#000; font-weight:700;box-shadow:0 0 10px rgba(255,26,26,0.3); }
 .add-set-btn {
-  width:100%; padding:8px; background:none;
-  border:1px dashed var(--border); border-radius:4px;
-  color:var(--muted); font-family:'JetBrains Mono',monospace;
-  font-size:11px; letter-spacing:1px; cursor:pointer; margin-top:10px;
-  transition:all .2s; font-weight: 600;
+ width:100%; padding:8px; background:none;
+ border:1px dashed var(--border); border-radius:4px;
+ color:var(--muted); font-family:'JetBrains Mono',monospace;
+ font-size:11px; letter-spacing:1px; cursor:pointer; margin-top:10px;
+ transition:all .2s; font-weight: 600;
 }
 .add-set-btn:hover { border-color:var(--accent); color:var(--accent); }
 
 .btn-primary {
-  width:100%; background:var(--accent); color:#000; border:none;
-  border-radius:6px; font-family:'Bebas Neue',sans-serif;
-  font-size:18px; letter-spacing:3px; padding:16px; cursor:pointer;
-  transition:all .2s; margin-top:12px;
-  box-shadow:0 0 20px rgba(255,26,26,0.3);
+ width:100%; background:var(--accent); color:#000; border:none;
+ border-radius:6px; font-family:'Bebas Neue',sans-serif;
+ font-size:18px; letter-spacing:3px; padding:16px; cursor:pointer;
+ transition:all .2s; margin-top:12px;
+ box-shadow:0 0 20px rgba(255,26,26,0.3);
 }
 .btn-primary:hover { box-shadow:0 0 30px rgba(255,26,26,0.5);transform:translateY(-2px); }
 .btn-secondary {
-  width:100%; background:none; color:var(--text);
-  border:1px solid var(--border); border-radius:6px;
-  font-family:'Bebas Neue',sans-serif; font-size:16px;
-  letter-spacing:2px; padding:14px; cursor:pointer;
-  margin-top:10px; transition:all .2s;
+ width:100%; background:none; color:var(--text);
+ border:1px solid var(--border); border-radius:6px;
+ font-family:'Bebas Neue',sans-serif; font-size:16px;
+ letter-spacing:2px; padding:14px; cursor:pointer;
+ margin-top:10px; transition:all .2s;
 }
 .btn-secondary:hover { border-color:var(--accent); color:var(--accent);box-shadow:0 0 15px rgba(255,26,26,0.2); }
 .btn-sm {
-  background:var(--surface2); border:1px solid var(--border);
-  border-radius:4px; color:var(--text); padding:10px 16px;
-  font-family:'JetBrains Mono',monospace; font-size:12px;
-  cursor:pointer; transition:all .2s; letter-spacing:1px; font-weight: 600;
+ background:var(--surface2); border:1px solid var(--border);
+ border-radius:4px; color:var(--text); padding:10px 16px;
+ font-family:'JetBrains Mono',monospace; font-size:12px;
+ cursor:pointer; transition:all .2s; letter-spacing:1px; font-weight: 600;
 }
 .btn-sm:hover { border-color:var(--accent);color:var(--accent);box-shadow:0 0 10px rgba(255,26,26,0.2); }
 .btn-sm.accent { background:var(--accent); color:#000; border-color:var(--accent); font-weight:700;box-shadow:0 0 15px rgba(255,26,26,0.3); }
@@ -351,11 +351,11 @@ body::before {
 .btn-sm.danger:hover { box-shadow:0 0 10px rgba(255,77,77,0.3); }
 
 .timer-bar {
-  position:fixed; bottom:var(--nav-height); left:50%; transform:translateX(-50%);
-  width:100%; max-width:430px;
-  background:var(--surface); border-top:2px solid var(--accent);
-  padding:14px 18px; z-index:90; display:none;
-  box-shadow:0 -10px 40px rgba(255,26,26,0.2);
+ position:fixed; bottom:var(--nav-height); left:50%; transform:translateX(-50%);
+ width:100%; max-width:430px;
+ background:var(--surface); border-top:2px solid var(--accent);
+ padding:14px 18px; z-index:90; display:none;
+ box-shadow:0 -10px 40px rgba(255,26,26,0.2);
 }
 .timer-bar.on { display:block; animation:slideUp .3s ease; }
 @keyframes slideUp { from{transform:translate(-50%,100%)} to{transform:translate(-50%,0)} }
@@ -364,45 +364,45 @@ body::before {
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
 
 .search-box {
-  width:100%; background:var(--surface2); border:1px solid var(--border);
-  border-radius:6px; color:var(--text); font-family:'DM Sans',sans-serif;
-  font-size:15px; padding:12px 14px; outline:none; margin-bottom:14px;
-  transition:all .2s;
+ width:100%; background:var(--surface2); border:1px solid var(--border);
+ border-radius:6px; color:var(--text); font-family:'DM Sans',sans-serif;
+ font-size:15px; padding:12px 14px; outline:none; margin-bottom:14px;
+ transition:all .2s;
 }
 .search-box:focus { border-color:var(--accent);box-shadow:0 0 15px rgba(255,26,26,0.2); }
 .filter-chips { display:flex; gap:8px; overflow-x:auto; padding-bottom:10px; margin-bottom:14px; scrollbar-width:none; }
 .filter-chips::-webkit-scrollbar { display:none; }
 .chip {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:20px; color:var(--muted);
-  font-family:'JetBrains Mono',monospace; font-size:10px;
-  letter-spacing:1px; padding:6px 14px; cursor:pointer;
-  white-space:nowrap; transition:all .2s; flex-shrink:0; font-weight: 600;
+ background:var(--surface); border:1px solid var(--border);
+ border-radius:20px; color:var(--muted);
+ font-family:'JetBrains Mono',monospace; font-size:10px;
+ letter-spacing:1px; padding:6px 14px; cursor:pointer;
+ white-space:nowrap; transition:all .2s; flex-shrink:0; font-weight: 600;
 }
 .chip:hover{border-color:var(--accent3);color:var(--text);}
 .chip.active { background:var(--accent); border-color:var(--accent); color:#000; font-weight:700;box-shadow:0 0 15px rgba(255,26,26,0.3); }
 .chip.equipment.active { background:var(--accent2); border-color:var(--accent2); color:#000; }
 
 .lib-card {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:6px; padding:16px; margin-bottom:10px;
-  cursor:pointer; transition:all .2s;
+ background:var(--surface); border:1px solid var(--border);
+ border-radius:6px; padding:16px; margin-bottom:10px;
+ cursor:pointer; transition:all .2s;
 }
 .lib-card:hover { border-color:var(--accent);box-shadow:0 0 20px rgba(255,26,26,0.15);transform:translateX(4px); }
 .lib-name { font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:2px; margin-bottom:6px; }
 .tag {
-  background:var(--surface2); border:1px solid var(--border);
-  border-radius:20px; font-family:'JetBrains Mono',monospace;
-  font-size:9px; letter-spacing:1px; padding:3px 8px; color:var(--muted);
-  display:inline-block; margin-right:4px; margin-bottom:4px; font-weight: 600;
+ background:var(--surface2); border:1px solid var(--border);
+ border-radius:20px; font-family:'JetBrains Mono',monospace;
+ font-size:9px; letter-spacing:1px; padding:3px 8px; color:var(--muted);
+ display:inline-block; margin-right:4px; margin-bottom:4px; font-weight: 600;
 }
 .tag.primary { border-color:var(--accent); color:var(--accent); }
 .tag.equipment { border-color:var(--accent2); color:var(--accent2); }
 
 .prog-card {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:6px; padding:16px; margin-bottom:10px;
-  position:relative; transition:all .2s;
+ background:var(--surface); border:1px solid var(--border);
+ border-radius:6px; padding:16px; margin-bottom:10px;
+ position:relative; transition:all .2s;
 }
 .prog-card:hover{border-color:var(--accent3);}
 .prog-card.active-prog { border-color:var(--accent);box-shadow:0 0 20px rgba(255,26,26,0.15); }
@@ -410,43 +410,43 @@ body::before {
 .prog-meta { font-size:12px; color:var(--muted); margin-bottom:10px; font-weight: 600;}
 .prog-days-preview { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
 .day-pill {
-  font-family:'JetBrains Mono',monospace; font-size:9px;
-  padding:4px 10px; border-radius:12px; background:var(--surface2);
-  border:1px solid var(--border); color:var(--muted); font-weight: 600;
+ font-family:'JetBrains Mono',monospace; font-size:9px;
+ padding:4px 10px; border-radius:12px; background:var(--surface2);
+ border:1px solid var(--border); color:var(--muted); font-weight: 600;
 }
 .day-pill.rest { opacity:0.5; }
 .day-pill.today { border-color:var(--accent); color:var(--accent); background:rgba(255,26,26,0.1);box-shadow:0 0 10px rgba(255,26,26,0.2); }
 .day-progress-bar {
-  height:4px; background:var(--border); margin-top:10px;
-  border-radius:2px; overflow:hidden;
+ height:4px; background:var(--border); margin-top:10px;
+ border-radius:2px; overflow:hidden;
 }
 .day-progress-fill {
-  height:100%; background:var(--accent); width:0%;
-  transition:width .3s;box-shadow:0 0 10px rgba(255,26,26,0.5);
+ height:100%; background:var(--accent); width:0%;
+ transition:width .3s;box-shadow:0 0 10px rgba(255,26,26,0.5);
 }
 .prog-actions { display:flex; gap:8px; }
 .active-badge {
-  background:var(--accent); color:#000; font-family:'JetBrains Mono',monospace;
-  font-size:9px; font-weight:700; letter-spacing:2px; padding:3px 8px;
-  border-radius:2px; display:inline-block; margin-bottom:8px;
-  box-shadow:0 0 10px rgba(255,26,26,0.3);
+ background:var(--accent); color:#000; font-family:'JetBrains Mono',monospace;
+ font-size:9px; font-weight:700; letter-spacing:2px; padding:3px 8px;
+ border-radius:2px; display:inline-block; margin-bottom:8px;
+ box-shadow:0 0 10px rgba(255,26,26,0.3);
 }
 
 .builder-day {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:6px; margin-bottom:12px; overflow:hidden;
+ background:var(--surface); border:1px solid var(--border);
+ border-radius:6px; margin-bottom:12px; overflow:hidden;
 }
 .builder-day-header {
-  display:flex; justify-content:space-between; align-items:center;
-  padding:14px 16px; background:var(--surface2);
-  cursor:pointer; transition:all .2s;
+ display:flex; justify-content:space-between; align-items:center;
+ padding:14px 16px; background:var(--surface2);
+ cursor:pointer; transition:all .2s;
 }
 .builder-day-header:hover{background:var(--surface);}
 .builder-day-name { font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:1.5px; }
 .builder-day-toggle {
-  font-family:'JetBrains Mono',monospace; font-size:10px;
-  padding:5px 12px; border-radius:4px; border:1px solid var(--border);
-  cursor:pointer; color:var(--muted); transition:all .2s; font-weight: 600;
+ font-family:'JetBrains Mono',monospace; font-size:10px;
+ padding:5px 12px; border-radius:4px; border:1px solid var(--border);
+ cursor:pointer; color:var(--muted); transition:all .2s; font-weight: 600;
 }
 .builder-day-toggle:hover{border-color:var(--accent);color:var(--accent);}
 .builder-day-toggle.rest { color:var(--accent2); border-color:var(--accent2); }
@@ -454,54 +454,54 @@ body::before {
 .builder-day.open .builder-day-body { display:block; }
 .builder-ex-list { margin-bottom:12px; }
 .builder-ex-item {
-  display:flex; justify-content:space-between; align-items:center;
-  padding:10px; background:var(--surface2); border-radius:4px;
-  margin-bottom:8px; font-size:14px; border:1px solid var(--border);
+ display:flex; justify-content:space-between; align-items:center;
+ padding:10px; background:var(--surface2); border-radius:4px;
+ margin-bottom:8px; font-size:14px; border:1px solid var(--border);
 }
 .builder-ex-name { flex:1; }
 .builder-ex-remove {
-  background:none; border:none; color:var(--accent2);
-  cursor:pointer; font-size:18px; padding:0 4px; transition:all .2s;
+ background:none; border:none; color:var(--accent2);
+ cursor:pointer; font-size:18px; padding:0 4px; transition:all .2s;
 }
 .builder-ex-remove:hover{color:var(--accent);transform:scale(1.2);}
 .add-ex-btn {
-  width:100%; padding:10px; background:none;
-  border:1px dashed var(--border); border-radius:4px;
-  color:var(--muted); font-family:'JetBrains Mono',monospace;
-  font-size:11px; letter-spacing:1px; cursor:pointer; transition:all .2s; font-weight: 600;
+ width:100%; padding:10px; background:none;
+ border:1px dashed var(--border); border-radius:4px;
+ color:var(--muted); font-family:'JetBrains Mono',monospace;
+ font-size:11px; letter-spacing:1px; cursor:pointer; transition:all .2s; font-weight: 600;
 }
 .add-ex-btn:hover { border-color:var(--accent); color:var(--accent); }
 
 .modal-overlay {
-  display:none; position:fixed; inset:0;
-  background:rgba(5,0,0,.95); z-index:300;
-  align-items:flex-end; justify-content:center;
+ display:none; position:fixed; inset:0;
+ background:rgba(5,0,0,.95); z-index:300;
+ align-items:flex-end; justify-content:center;
 }
 .modal-overlay.on { display:flex; }
 .modal {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:10px 10px 0 0; padding:24px 18px;
-  width:100%; max-width:430px; max-height:85vh;
-  overflow-y:auto; animation:slideUp .3s ease; position:relative;
-  box-shadow:0 -20px 60px rgba(255,26,26,0.2);
-  margin-bottom: var(--nav-height);
+ background:var(--surface); border:1px solid var(--border);
+ border-radius:10px 10px 0 0; padding:24px 18px;
+ width:100%; max-width:430px; max-height:85vh;
+ overflow-y:auto; animation:slideUp .3s ease; position:relative;
+ box-shadow:0 -20px 60px rgba(255,26,26,0.2);
+ margin-bottom: var(--nav-height);
 }
 .modal-title { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:3px; margin-bottom:6px;color:var(--accent);text-shadow:0 0 15px rgba(255,26,26,0.3);}
 .modal-close { position:absolute; top:18px; right:18px; background:none; border:none; color:var(--muted); font-size:20px; cursor:pointer; transition:all .2s;}
 .modal-close:hover{color:var(--accent);transform:rotate(90deg);}
 .form-input {
-  width:100%; background:var(--surface2); border:1px solid var(--border);
-  border-radius:6px; color:var(--text); font-family:'DM Sans',sans-serif;
-  font-size:15px; padding:12px 14px; outline:none; margin-bottom:12px;
-  transition:all .2s;
+ width:100%; background:var(--surface2); border:1px solid var(--border);
+ border-radius:6px; color:var(--text); font-family:'DM Sans',sans-serif;
+ font-size:15px; padding:12px 14px; outline:none; margin-bottom:12px;
+ transition:all .2s;
 }
 .form-input:focus { border-color:var(--accent);box-shadow:0 0 15px rgba(255,26,26,0.2); }
 .form-label { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); letter-spacing:2px; margin-bottom:6px; display:block; font-weight: 700;}
 
 .ex-picker-list { max-height:50vh; overflow-y:auto; margin:12px 0; }
 .ex-picker-item {
-  padding:14px; border-bottom:1px solid var(--border);
-  cursor:pointer; transition:all .2s;
+ padding:14px; border-bottom:1px solid var(--border);
+ cursor:pointer; transition:all .2s;
 }
 .ex-picker-item:hover { background:var(--surface2);border-left:3px solid var(--accent);padding-left:17px;}
 .ex-picker-name { font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:1px; margin-bottom:4px;color:var(--text);}
@@ -512,37 +512,37 @@ body::before {
 .auth-tab:hover{color:var(--accent2);}
 .auth-tab.active { color:var(--accent); border-bottom:2px solid var(--accent);text-shadow:0 0 10px rgba(255,26,26,0.3); }
 .sync-status {
-  display:flex; align-items:center; gap:10px; margin-top:14px;
-  padding:12px; background:var(--surface2); border-radius:6px;
-  font-size:12px; color:var(--muted); border:1px solid var(--border);
+ display:flex; align-items:center; gap:10px; margin-top:14px;
+ padding:12px; background:var(--surface2); border-radius:6px;
+ font-size:12px; color:var(--muted); border:1px solid var(--border);
 }
 .sync-dot { width:10px; height:10px; border-radius:50%; background:var(--success);box-shadow:0 0 10px rgba(0,255,136,0.5); }
 .sync-dot.pending { background:var(--accent2); animation:pulse 1s infinite;box-shadow:0 0 10px rgba(255,77,77,0.5); }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
 
 .toast {
-  position:fixed; top:80px; left:50%; transform:translateX(-50%);
-  background:var(--accent); color:#000;
-  font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700;
-  letter-spacing:1px; padding:12px 24px; border-radius:24px;
-  z-index:500; display:none; white-space:nowrap;
-  box-shadow:0 0 30px rgba(255,26,26,0.5);
-  animation:toastIn .3s ease;
+ position:fixed; top:80px; left:50%; transform:translateX(-50%);
+ background:var(--accent); color:#000;
+ font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700;
+ letter-spacing:1px; padding:12px 24px; border-radius:24px;
+ z-index:500; display:none; white-space:nowrap;
+ box-shadow:0 0 30px rgba(255,26,26,0.5);
+ animation:toastIn .3s ease;
 }
 @keyframes toastIn { from{opacity:0;transform:translate(-50%,-8px)} to{opacity:1;transform:translate(-50%,0)} }
 
 .login-screen {
-  position:fixed; inset:0; background:var(--bg); z-index:1000;
-  display:flex; flex-direction:column; align-items:center;
-  justify-content:center; padding:20px;
+ position:fixed; inset:0; background:var(--bg); z-index:1000;
+ display:flex; flex-direction:column; align-items:center;
+ justify-content:center; padding:20px;
 }
 .login-logo { font-family:'Bebas Neue'; font-size:64px; color:var(--accent); margin-bottom:10px;text-shadow:0 0 40px rgba(255,26,26,0.6);letter-spacing:10px; }
 .login-sub { color:var(--muted); font-size:14px; margin-bottom:50px; letter-spacing:6px; font-weight: 600;}
 
 .week-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-bottom:18px; }
 .wd {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:4px; text-align:center; padding:10px 2px;transition:all .2s;
+ background:var(--surface); border:1px solid var(--border);
+ border-radius:4px; text-align:center; padding:10px 2px;transition:all .2s;
 }
 .wd:hover{border-color:var(--accent3);}
 .wd.done { border-color:var(--accent); background:rgba(255,26,26,0.08);box-shadow:0 0 10px rgba(255,26,26,0.1);}
@@ -556,28 +556,54 @@ body::before {
 .sb-val { font-family:'Bebas Neue',sans-serif; font-size:32px; color:var(--accent); letter-spacing:1px; line-height:1; margin-bottom:4px;text-shadow:0 0 15px rgba(255,26,26,0.3);}
 
 .history-list {
-  margin-top: 10px;
+ margin-top: 10px;
 }
 .history-item {
-  background: var(--surface);
-  border-left: 3px solid var(--accent);
-  padding: 12px;
-  margin-bottom: 8px;
-  border-radius: 0 6px 6px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+ background: var(--surface);
+ border-left: 3px solid var(--accent);
+ padding: 12px;
+ margin-bottom: 8px;
+ border-radius: 0 6px 6px 0;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
 }
 .history-date {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--muted);
-  font-weight: 600;
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ color: var(--muted);
+ font-weight: 600;
 }
 .history-stat {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 20px;
-  color: var(--text);
+ font-family: 'Bebas Neue', sans-serif;
+ font-size: 20px;
+ color: var(--text);
+}
+
+/* Verification Screen Styles */
+.verification-screen {
+ position:fixed; inset:0; background:var(--bg); z-index:1001;
+ display:none; flex-direction:column; align-items:center;
+ justify-content:center; padding:20px; text-align:center;
+}
+.verification-screen.active { display:flex; }
+.verification-icon {
+ font-size:64px; margin-bottom:20px; color:var(--success);
+ text-shadow:0 0 30px rgba(0,255,136,0.5);
+}
+.verification-title {
+ font-family:'Bebas Neue',sans-serif; font-size:42px;
+ color:var(--text); letter-spacing:4px; margin-bottom:12px;
+}
+.verification-message {
+ color:var(--muted); font-size:15px; line-height:1.6;
+ max-width:320px; margin-bottom:30px;
+}
+.verification-email {
+ color:var(--accent); font-weight:600; font-family:'JetBrains Mono',monospace;
+ background:var(--surface); padding:8px 16px; border-radius:4px;
+ border:1px solid var(--border); margin:8px 0;
+ display:inline-block;
 }
 </style>
 </head>
@@ -585,226 +611,239 @@ body::before {
 
 <!-- LOGIN SCREEN -->
 <div class="login-screen" id="loginScreen">
-  <div class="login-logo">KINETIX</div>
-  <div class="login-sub">INTENSITY REDEFINED</div>
-  
-  <!-- Auth Tabs -->
-  <div class="auth-tabs" style="width:100%; max-width:320px; margin-bottom:20px;">
-    <button class="auth-tab active" id="signInTab" onclick="switchAuthTab('signin')">SIGN IN</button>
-    <button class="auth-tab" id="signUpTab" onclick="switchAuthTab('signup')">CREATE ACCOUNT</button>
-  </div>
-  
-  <input type="email" class="form-input" id="loginEmail" placeholder="Email" style="max-width:320px;">
-  <input type="password" class="form-input" id="loginPassword" placeholder="Password" style="max-width:320px; margin-bottom:20px;">
-  
-  <button class="btn-start" id="authActionBtn" onclick="handleAuthAction()" style="max-width:320px;">SIGN IN</button>
-  <button class="btn-sm" onclick="skipLogin()" style="margin-top:24px;max-width:320px;background:none;border:none;color:var(--muted);">Continue Offline</button>
+ <div class="login-logo">KINETIX</div>
+ <div class="login-sub">INTENSITY REDEFINED</div>
+ 
+ <!-- Auth Tabs -->
+ <div class="auth-tabs" style="width:100%; max-width:320px; margin-bottom:20px;">
+   <button class="auth-tab active" id="signInTab" onclick="switchAuthTab('signin')">SIGN IN</button>
+   <button class="auth-tab" id="signUpTab" onclick="switchAuthTab('signup')">CREATE ACCOUNT</button>
+ </div>
+ 
+ <input type="email" class="form-input" id="loginEmail" placeholder="Email" style="max-width:320px;">
+ <input type="password" class="form-input" id="loginPassword" placeholder="Password" style="max-width:320px; margin-bottom:20px;">
+ 
+ <button class="btn-start" id="authActionBtn" onclick="handleAuthAction()" style="max-width:320px;">SIGN IN</button>
+ <button class="btn-sm" onclick="skipLogin()" style="margin-top:24px;max-width:320px;background:none;border:none;color:var(--muted);">Continue Offline</button>
+</div>
+
+<!-- VERIFICATION SCREEN -->
+<div class="verification-screen" id="verificationScreen">
+ <div class="verification-icon">✓</div>
+ <div class="verification-title">ACCOUNT CREATED</div>
+ <div class="verification-message">
+   We've sent a verification email to:<br>
+   <span class="verification-email" id="verificationEmail">user@example.com</span><br><br>
+   Please check your inbox and click the link to verify your account before signing in.
+ </div>
+ <button class="btn-start" onclick="openEmailClient()" style="max-width:320px; margin-bottom:12px;">OPEN EMAIL APP</button>
+ <button class="btn-secondary" onclick="backToLogin()" style="max-width:320px;">BACK TO SIGN IN</button>
 </div>
 
 <div class="app-header">
-  <div class="logo">KIN<span>ET</span>IX</div>
-  <div class="user-badge" id="userBadge" onclick="openAuthModal()">OFFLINE</div>
+ <div class="logo">KIN<span>ET</span>IX</div>
+ <div class="user-badge" id="userBadge" onclick="openAuthModal()">OFFLINE</div>
 </div>
 
 <!-- SPRINT -->
 <div class="screen active" id="screen-sprint">
-  <div class="lbl" style="margin-top:0">WORK TIME</div>
-  <div class="stepper">
-    <button class="step-btn" onclick="adj('work',-5)">−</button>
-    <div class="step-val w" id="workVal">30</div>
-    <div class="step-unit">SEC</div>
-    <button class="step-btn" onclick="adj('work',5)">+</button>
-  </div>
+ <div class="lbl" style="margin-top:0">WORK TIME</div>
+ <div class="stepper">
+   <button class="step-btn" onclick="adj('work',-5)">−</button>
+   <div class="step-val w" id="workVal">30</div>
+   <div class="step-unit">SEC</div>
+   <button class="step-btn" onclick="adj('work',5)">+</button>
+ </div>
 
-  <div class="lbl">REST TIME</div>
-  <div class="stepper">
-    <button class="step-btn" onclick="adj('rest',-5)">−</button>
-    <div class="step-val r" id="restVal">15</div>
-    <div class="step-unit">SEC</div>
-    <button class="step-btn" onclick="adj('rest',5)">+</button>
-  </div>
+ <div class="lbl">REST TIME</div>
+ <div class="stepper">
+   <button class="step-btn" onclick="adj('rest',-5)">−</button>
+   <div class="step-val r" id="restVal">15</div>
+   <div class="step-unit">SEC</div>
+   <button class="step-btn" onclick="adj('rest',5)">+</button>
+ </div>
 
-  <div class="lbl">ROUNDS</div>
-  <div class="stepper">
-    <button class="step-btn" onclick="adj('rounds',-1)">−</button>
-    <div class="step-val n" id="roundsVal">8</div>
-    <div class="step-unit">×</div>
-    <button class="step-btn" onclick="adj('rounds',1)">+</button>
-  </div>
+ <div class="lbl">ROUNDS</div>
+ <div class="stepper">
+   <button class="step-btn" onclick="adj('rounds',-1)">−</button>
+   <div class="step-val n" id="roundsVal">8</div>
+   <div class="step-unit">×</div>
+   <button class="step-btn" onclick="adj('rounds',1)">+</button>
+ </div>
 
-  <div class="lbl">DAILY GOAL</div>
-  <div class="goal-row">
-    <div class="goal-val" id="goalVal">4</div>
-    <div style="display:flex;gap:12px;margin-top:12px;">
-      <button class="btn-sm" onclick="adj('goal',-1)" style="flex:1">−</button>
-      <button class="btn-sm" onclick="adj('goal',1)" style="flex:1">+</button>
-    </div>
-  </div>
+ <div class="lbl">DAILY GOAL</div>
+ <div class="goal-row">
+   <div class="goal-val" id="goalVal">4</div>
+   <div style="display:flex;gap:12px;margin-top:12px;">
+     <button class="btn-sm" onclick="adj('goal',-1)" style="flex:1">−</button>
+     <button class="btn-sm" onclick="adj('goal',1)" style="flex:1">+</button>
+   </div>
+ </div>
 
-  <div class="total-card">
-    <div class="lbl" style="margin:0">TOTAL TIME</div>
-    <div class="step-val" id="totalVal">6:00</div>
-  </div>
+ <div class="total-card">
+   <div class="lbl" style="margin:0">TOTAL TIME</div>
+   <div class="step-val" id="totalVal">6:00</div>
+ </div>
 
-  <button class="btn-start" onclick="startTimer()">▶ START</button>
-  
-  <div class="lbl" style="margin-top:30px">TRACKER</div>
-  <div class="cal-grid" id="calGrid"></div>
+ <button class="btn-start" onclick="startTimer()">▶ START</button>
+ 
+ <div class="lbl" style="margin-top:30px">TRACKER</div>
+ <div class="cal-grid" id="calGrid"></div>
 </div>
 
 <!-- TIMER OVERLAY -->
 <div id="timerScreen">
-  <div class="phase-lbl" id="phaseLbl">WORK</div>
-  <div class="round-lbl" id="roundLbl">ROUND 1 OF 8</div>
-  <div class="clock-wrap">
-    <div class="pulse-ring" id="pulseRing"></div>
-    <svg class="clock-svg" viewBox="0 0 250 250">
-      <circle class="c-track" cx="125" cy="125" r="113"/>
-      <circle class="c-prog" id="cProg" cx="125" cy="125" r="113"/>
-    </svg>
-    <div class="clock-inner">
-      <div class="clock-digits" id="clockDigits">0:30</div>
-      <div class="clock-sub">SECONDS LEFT</div>
-    </div>
-  </div>
-  <div class="timer-controls">
-    <button class="tc-btn" onclick="stopTimer()">STOP</button>
-    <button class="tc-btn main" id="pauseBtn" onclick="togglePause()">PAUSE</button>
-    <button class="tc-btn" onclick="skipPhase()">SKIP</button>
-  </div>
-  <div class="done-overlay" id="doneOverlay">
-    <div class="done-big">DONE</div>
-    <div class="done-stats" style="margin:24px 0;">
-      <div><div class="step-val" id="doneRounds">8</div><div class="lbl">ROUNDS</div></div>
-    </div>
-    <div class="goal-achieved" id="goalAchieved" style="display:none;margin-bottom:24px;padding:12px 24px;background:rgba(255,26,26,0.1);border:1px solid var(--accent);border-radius:4px;color:var(--accent);font-size:12px;letter-spacing:2px;">🔥 GOAL CRUSHED</div>
-    <button class="btn-start" onclick="resetTimer()" style="max-width:280px">COMPLETE</button>
-  </div>
+ <div class="phase-lbl" id="phaseLbl">WORK</div>
+ <div class="round-lbl" id="roundLbl">ROUND 1 OF 8</div>
+ <div class="clock-wrap">
+   <div class="pulse-ring" id="pulseRing"></div>
+   <svg class="clock-svg" viewBox="0 0 250 250">
+     <circle class="c-track" cx="125" cy="125" r="113"/>
+     <circle class="c-prog" id="cProg" cx="125" cy="125" r="113"/>
+   </svg>
+   <div class="clock-inner">
+     <div class="clock-digits" id="clockDigits">0:30</div>
+     <div class="clock-sub">SECONDS LEFT</div>
+   </div>
+ </div>
+ <div class="timer-controls">
+   <button class="tc-btn" onclick="stopTimer()">STOP</button>
+   <button class="tc-btn main" id="pauseBtn" onclick="togglePause()">PAUSE</button>
+   <button class="tc-btn" onclick="skipPhase()">SKIP</button>
+ </div>
+ <div class="done-overlay" id="doneOverlay">
+   <div class="done-big">DONE</div>
+   <div class="done-stats" style="margin:24px 0;">
+     <div><div class="step-val" id="doneRounds">8</div><div class="lbl">ROUNDS</div></div>
+   </div>
+   <div class="goal-achieved" id="goalAchieved" style="display:none;margin-bottom:24px;padding:12px 24px;background:rgba(255,26,26,0.1);border:1px solid var(--accent);border-radius:4px;color:var(--accent);font-size:12px;letter-spacing:2px;">🔥 GOAL CRUSHED</div>
+   <button class="btn-start" onclick="resetTimer()" style="max-width:280px">COMPLETE</button>
+ </div>
 </div>
 
 <!-- PIP WINDOW -->
 <div id="pipWindow">
-    <div class="pip-phase" id="pipPhase">WORK</div>
-    <div class="pip-timer" id="pipTimer">0:30</div>
-    <div class="pip-progress">
-        <div class="pip-bar" id="pipBar"></div>
-    </div>
+   <div class="pip-phase" id="pipPhase">WORK</div>
+   <div class="pip-timer" id="pipTimer">0:30</div>
+   <div class="pip-progress">
+       <div class="pip-bar" id="pipBar"></div>
+   </div>
 </div>
 
 <!-- WORKOUT -->
 <div class="screen" id="screen-workout">
-  <div class="workout-banner" id="wbanner">
-    <div class="wb-name" id="wbName">QUICK WORKOUT</div>
-    <div class="wb-type" id="wbType">FREE SESSION</div>
-    <div class="wb-stats">
-      <div><div class="ws-val" id="statSets">0</div><div class="lbl">SETS</div></div>
-      <div><div class="ws-val" id="statVol">0</div><div class="lbl">VOLUME</div></div>
-    </div>
-  </div>
-  <div class="lbl">EXERCISES</div>
-  <div id="exList"></div>
-  <button class="btn-primary" onclick="finishWorkout()">FINISH</button>
-  <button class="btn-secondary" onclick="goTab('library')">+ ADD EXERCISE</button>
+ <div class="workout-banner" id="wbanner">
+   <div class="wb-name" id="wbName">QUICK WORKOUT</div>
+   <div class="wb-type" id="wbType">FREE SESSION</div>
+   <div class="wb-stats">
+     <div><div class="ws-val" id="statSets">0</div><div class="lbl">SETS</div></div>
+     <div><div class="ws-val" id="statVol">0</div><div class="lbl">VOLUME</div></div>
+   </div>
+ </div>
+ <div class="lbl">EXERCISES</div>
+ <div id="exList"></div>
+ <button class="btn-primary" onclick="finishWorkout()">FINISH</button>
+ <button class="btn-secondary" onclick="goTab('library')">+ ADD EXERCISE</button>
 </div>
 
 <!-- LIBRARY -->
 <div class="screen" id="screen-library">
-  <input type="text" class="search-box" id="searchBox" placeholder="Search exercises..." oninput="filterLibrary()">
-  <div class="filter-chips" id="muscleChips"></div>
-  <div class="filter-chips" id="equipmentChips"></div>
-  <div class="lbl">EXERCISES (<span id="exCount">0</span>)</div>
-  <div id="libList"></div>
+ <input type="text" class="search-box" id="searchBox" placeholder="Search exercises..." oninput="filterLibrary()">
+ <div class="filter-chips" id="muscleChips"></div>
+ <div class="filter-chips" id="equipmentChips"></div>
+ <div class="lbl">EXERCISES (<span id="exCount">0</span>)</div>
+ <div id="libList"></div>
 </div>
 
 <!-- PROGRAM -->
 <div class="screen" id="screen-program">
-  <div class="lbl">ACTIVE PROGRAM</div>
-  <div id="activeProgramDisplay"></div>
-  <div class="lbl">MY PROGRAMS</div>
-  <div id="programList"></div>
-  <button class="btn-start" onclick="openNewProgram()">+ CREATE PROGRAM</button>
+ <div class="lbl">ACTIVE PROGRAM</div>
+ <div id="activeProgramDisplay"></div>
+ <div class="lbl">MY PROGRAMS</div>
+ <div id="programList"></div>
+ <button class="btn-start" onclick="openNewProgram()">+ CREATE PROGRAM</button>
 </div>
 
 <!-- PROGRESS -->
 <div class="screen" id="screen-progress">
-  <div class="lbl">THIS WEEK</div>
-  <div class="week-grid" id="weekGrid"></div>
-  
-  <div class="lbl">STATS</div>
-  <div class="stats-grid">
-    <div class="card"><div class="sb-val" id="streakVal">0</div><div class="lbl">DAY STREAK</div></div>
-    <div class="card"><div class="sb-val" id="totalWorkouts">0</div><div class="lbl">WORKOUTS</div></div>
-  </div>
+ <div class="lbl">THIS WEEK</div>
+ <div class="week-grid" id="weekGrid"></div>
+ 
+ <div class="lbl">STATS</div>
+ <div class="stats-grid">
+   <div class="card"><div class="sb-val" id="streakVal">0</div><div class="lbl">DAY STREAK</div></div>
+   <div class="card"><div class="sb-val" id="totalWorkouts">0</div><div class="lbl">WORKOUTS</div></div>
+ </div>
 
-  <div class="lbl">BODYWEIGHT</div>
-  <div class="card">
-    <input class="form-input" type="number" id="bwInput" placeholder="Current Weight (kg)" step="0.1">
-    <button class="btn-primary" onclick="logBodyweight()" style="margin-top:0">LOG WEIGHT</button>
-  </div>
-  <div id="bwHistory"></div>
+ <div class="lbl">BODYWEIGHT</div>
+ <div class="card">
+   <input class="form-input" type="number" id="bwInput" placeholder="Current Weight (kg)" step="0.1">
+   <button class="btn-primary" onclick="logBodyweight()" style="margin-top:0">LOG WEIGHT</button>
+ </div>
+ <div id="bwHistory"></div>
 
-  <div class="lbl">HISTORY</div>
-  <div id="historyList" class="history-list"></div>
+ <div class="lbl">HISTORY</div>
+ <div id="historyList" class="history-list"></div>
 </div>
 
 <!-- MODALS -->
 <div class="modal-overlay" id="builderModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('builderModal')">✕</button>
-    <div class="modal-title" id="builderTitle">Program Builder</div>
-    <div class="form-label">PROGRAM NAME</div>
-    <input class="form-input" id="builderName" placeholder="e.g., Hypertrophy Phase 1">
-    <div id="builderDays"></div>
-    <button class="btn-start" onclick="saveProgram()">SAVE PROGRAM</button>
-  </div>
+ <div class="modal">
+   <button class="modal-close" onclick="closeModal('builderModal')">✕</button>
+   <div class="modal-title" id="builderTitle">Program Builder</div>
+   <div class="form-label">PROGRAM NAME</div>
+   <input class="form-input" id="builderName" placeholder="e.g., Hypertrophy Phase 1">
+   <div id="builderDays"></div>
+   <button class="btn-start" onclick="saveProgram()">SAVE PROGRAM</button>
+ </div>
 </div>
 
 <div class="modal-overlay" id="pickerModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('pickerModal')">✕</button>
-    <div class="modal-title">Add Exercise</div>
-    <input type="text" class="search-box" id="pickerSearch" placeholder="Search..." oninput="filterPicker()">
-    <div class="ex-picker-list" id="pickerList"></div>
-  </div>
+ <div class="modal">
+   <button class="modal-close" onclick="closeModal('pickerModal')">✕</button>
+   <div class="modal-title">Add Exercise</div>
+   <input type="text" class="search-box" id="pickerSearch" placeholder="Search..." oninput="filterPicker()">
+   <div class="ex-picker-list" id="pickerList"></div>
+ </div>
 </div>
 
 <div class="modal-overlay" id="authModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('authModal')">✕</button>
-    <div class="modal-title">ACCOUNT</div>
-    <div class="sync-status">
-      <div class="sync-dot" id="syncDot"></div>
-      <span id="syncText">Synced</span>
-    </div>
-    <button class="btn-primary" onclick="syncData()" style="margin-top:14px;">SYNC NOW</button>
-    <button class="btn-sm danger" onclick="signOut()" style="width:100%;margin-top:12px;">SIGN OUT</button>
-  </div>
+ <div class="modal">
+   <button class="modal-close" onclick="closeModal('authModal')">✕</button>
+   <div class="modal-title">ACCOUNT</div>
+   <div class="sync-status">
+     <div class="sync-dot" id="syncDot"></div>
+     <span id="syncText">Synced</span>
+   </div>
+   <button class="btn-primary" onclick="syncData()" style="margin-top:14px;">SYNC NOW</button>
+   <button class="btn-sm danger" onclick="signOut()" style="width:100%;margin-top:12px;">SIGN OUT</button>
+ </div>
 </div>
 
 <!-- REST TIMER -->
 <div class="timer-bar" id="timerBar">
-  <div style="display:flex;justify-content:space-between;align-items:center;">
-    <div>
-      <div class="lbl" style="margin-top:0">REST</div>
-      <div class="timer-disp" id="timerDisp">01:30</div>
-    </div>
-    <div style="display:flex;gap:8px;">
-      <button class="btn-sm" onclick="adjRestTimer(-15)">-15</button>
-      <button class="btn-sm" onclick="adjRestTimer(15)">+15</button>
-      <button class="btn-sm accent" onclick="stopRestTimer()">SKIP</button>
-    </div>
-  </div>
+ <div style="display:flex;justify-content:space-between;align-items:center;">
+   <div>
+     <div class="lbl" style="margin-top:0">REST</div>
+     <div class="timer-disp" id="timerDisp">01:30</div>
+   </div>
+   <div style="display:flex;gap:8px;">
+     <button class="btn-sm" onclick="adjRestTimer(-15)">-15</button>
+     <button class="btn-sm" onclick="adjRestTimer(15)">+15</button>
+     <button class="btn-sm accent" onclick="stopRestTimer()">SKIP</button>
+   </div>
+ </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <!-- BOTTOM NAVIGATION -->
 <nav class="nav">
-  <button class="nav-btn active" data-tab="sprint" onclick="goTab('sprint')">SPRINT</button>
-  <button class="nav-btn" data-tab="workout" onclick="goTab('workout')">WORKOUT</button>
-  <button class="nav-btn" data-tab="library" onclick="goTab('library')">LIBRARY</button>
-  <button class="nav-btn" data-tab="progress" onclick="goTab('progress')">PROGRESS</button>
-  <button class="nav-btn" data-tab="program" onclick="goTab('program')">PROGRAM</button>
+ <button class="nav-btn active" data-tab="sprint" onclick="goTab('sprint')">SPRINT</button>
+ <button class="nav-btn" data-tab="workout" onclick="goTab('workout')">WORKOUT</button>
+ <button class="nav-btn" data-tab="library" onclick="goTab('library')">LIBRARY</button>
+ <button class="nav-btn" data-tab="progress" onclick="goTab('progress')">PROGRESS</button>
+ <button class="nav-btn" data-tab="program" onclick="goTab('program')">PROGRAM</button>
 </nav>
 
 <script>
@@ -817,167 +856,194 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 let supabaseClient = null;
 let currentUser = null;
 let currentAuthMode = 'signin'; // 'signin' or 'signup'
+let pendingVerificationEmail = '';
 
 // ═══════════════════════════════════════════════════════════════
 // AUTHENTICATION FUNCTIONS
 // ═══════════════════════════════════════════════════════════════
 
 function switchAuthTab(mode) {
-    currentAuthMode = mode;
-    document.getElementById('signInTab').classList.toggle('active', mode === 'signin');
-    document.getElementById('signUpTab').classList.toggle('active', mode === 'signup');
-    document.getElementById('authActionBtn').textContent = mode === 'signin' ? 'SIGN IN' : 'CREATE ACCOUNT';
+   currentAuthMode = mode;
+   document.getElementById('signInTab').classList.toggle('active', mode === 'signin');
+   document.getElementById('signUpTab').classList.toggle('active', mode === 'signup');
+   document.getElementById('authActionBtn').textContent = mode === 'signin' ? 'SIGN IN' : 'CREATE ACCOUNT';
 }
 
 async function handleAuthAction() {
-    const email = document.getElementById('loginEmail').value.trim();
-    const password = document.getElementById('loginPassword').value;
-    
-    if (!email || !password) {
-        showToast('Please enter email and password');
-        return;
-    }
-    
-    if (password.length < 6) {
-        showToast('Password must be at least 6 characters');
-        return;
-    }
-    
-    if (currentAuthMode === 'signin') {
-        await signIn(email, password);
-    } else {
-        await signUp(email, password);
-    }
+   const email = document.getElementById('loginEmail').value.trim();
+   const password = document.getElementById('loginPassword').value;
+   
+   if (!email || !password) {
+       showToast('Please enter email and password');
+       return;
+   }
+   
+   if (password.length < 6) {
+       showToast('Password must be at least 6 characters');
+       return;
+   }
+   
+   if (currentAuthMode === 'signin') {
+       await signIn(email, password);
+   } else {
+       await signUp(email, password);
+   }
 }
 
 async function initSupabase() {
-    try {
-        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        
-        // Check for existing session
-        const { data: { session } } = await supabaseClient.auth.getSession();
-        if (session) {
-            currentUser = session.user;
-            hideLoginScreen();
-            updateAuthUI();
-            await loadUserData();
-            showToast('Welcome back!');
-        }
-        
-        // Listen for auth state changes
-        supabaseClient.auth.onAuthStateChange((event, session) => {
-            if (event === 'SIGNED_IN' && session) {
-                currentUser = session.user;
-                hideLoginScreen();
-                updateAuthUI();
-            } else if (event === 'SIGNED_OUT') {
-                currentUser = null;
-                showLoginScreen();
-                updateAuthUI();
-            }
-        });
-        
-        return true;
-    } catch (e) {
-        console.error('Supabase init failed:', e);
-        showToast('Failed to connect to server');
-        return false;
-    }
+   try {
+       supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+       
+       // Check for existing session
+       const { data: { session } } = await supabaseClient.auth.getSession();
+       if (session) {
+           currentUser = session.user;
+           hideLoginScreen();
+           updateAuthUI();
+           await loadUserData();
+           showToast('Welcome back!');
+       }
+       
+       // Listen for auth state changes
+       supabaseClient.auth.onAuthStateChange((event, session) => {
+           if (event === 'SIGNED_IN' && session) {
+               currentUser = session.user;
+               hideLoginScreen();
+               updateAuthUI();
+           } else if (event === 'SIGNED_OUT') {
+               currentUser = null;
+               showLoginScreen();
+               updateAuthUI();
+           }
+       });
+       
+       return true;
+   } catch (e) {
+       console.error('Supabase init failed:', e);
+       showToast('Failed to connect to server');
+       return false;
+   }
 }
 
 async function signIn(email, password) {
-    try {
-        const { data, error } = await supabaseClient.auth.signInWithPassword({ 
-            email, 
-            password 
-        });
-        
-        if (error) throw error;
-        
-        currentUser = data.user;
-        hideLoginScreen();
-        updateAuthUI();
-        await loadUserData();
-        showToast('Signed in successfully!');
-        
-    } catch (error) {
-        console.error('Sign in error:', error);
-        showToast(error.message || 'Failed to sign in');
-    }
+   try {
+       const { data, error } = await supabaseClient.auth.signInWithPassword({ 
+           email, 
+           password 
+       });
+       
+       if (error) throw error;
+       
+       currentUser = data.user;
+       hideLoginScreen();
+       updateAuthUI();
+       await loadUserData();
+       showToast('Signed in successfully!');
+       
+   } catch (error) {
+       console.error('Sign in error:', error);
+       showToast(error.message || 'Failed to sign in');
+   }
 }
 
 async function signUp(email, password) {
-    try {
-        const { data, error } = await supabaseClient.auth.signUp({ 
-            email, 
-            password,
-            options: {
-                emailRedirectTo: window.location.origin
-            }
-        });
-        
-        if (error) throw error;
-        
-        if (data.user) {
-            showToast('Account created! Check your email to confirm.');
-            // Auto sign in if email confirmation is disabled
-            if (data.session) {
-                currentUser = data.user;
-                hideLoginScreen();
-                updateAuthUI();
-                await createUserDataRecord();
-                showToast('Welcome to KINETIX!');
-            } else {
-                showToast('Please check your email to verify your account');
-            }
-        }
-        
-    } catch (error) {
-        console.error('Sign up error:', error);
-        showToast(error.message || 'Failed to create account');
-    }
+   try {
+       const { data, error } = await supabaseClient.auth.signUp({ 
+           email, 
+           password,
+           options: {
+               emailRedirectTo: window.location.origin
+           }
+       });
+       
+       if (error) throw error;
+       
+       if (data.user) {
+           // Store email for verification screen
+           pendingVerificationEmail = email;
+           
+           // Show verification screen
+           showVerificationScreen(email);
+           
+           // If session exists (email confirmation disabled), auto sign in
+           if (data.session) {
+               currentUser = data.user;
+               hideVerificationScreen();
+               hideLoginScreen();
+               updateAuthUI();
+               await createUserDataRecord();
+               showToast('Welcome to KINETIX!');
+           }
+       }
+       
+   } catch (error) {
+       console.error('Sign up error:', error);
+       showToast(error.message || 'Failed to create account');
+   }
+}
+
+function showVerificationScreen(email) {
+   document.getElementById('verificationEmail').textContent = email;
+   document.getElementById('verificationScreen').classList.add('active');
+}
+
+function hideVerificationScreen() {
+   document.getElementById('verificationScreen').classList.remove('active');
+}
+
+function openEmailClient() {
+   // Try to open default email client
+   window.location.href = 'mailto:';
+   showToast('Opening email app...');
+}
+
+function backToLogin() {
+   hideVerificationScreen();
+   switchAuthTab('signin');
+   document.getElementById('loginEmail').value = pendingVerificationEmail;
+   document.getElementById('loginPassword').value = '';
 }
 
 async function signOut() {
-    try {
-        await supabaseClient.auth.signOut();
-        currentUser = null;
-        closeModal('authModal');
-        showLoginScreen();
-        updateAuthUI();
-        showToast('Signed out');
-    } catch (error) {
-        showToast('Failed to sign out');
-    }
+   try {
+       await supabaseClient.auth.signOut();
+       currentUser = null;
+       closeModal('authModal');
+       showLoginScreen();
+       updateAuthUI();
+       showToast('Signed out');
+   } catch (error) {
+       showToast('Failed to sign out');
+   }
 }
 
 function skipLogin() {
-    hideLoginScreen();
-    showToast('Continuing in offline mode');
+   hideLoginScreen();
+   showToast('Continuing in offline mode');
 }
 
 function hideLoginScreen() {
-    document.getElementById('loginScreen').style.display = 'none';
+   document.getElementById('loginScreen').style.display = 'none';
 }
 
 function showLoginScreen() {
-    document.getElementById('loginScreen').style.display = 'flex';
-    switchAuthTab('signin');
+   document.getElementById('loginScreen').style.display = 'flex';
+   switchAuthTab('signin');
 }
 
 function updateAuthUI() {
-    const badge = document.getElementById('userBadge');
-    if (currentUser) {
-        badge.textContent = currentUser.email.split('@')[0].toUpperCase();
-        badge.classList.add('authed');
-    } else {
-        badge.textContent = 'OFFLINE';
-        badge.classList.remove('authed');
-    }
+   const badge = document.getElementById('userBadge');
+   if (currentUser) {
+       badge.textContent = currentUser.email.split('@')[0].toUpperCase();
+       badge.classList.add('authed');
+   } else {
+       badge.textContent = 'OFFLINE';
+       badge.classList.remove('authed');
+   }
 }
 
 function openAuthModal() {
-    document.getElementById('authModal').classList.add('on');
+   document.getElementById('authModal').classList.add('on');
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -988,19 +1054,19 @@ const DB_NAME = 'KinetixDB_v4';
 let DB;
 
 function openDB() {
-    return new Promise((res, rej) => {
-        const req = indexedDB.open(DB_NAME, 1);
-        req.onupgradeneeded = e => {
-            const db = e.target.result;
-            if(!db.objectStoreNames.contains('days')) db.createObjectStore('days', {keyPath: 'date'});
-            if(!db.objectStoreNames.contains('config')) db.createObjectStore('config', {keyPath: 'key'});
-            if(!db.objectStoreNames.contains('workouts')) db.createObjectStore('workouts', {keyPath: 'id', autoIncrement: true});
-            if(!db.objectStoreNames.contains('programs')) db.createObjectStore('programs', {keyPath: 'id', autoIncrement: true});
-            if(!db.objectStoreNames.contains('bodyweight')) db.createObjectStore('bodyweight', {keyPath: 'date'});
-        };
-        req.onsuccess = e => { DB = e.target.result; res(DB); };
-        req.onerror = rej;
-    });
+   return new Promise((res, rej) => {
+       const req = indexedDB.open(DB_NAME, 1);
+       req.onupgradeneeded = e => {
+           const db = e.target.result;
+           if(!db.objectStoreNames.contains('days')) db.createObjectStore('days', {keyPath: 'date'});
+           if(!db.objectStoreNames.contains('config')) db.createObjectStore('config', {keyPath: 'key'});
+           if(!db.objectStoreNames.contains('workouts')) db.createObjectStore('workouts', {keyPath: 'id', autoIncrement: true});
+           if(!db.objectStoreNames.contains('programs')) db.createObjectStore('programs', {keyPath: 'id', autoIncrement: true});
+           if(!db.objectStoreNames.contains('bodyweight')) db.createObjectStore('bodyweight', {keyPath: 'date'});
+       };
+       req.onsuccess = e => { DB = e.target.result; res(DB); };
+       req.onerror = rej;
+   });
 }
 
 const dbGet = (s, k) => new Promise((r, j) => { const t = DB.transaction(s, 'readonly'), q = t.objectStore(s).get(k); q.onsuccess = e => r(e.target.result); q.onerror = j; });
@@ -1009,113 +1075,113 @@ const dbAll = (s) => new Promise((r, j) => { const t = DB.transaction(s, 'readon
 const dbDel = (s, k) => new Promise((r, j) => { const t = DB.transaction(s, 'readwrite'), q = t.objectStore(s).delete(k); q.onsuccess = () => r(); q.onerror = j; });
 
 async function createUserDataRecord() {
-    if (!currentUser) return;
-    
-    try {
-        const { error } = await supabaseClient
-            .from('user_data')
-            .insert({
-                user_id: currentUser.id,
-                workouts: '[]',
-                programs: '[]',
-                days: '[]',
-                bodyweight: '[]',
-                updated_at: new Date().toISOString()
-            });
-            
-        if (error && error.code !== '23505') { // Ignore duplicate key error
-            console.error('Error creating user data:', error);
-        }
-    } catch (e) {
-        console.error('Failed to create user data record:', e);
-    }
+   if (!currentUser) return;
+   
+   try {
+       const { error } = await supabaseClient
+           .from('user_data')
+           .insert({
+               user_id: currentUser.id,
+               workouts: '[]',
+               programs: '[]',
+               days: '[]',
+               bodyweight: '[]',
+               updated_at: new Date().toISOString()
+           });
+           
+       if (error && error.code !== '23505') { // Ignore duplicate key error
+           console.error('Error creating user data:', error);
+       }
+   } catch (e) {
+       console.error('Failed to create user data record:', e);
+   }
 }
 
 async function loadUserData() {
-    if (!currentUser) return;
-    
-    try {
-        const { data, error } = await supabaseClient
-            .from('user_data')
-            .select('*')
-            .eq('user_id', currentUser.id)
-            .single();
-            
-        if (error) {
-            if (error.code === 'PGRST116') {
-                // No data found, create new record
-                await createUserDataRecord();
-            } else {
-                throw error;
-            }
-        } else if (data) {
-            // Load data into IndexedDB
-            if (data.workouts) {
-                const workouts = JSON.parse(data.workouts);
-                for (const w of workouts) await dbPut('workouts', w);
-            }
-            if (data.programs) {
-                const programs = JSON.parse(data.programs);
-                for (const p of programs) await dbPut('programs', p);
-            }
-            if (data.days) {
-                const days = JSON.parse(data.days);
-                for (const d of days) await dbPut('days', d);
-            }
-            if (data.bodyweight) {
-                const bw = JSON.parse(data.bodyweight);
-                for (const b of bw) await dbPut('bodyweight', b);
-            }
-            showToast('Data loaded from cloud');
-        }
-    } catch (e) {
-        console.error('Failed to load user data:', e);
-        showToast('Failed to load cloud data');
-    }
+   if (!currentUser) return;
+   
+   try {
+       const { data, error } = await supabaseClient
+           .from('user_data')
+           .select('*')
+           .eq('user_id', currentUser.id)
+           .single();
+           
+       if (error) {
+           if (error.code === 'PGRST116') {
+               // No data found, create new record
+               await createUserDataRecord();
+           } else {
+               throw error;
+           }
+       } else if (data) {
+           // Load data into IndexedDB
+           if (data.workouts) {
+               const workouts = JSON.parse(data.workouts);
+               for (const w of workouts) await dbPut('workouts', w);
+           }
+           if (data.programs) {
+               const programs = JSON.parse(data.programs);
+               for (const p of programs) await dbPut('programs', p);
+           }
+           if (data.days) {
+               const days = JSON.parse(data.days);
+               for (const d of days) await dbPut('days', d);
+           }
+           if (data.bodyweight) {
+               const bw = JSON.parse(data.bodyweight);
+               for (const b of bw) await dbPut('bodyweight', b);
+           }
+           showToast('Data loaded from cloud');
+       }
+   } catch (e) {
+       console.error('Failed to load user data:', e);
+       showToast('Failed to load cloud data');
+   }
 }
 
 async function syncData() {
-    if (!currentUser) {
-        showToast('Not signed in');
-        return;
-    }
-    
-    document.getElementById('syncDot').classList.add('pending');
-    document.getElementById('syncText').textContent = 'Syncing...';
-    
-    try {
-        const [workouts, programs, days, bw] = await Promise.all([
-            dbAll('workouts'), 
-            dbAll('programs'), 
-            dbAll('days'), 
-            dbAll('bodyweight')
-        ]);
-        
-        const { error } = await supabaseClient
-            .from('user_data')
-            .upsert({
-                user_id: currentUser.id,
-                workouts: JSON.stringify(workouts),
-                programs: JSON.stringify(programs),
-                days: JSON.stringify(days),
-                bodyweight: JSON.stringify(bw),
-                updated_at: new Date().toISOString()
-            }, {
-                onConflict: 'user_id'
-            });
-            
-        if (error) throw error;
-        
-        showToast('Synced to cloud');
-        document.getElementById('syncDot').classList.remove('pending');
-        document.getElementById('syncText').textContent = 'Synced';
-        
-    } catch (error) {
-        console.error('Sync error:', error);
-        showToast('Sync failed: ' + error.message);
-        document.getElementById('syncDot').classList.remove('pending');
-        document.getElementById('syncText').textContent = 'Error';
-    }
+   if (!currentUser) {
+       showToast('Not signed in');
+       return;
+   }
+   
+   document.getElementById('syncDot').classList.add('pending');
+   document.getElementById('syncText').textContent = 'Syncing...';
+   
+   try {
+       const [workouts, programs, days, bw] = await Promise.all([
+           dbAll('workouts'), 
+           dbAll('programs'), 
+           dbAll('days'), 
+           dbAll('bodyweight')
+       ]);
+       
+       const { error } = await supabaseClient
+           .from('user_data')
+           .upsert({
+               user_id: currentUser.id,
+               workouts: JSON.stringify(workouts),
+               programs: JSON.stringify(programs),
+               days: JSON.stringify(days),
+               bodyweight: JSON.stringify(bw),
+               updated_at: new Date().toISOString()
+           }, {
+               onConflict: 'user_id'
+           });
+           
+       if (error) throw error;
+       
+       showToast('Synced to cloud');
+       document.getElementById('syncDot').classList.remove('pending');
+       document.getElementById('syncText').textContent = 'Synced';
+       
+   } catch (error) {
+       console.error('Sync error:', error);
+       showToast('Sync failed: ' + error.message);
+       document.getElementById('syncDot').classList.remove('pending');
+       document.getElementById('syncText').textContent = 'Error';
+   }
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1130,98 +1196,98 @@ let currentPickerDay = null;
 // EXERCISE DATABASE
 // ═══════════════════════════════════════════════════════════════
 const exerciseDatabase = [
-  {name: 'Bench Press', muscle: 'Chest', equipment: 'Barbell', tags: ['Compound']},
-  {name: 'Incline Bench Press', muscle: 'Chest', equipment: 'Barbell', tags: ['Compound']},
-  {name: 'Dumbbell Bench Press', muscle: 'Chest', equipment: 'Dumbbell', tags: ['Compound']},
-  {name: 'Incline Dumbbell Press', muscle: 'Chest', equipment: 'Dumbbell', tags: ['Compound']},
-  {name: 'Dumbbell Flyes', muscle: 'Chest', equipment: 'Dumbbell', tags: ['Isolation']},
-  {name: 'Cable Flyes', muscle: 'Chest', equipment: 'Cable', tags: ['Isolation']},
-  {name: 'Chest Press Machine', muscle: 'Chest', equipment: 'Machine', tags: ['Compound']},
-  {name: 'Pec Deck Fly', muscle: 'Chest', equipment: 'Machine', tags: ['Isolation']},
-  {name: 'Push Ups', muscle: 'Chest', equipment: 'Bodyweight', tags: ['Compound']},
-  {name: 'Dips', muscle: 'Chest', equipment: 'Bodyweight', tags: ['Compound']},
-  {name: 'Deadlift', muscle: 'Back', equipment: 'Barbell', tags: ['Compound']},
-  {name: 'Pull Ups', muscle: 'Back', equipment: 'Bodyweight', tags: ['Compound']},
-  {name: 'Lat Pulldown', muscle: 'Back', equipment: 'Cable', tags: ['Compound']},
-  {name: 'Bent Over Row', muscle: 'Back', equipment: 'Barbell', tags: ['Compound']},
-  {name: 'Dumbbell Row', muscle: 'Back', equipment: 'Dumbbell', tags: ['Compound']},
-  {name: 'Seated Cable Row', muscle: 'Back', equipment: 'Cable', tags: ['Compound']},
-  {name: 'T-Bar Row', muscle: 'Back', equipment: 'Barbell', tags: ['Compound']},
-  {name: 'Face Pulls', muscle: 'Back', equipment: 'Cable', tags: ['Isolation']},
-  {name: 'Shrugs', muscle: 'Traps', equipment: 'Barbell', tags: ['Isolation']},
-  {name: 'Squat', muscle: 'Legs', equipment: 'Barbell', tags: ['Compound']},
-  {name: 'Front Squat', muscle: 'Legs', equipment: 'Barbell', tags: ['Compound']},
-  {name: 'Leg Press', muscle: 'Legs', equipment: 'Machine', tags: ['Compound']},
-  {name: 'Leg Extension', muscle: 'Legs', equipment: 'Machine', tags: ['Isolation']},
-  {name: 'Leg Curl', muscle: 'Legs', equipment: 'Machine', tags: ['Isolation']},
-  {name: 'Romanian Deadlift', muscle: 'Legs', equipment: 'Barbell', tags: ['Compound']},
-  {name: 'Walking Lunges', muscle: 'Legs', equipment: 'Dumbbell', tags: ['Compound']},
-  {name: 'Bulgarian Split Squat', muscle: 'Legs', equipment: 'Dumbbell', tags: ['Compound']},
-  {name: 'Hip Thrust', muscle: 'Glutes', equipment: 'Barbell', tags: ['Compound']},
-  {name: 'Calf Raise', muscle: 'Calves', equipment: 'Machine', tags: ['Isolation']},
-  {name: 'Overhead Press', muscle: 'Shoulders', equipment: 'Barbell', tags: ['Compound']},
-  {name: 'Dumbbell Overhead Press', muscle: 'Shoulders', equipment: 'Dumbbell', tags: ['Compound']},
-  {name: 'Lateral Raise', muscle: 'Shoulders', equipment: 'Dumbbell', tags: ['Isolation']},
-  {name: 'Front Raise', muscle: 'Shoulders', equipment: 'Dumbbell', tags: ['Isolation']},
-  {name: 'Rear Delt Fly', muscle: 'Shoulders', equipment: 'Dumbbell', tags: ['Isolation']},
-  {name: 'Upright Row', muscle: 'Shoulders', equipment: 'Barbell', tags: ['Compound']},
-  {name: 'Barbell Curl', muscle: 'Biceps', equipment: 'Barbell', tags: ['Isolation']},
-  {name: 'Dumbbell Curl', muscle: 'Biceps', equipment: 'Dumbbell', tags: ['Isolation']},
-  {name: 'Hammer Curl', muscle: 'Biceps', equipment: 'Dumbbell', tags: ['Isolation']},
-  {name: 'Preacher Curl', muscle: 'Biceps', equipment: 'Barbell', tags: ['Isolation']},
-  {name: 'Cable Curl', muscle: 'Biceps', equipment: 'Cable', tags: ['Isolation']},
-  {name: 'Close-Grip Bench', muscle: 'Triceps', equipment: 'Barbell', tags: ['Compound']},
-  {name: 'Tricep Pushdown', muscle: 'Triceps', equipment: 'Cable', tags: ['Isolation']},
-  {name: 'Skull Crusher', muscle: 'Triceps', equipment: 'Barbell', tags: ['Isolation']},
-  {name: 'Overhead Extension', muscle: 'Triceps', equipment: 'Dumbbell', tags: ['Isolation']},
-  {name: 'Plank', muscle: 'Core', equipment: 'Bodyweight', tags: ['Isometric']},
-  {name: 'Crunch', muscle: 'Core', equipment: 'Bodyweight', tags: ['Isolation']},
-  {name: 'Leg Raise', muscle: 'Core', equipment: 'Bodyweight', tags: ['Isolation']},
-  {name: 'Russian Twist', muscle: 'Core', equipment: 'Dumbbell', tags: ['Isolation']}
+ {name: 'Bench Press', muscle: 'Chest', equipment: 'Barbell', tags: ['Compound']},
+ {name: 'Incline Bench Press', muscle: 'Chest', equipment: 'Barbell', tags: ['Compound']},
+ {name: 'Dumbbell Bench Press', muscle: 'Chest', equipment: 'Dumbbell', tags: ['Compound']},
+ {name: 'Incline Dumbbell Press', muscle: 'Chest', equipment: 'Dumbbell', tags: ['Compound']},
+ {name: 'Dumbbell Flyes', muscle: 'Chest', equipment: 'Dumbbell', tags: ['Isolation']},
+ {name: 'Cable Flyes', muscle: 'Chest', equipment: 'Cable', tags: ['Isolation']},
+ {name: 'Chest Press Machine', muscle: 'Chest', equipment: 'Machine', tags: ['Compound']},
+ {name: 'Pec Deck Fly', muscle: 'Chest', equipment: 'Machine', tags: ['Isolation']},
+ {name: 'Push Ups', muscle: 'Chest', equipment: 'Bodyweight', tags: ['Compound']},
+ {name: 'Dips', muscle: 'Chest', equipment: 'Bodyweight', tags: ['Compound']},
+ {name: 'Deadlift', muscle: 'Back', equipment: 'Barbell', tags: ['Compound']},
+ {name: 'Pull Ups', muscle: 'Back', equipment: 'Bodyweight', tags: ['Compound']},
+ {name: 'Lat Pulldown', muscle: 'Back', equipment: 'Cable', tags: ['Compound']},
+ {name: 'Bent Over Row', muscle: 'Back', equipment: 'Barbell', tags: ['Compound']},
+ {name: 'Dumbbell Row', muscle: 'Back', equipment: 'Dumbbell', tags: ['Compound']},
+ {name: 'Seated Cable Row', muscle: 'Back', equipment: 'Cable', tags: ['Compound']},
+ {name: 'T-Bar Row', muscle: 'Back', equipment: 'Barbell', tags: ['Compound']},
+ {name: 'Face Pulls', muscle: 'Back', equipment: 'Cable', tags: ['Isolation']},
+ {name: 'Shrugs', muscle: 'Traps', equipment: 'Barbell', tags: ['Isolation']},
+ {name: 'Squat', muscle: 'Legs', equipment: 'Barbell', tags: ['Compound']},
+ {name: 'Front Squat', muscle: 'Legs', equipment: 'Barbell', tags: ['Compound']},
+ {name: 'Leg Press', muscle: 'Legs', equipment: 'Machine', tags: ['Compound']},
+ {name: 'Leg Extension', muscle: 'Legs', equipment: 'Machine', tags: ['Isolation']},
+ {name: 'Leg Curl', muscle: 'Legs', equipment: 'Machine', tags: ['Isolation']},
+ {name: 'Romanian Deadlift', muscle: 'Legs', equipment: 'Barbell', tags: ['Compound']},
+ {name: 'Walking Lunges', muscle: 'Legs', equipment: 'Dumbbell', tags: ['Compound']},
+ {name: 'Bulgarian Split Squat', muscle: 'Legs', equipment: 'Dumbbell', tags: ['Compound']},
+ {name: 'Hip Thrust', muscle: 'Glutes', equipment: 'Barbell', tags: ['Compound']},
+ {name: 'Calf Raise', muscle: 'Calves', equipment: 'Machine', tags: ['Isolation']},
+ {name: 'Overhead Press', muscle: 'Shoulders', equipment: 'Barbell', tags: ['Compound']},
+ {name: 'Dumbbell Overhead Press', muscle: 'Shoulders', equipment: 'Dumbbell', tags: ['Compound']},
+ {name: 'Lateral Raise', muscle: 'Shoulders', equipment: 'Dumbbell', tags: ['Isolation']},
+ {name: 'Front Raise', muscle: 'Shoulders', equipment: 'Dumbbell', tags: ['Isolation']},
+ {name: 'Rear Delt Fly', muscle: 'Shoulders', equipment: 'Dumbbell', tags: ['Isolation']},
+ {name: 'Upright Row', muscle: 'Shoulders', equipment: 'Barbell', tags: ['Compound']},
+ {name: 'Barbell Curl', muscle: 'Biceps', equipment: 'Barbell', tags: ['Isolation']},
+ {name: 'Dumbbell Curl', muscle: 'Biceps', equipment: 'Dumbbell', tags: ['Isolation']},
+ {name: 'Hammer Curl', muscle: 'Biceps', equipment: 'Dumbbell', tags: ['Isolation']},
+ {name: 'Preacher Curl', muscle: 'Biceps', equipment: 'Barbell', tags: ['Isolation']},
+ {name: 'Cable Curl', muscle: 'Biceps', equipment: 'Cable', tags: ['Isolation']},
+ {name: 'Close-Grip Bench', muscle: 'Triceps', equipment: 'Barbell', tags: ['Compound']},
+ {name: 'Tricep Pushdown', muscle: 'Triceps', equipment: 'Cable', tags: ['Isolation']},
+ {name: 'Skull Crusher', muscle: 'Triceps', equipment: 'Barbell', tags: ['Isolation']},
+ {name: 'Overhead Extension', muscle: 'Triceps', equipment: 'Dumbbell', tags: ['Isolation']},
+ {name: 'Plank', muscle: 'Core', equipment: 'Bodyweight', tags: ['Isometric']},
+ {name: 'Crunch', muscle: 'Core', equipment: 'Bodyweight', tags: ['Isolation']},
+ {name: 'Leg Raise', muscle: 'Core', equipment: 'Bodyweight', tags: ['Isolation']},
+ {name: 'Russian Twist', muscle: 'Core', equipment: 'Dumbbell', tags: ['Isolation']}
 ];
 
 // ═══════════════════════════════════════════════════════════════
 // NAVIGATION
 // ═══════════════════════════════════════════════════════════════
 function goTab(name) {
-    const timerScreen = document.getElementById('timerScreen');
-    const pipWindow = document.getElementById('pipWindow');
-    
-    if (timerScreen.classList.contains('active') && name !== 'sprint') {
-        pipWindow.classList.add('active');
-    } else if (name === 'sprint' && timerScreen.classList.contains('active')) {
-        pipWindow.classList.remove('active');
-    }
+   const timerScreen = document.getElementById('timerScreen');
+   const pipWindow = document.getElementById('pipWindow');
+   
+   if (timerScreen.classList.contains('active') && name !== 'sprint') {
+       pipWindow.classList.add('active');
+   } else if (name === 'sprint' && timerScreen.classList.contains('active')) {
+       pipWindow.classList.remove('active');
+   }
 
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('screen-' + name).classList.add('active');
-    const tabs = ['sprint', 'workout', 'library', 'progress', 'program'];
-    tabs.forEach((n, i) => { if (n === name) document.querySelectorAll('.nav-btn')[i].classList.add('active'); });
-    
-    if (name === 'sprint') renderCalendar();
-    if (name === 'workout') loadWorkoutDay();
-    if (name === 'library') renderLibrary();
-    if (name === 'progress') renderProgress();
-    if (name === 'program') renderPrograms();
+   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+   document.getElementById('screen-' + name).classList.add('active');
+   const tabs = ['sprint', 'workout', 'library', 'progress', 'program'];
+   tabs.forEach((n, i) => { if (n === name) document.querySelectorAll('.nav-btn')[i].classList.add('active'); });
+   
+   if (name === 'sprint') renderCalendar();
+   if (name === 'workout') loadWorkoutDay();
+   if (name === 'library') renderLibrary();
+   if (name === 'progress') renderProgress();
+   if (name === 'program') renderPrograms();
 }
 
 // ═══════════════════════════════════════════════════════════════
 // SPRINT TIMER & PIP
 // ═══════════════════════════════════════════════════════════════
 function adj(f, d) {
-    const mn = { work: 5, rest: 5, rounds: 1, goal: 1 }, mx = { work: 300, rest: 300, rounds: 99, goal: 99 };
-    C[f] = Math.max(mn[f], Math.min(mx[f], C[f] + d));
-    updateSetupUI();
-    saveConfig();
+   const mn = { work: 5, rest: 5, rounds: 1, goal: 1 }, mx = { work: 300, rest: 300, rounds: 99, goal: 99 };
+   C[f] = Math.max(mn[f], Math.min(mx[f], C[f] + d));
+   updateSetupUI();
+   saveConfig();
 }
 
 function updateSetupUI() {
-    document.getElementById('workVal').textContent = C.work;
-    document.getElementById('restVal').textContent = C.rest;
-    document.getElementById('roundsVal').textContent = C.rounds;
-    document.getElementById('goalVal').textContent = C.goal;
-    document.getElementById('totalVal').textContent = fmtTime((C.work + C.rest) * C.rounds);
+   document.getElementById('workVal').textContent = C.work;
+   document.getElementById('restVal').textContent = C.rest;
+   document.getElementById('roundsVal').textContent = C.rounds;
+   document.getElementById('goalVal').textContent = C.goal;
+   document.getElementById('totalVal').textContent = fmtTime((C.work + C.rest) * C.rounds);
 }
 
 function fmtTime(s) { const m = Math.floor(s / 60), r = s % 60; return m + ':' + String(r).padStart(2, '0'); }
@@ -1230,252 +1296,252 @@ const T = { phase: 'work', round: 1, secsLeft: 0, phaseDur: 0, paused: false, in
 const circ = 2 * Math.PI * 113;
 
 function startTimer() {
-    document.getElementById('timerScreen').classList.add('active');
-    T.round = 1; T.phase = 'work'; T.completed = 0;
-    startPhase();
+   document.getElementById('timerScreen').classList.add('active');
+   T.round = 1; T.phase = 'work'; T.completed = 0;
+   startPhase();
 }
 
 function startPhase() {
-    T.phaseDur = T.phase === 'work' ? C.work : C.rest;
-    T.secsLeft = T.phaseDur;
-    T.paused = false;
-    updateClock();
-    clearInterval(T.interval);
-    T.interval = setInterval(tick, 1000);
-    document.getElementById('pulseRing').classList.toggle('on', T.phase === 'work');
+   T.phaseDur = T.phase === 'work' ? C.work : C.rest;
+   T.secsLeft = T.phaseDur;
+   T.paused = false;
+   updateClock();
+   clearInterval(T.interval);
+   T.interval = setInterval(tick, 1000);
+   document.getElementById('pulseRing').classList.toggle('on', T.phase === 'work');
 }
 
 function tick() {
-    if (T.paused) return;
-    T.secsLeft--;
-    updateClock();
-    if (T.secsLeft <= 0) nextPhase();
+   if (T.paused) return;
+   T.secsLeft--;
+   updateClock();
+   if (T.secsLeft <= 0) nextPhase();
 }
 
 function nextPhase() {
-    if (T.phase === 'work') { T.phase = 'rest'; T.completed++; }
-    else {
-        T.phase = 'work';
-        if (T.round < C.rounds) T.round++;
-        else { finishTimer(); return; }
-    }
-    startPhase();
+   if (T.phase === 'work') { T.phase = 'rest'; T.completed++; }
+   else {
+       T.phase = 'work';
+       if (T.round < C.rounds) T.round++;
+       else { finishTimer(); return; }
+   }
+   startPhase();
 }
 
 function updateClock() {
-    document.getElementById('clockDigits').textContent = fmtTime(T.secsLeft);
-    const off = circ - (T.secsLeft / T.phaseDur) * circ;
-    const c = document.getElementById('cProg');
-    c.style.strokeDasharray = circ;
-    c.style.strokeDashoffset = off;
-    c.style.stroke = T.phase === 'work' ? '#ff1a1a' : '#ff6666';
-    document.getElementById('phaseLbl').textContent = T.phase === 'work' ? 'WORK' : 'REST';
-    document.getElementById('phaseLbl').style.color = T.phase === 'work' ? '#ff1a1a' : '#ff6666';
-    document.getElementById('clockDigits').style.color = T.phase === 'work' ? '#ff1a1a' : '#ff6666';
-    document.getElementById('roundLbl').textContent = `ROUND ${T.round} OF ${C.rounds}`;
+   document.getElementById('clockDigits').textContent = fmtTime(T.secsLeft);
+   const off = circ - (T.secsLeft / T.phaseDur) * circ;
+   const c = document.getElementById('cProg');
+   c.style.strokeDasharray = circ;
+   c.style.strokeDashoffset = off;
+   c.style.stroke = T.phase === 'work' ? '#ff1a1a' : '#ff6666';
+   document.getElementById('phaseLbl').textContent = T.phase === 'work' ? 'WORK' : 'REST';
+   document.getElementById('phaseLbl').style.color = T.phase === 'work' ? '#ff1a1a' : '#ff6666';
+   document.getElementById('clockDigits').style.color = T.phase === 'work' ? '#ff1a1a' : '#ff6666';
+   document.getElementById('roundLbl').textContent = `ROUND ${T.round} OF ${C.rounds}`;
 
-    const pipWindow = document.getElementById('pipWindow');
-    if (pipWindow.classList.contains('active')) {
-        document.getElementById('pipTimer').textContent = fmtTime(T.secsLeft);
-        document.getElementById('pipPhase').textContent = T.phase === 'work' ? 'WORK' : 'REST';
-        document.getElementById('pipPhase').style.color = T.phase === 'work' ? '#ff1a1a' : '#ff6666';
-        document.getElementById('pipTimer').style.color = T.phase === 'work' ? '#ff1a1a' : '#ff6666';
-        const progressPct = (T.secsLeft / T.phaseDur) * 100;
-        document.getElementById('pipBar').style.width = progressPct + '%';
-    }
+   const pipWindow = document.getElementById('pipWindow');
+   if (pipWindow.classList.contains('active')) {
+       document.getElementById('pipTimer').textContent = fmtTime(T.secsLeft);
+       document.getElementById('pipPhase').textContent = T.phase === 'work' ? 'WORK' : 'REST';
+       document.getElementById('pipPhase').style.color = T.phase === 'work' ? '#ff1a1a' : '#ff6666';
+       document.getElementById('pipTimer').style.color = T.phase === 'work' ? '#ff1a1a' : '#ff6666';
+       const progressPct = (T.secsLeft / T.phaseDur) * 100;
+       document.getElementById('pipBar').style.width = progressPct + '%';
+   }
 }
 
 function togglePause() { 
-    T.paused = !T.paused; 
-    document.getElementById('pauseBtn').textContent = T.paused ? 'RESUME' : 'PAUSE'; 
+   T.paused = !T.paused; 
+   document.getElementById('pauseBtn').textContent = T.paused ? 'RESUME' : 'PAUSE'; 
 }
 function skipPhase() { nextPhase(); }
 
 function finishTimer() {
-    clearInterval(T.interval);
-    document.getElementById('pipWindow').classList.remove('active');
-    document.querySelector('.clock-wrap').style.display = 'none';
-    document.querySelector('.timer-controls').style.display = 'none';
-    document.getElementById('doneOverlay').classList.add('on');
-    document.getElementById('doneRounds').textContent = T.completed;
-    
-    const goalMet = T.completed >= C.goal;
-    document.getElementById('goalAchieved').style.display = goalMet ? 'block' : 'none';
-    
-    const today = new Date().toISOString().slice(0, 10);
-    dbPut('days', { date: today, rounds: T.completed, goal: C.goal, met: goalMet, type: 'sprint' });
-    if (goalMet) showToast(`Goal crushed! ${T.completed} rounds`);
-    syncData();
+   clearInterval(T.interval);
+   document.getElementById('pipWindow').classList.remove('active');
+   document.querySelector('.clock-wrap').style.display = 'none';
+   document.querySelector('.timer-controls').style.display = 'none';
+   document.getElementById('doneOverlay').classList.add('on');
+   document.getElementById('doneRounds').textContent = T.completed;
+   
+   const goalMet = T.completed >= C.goal;
+   document.getElementById('goalAchieved').style.display = goalMet ? 'block' : 'none';
+   
+   const today = new Date().toISOString().slice(0, 10);
+   dbPut('days', { date: today, rounds: T.completed, goal: C.goal, met: goalMet, type: 'sprint' });
+   if (goalMet) showToast(`Goal crushed! ${T.completed} rounds`);
+   syncData();
 }
 
 function resetTimer() {
-    document.getElementById('timerScreen').classList.remove('active');
-    document.getElementById('doneOverlay').classList.remove('on');
-    document.querySelector('.clock-wrap').style.display = 'block';
-    document.querySelector('.timer-controls').style.display = 'flex';
-    document.getElementById('pipWindow').classList.remove('active');
-    clearInterval(T.interval);
+   document.getElementById('timerScreen').classList.remove('active');
+   document.getElementById('doneOverlay').classList.remove('on');
+   document.querySelector('.clock-wrap').style.display = 'block';
+   document.querySelector('.timer-controls').style.display = 'flex';
+   document.getElementById('pipWindow').classList.remove('active');
+   clearInterval(T.interval);
 }
 
 function stopTimer() { 
-    clearInterval(T.interval); 
-    document.getElementById('pipWindow').classList.remove('active');
-    resetTimer(); 
+   clearInterval(T.interval); 
+   document.getElementById('pipWindow').classList.remove('active');
+   resetTimer(); 
 }
 
 async function renderCalendar() {
-    const days = await dbAll('days');
-    const dayMap = new Map(days.map(d => [d.date, d]));
-    const today = new Date().toISOString().slice(0, 10);
-    
-    let html = '';
-    for (let i = 0; i < 7; i++) {
-        const d = new Date(); d.setDate(d.getDate() - d.getDay() + i);
-        const dateStr = d.toISOString().slice(0, 10);
-        const data = dayMap.get(dateStr);
-        const done = data?.met;
-        const isToday = dateStr === today;
-        
-        html += `<div class="cal-day ${done ? 'done' : ''} ${isToday ? 'today' : ''}" style="font-size:12px;">
-            ${['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][i]}
-            <div style="font-size:16px;margin-top:4px;">${d.getDate()}</div>
-        </div>`;
-    }
-    document.getElementById('calGrid').innerHTML = html;
+   const days = await dbAll('days');
+   const dayMap = new Map(days.map(d => [d.date, d]));
+   const today = new Date().toISOString().slice(0, 10);
+   
+   let html = '';
+   for (let i = 0; i < 7; i++) {
+       const d = new Date(); d.setDate(d.getDate() - d.getDay() + i);
+       const dateStr = d.toISOString().slice(0, 10);
+       const data = dayMap.get(dateStr);
+       const done = data?.met;
+       const isToday = dateStr === today;
+       
+       html += `<div class="cal-day ${done ? 'done' : ''} ${isToday ? 'today' : ''}" style="font-size:12px;">
+           ${['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][i]}
+           <div style="font-size:16px;margin-top:4px;">${d.getDate()}</div>
+       </div>`;
+   }
+   document.getElementById('calGrid').innerHTML = html;
 }
 
 // ═══════════════════════════════════════════════════════════════
 // WORKOUT
 // ═══════════════════════════════════════════════════════════════
 async function loadWorkoutDay() {
-    const programs = await dbAll('programs');
-    const active = programs.find(p => p.active);
-    
-    if (active) {
-        const dayIndex = active.currentDay || 0;
-        const day = active.days[dayIndex];
-        
-        if (day && !day.rest) {
-            document.getElementById('wbName').textContent = day.name.toUpperCase();
-            document.getElementById('wbType').textContent = active.name.toUpperCase();
-            
-            if (currentWorkout.exercises.length === 0 && day.exercises) {
-                currentWorkout.exercises = day.exercises.map(ex => ({
-                    ...ex,
-                    sets: [{ weight: 0, reps: 0, done: false }]
-                }));
-                currentWorkout.programDay = dayIndex;
-            }
-        }
-    }
-    
-    renderWorkout();
+   const programs = await dbAll('programs');
+   const active = programs.find(p => p.active);
+   
+   if (active) {
+       const dayIndex = active.currentDay || 0;
+       const day = active.days[dayIndex];
+       
+       if (day && !day.rest) {
+           document.getElementById('wbName').textContent = day.name.toUpperCase();
+           document.getElementById('wbType').textContent = active.name.toUpperCase();
+           
+           if (currentWorkout.exercises.length === 0 && day.exercises) {
+               currentWorkout.exercises = day.exercises.map(ex => ({
+                   ...ex,
+                   sets: [{ weight: 0, reps: 0, done: false }]
+               }));
+               currentWorkout.programDay = dayIndex;
+           }
+       }
+   }
+   
+   renderWorkout();
 }
 
 function renderWorkout() {
-    if (!currentWorkout.startTime) currentWorkout.startTime = Date.now();
-    
-    let sets = 0, vol = 0;
-    const list = document.getElementById('exList');
-    list.innerHTML = '';
-    
-    currentWorkout.exercises.forEach((ex, idx) => {
-        sets += ex.sets.length;
-        ex.sets.forEach(s => { if (s.done && s.weight && s.reps) vol += s.weight * s.reps; });
-        
-        const card = document.createElement('div');
-        card.className = 'ex-card';
-        card.innerHTML = `
-            <div class="ex-header" onclick="toggleCard(this.parentElement)">
-                <div>
-                    <div class="ex-name">${ex.name}</div>
-                    <div class="ex-meta">${ex.sets.filter(s => s.done).length}/${ex.sets.length} SETS • ${ex.muscle}</div>
-                </div>
-                <div class="ex-chevron">▼</div>
-            </div>
-            <div class="ex-body">
-                <div class="set-row" style="border-bottom:1px solid var(--border);margin-bottom:6px;">
-                    <div class="lbl">SET</div>
-                    <div class="lbl">KG</div>
-                    <div class="lbl">REPS</div>
-                    <div></div>
-                </div>
-                <div id="sets-${idx}"></div>
-                <button class="add-set-btn" onclick="addSet(${idx})">+ ADD SET</button>
-            </div>
-        `;
-        list.appendChild(card);
-        
-        const setsContainer = card.querySelector(`#sets-${idx}`);
-        setsContainer.innerHTML = ex.sets.map((s, i) => `
-            <div class="set-row ${s.done ? 'done-row' : ''}">
-                <div style="text-align:center;color:var(--muted);font-family:'JetBrains Mono';font-size:12px;">${i + 1}</div>
-                <input class="set-input" type="number" value="${s.weight || ''}" onchange="updateSet(${idx},${i},'weight',this.value)">
-                <input class="set-input" type="number" value="${s.reps || ''}" onchange="updateSet(${idx},${i},'reps',this.value)">
-                <button class="set-done-btn ${s.done ? 'done' : ''}" onclick="toggleSet(${idx},${i})">${s.done ? '✓' : '○'}</button>
-            </div>
-        `).join('');
-    });
-    
-    document.getElementById('statSets').textContent = sets;
-    document.getElementById('statVol').textContent = vol;
+   if (!currentWorkout.startTime) currentWorkout.startTime = Date.now();
+   
+   let sets = 0, vol = 0;
+   const list = document.getElementById('exList');
+   list.innerHTML = '';
+   
+   currentWorkout.exercises.forEach((ex, idx) => {
+       sets += ex.sets.length;
+       ex.sets.forEach(s => { if (s.done && s.weight && s.reps) vol += s.weight * s.reps; });
+       
+       const card = document.createElement('div');
+       card.className = 'ex-card';
+       card.innerHTML = `
+           <div class="ex-header" onclick="toggleCard(this.parentElement)">
+               <div>
+                   <div class="ex-name">${ex.name}</div>
+                   <div class="ex-meta">${ex.sets.filter(s => s.done).length}/${ex.sets.length} SETS • ${ex.muscle}</div>
+               </div>
+               <div class="ex-chevron">▼</div>
+           </div>
+           <div class="ex-body">
+               <div class="set-row" style="border-bottom:1px solid var(--border);margin-bottom:6px;">
+                   <div class="lbl">SET</div>
+                   <div class="lbl">KG</div>
+                   <div class="lbl">REPS</div>
+                   <div></div>
+               </div>
+               <div id="sets-${idx}"></div>
+               <button class="add-set-btn" onclick="addSet(${idx})">+ ADD SET</button>
+           </div>
+       `;
+       list.appendChild(card);
+       
+       const setsContainer = card.querySelector(`#sets-${idx}`);
+       setsContainer.innerHTML = ex.sets.map((s, i) => `
+           <div class="set-row ${s.done ? 'done-row' : ''}">
+               <div style="text-align:center;color:var(--muted);font-family:'JetBrains Mono';font-size:12px;">${i + 1}</div>
+               <input class="set-input" type="number" value="${s.weight || ''}" onchange="updateSet(${idx},${i},'weight',this.value)">
+               <input class="set-input" type="number" value="${s.reps || ''}" onchange="updateSet(${idx},${i},'reps',this.value)">
+               <button class="set-done-btn ${s.done ? 'done' : ''}" onclick="toggleSet(${idx},${i})">${s.done ? '✓' : '○'}</button>
+           </div>
+       `).join('');
+   });
+   
+   document.getElementById('statSets').textContent = sets;
+   document.getElementById('statVol').textContent = vol;
 }
 
 function toggleCard(card) {
-    card.classList.toggle('open');
+   card.classList.toggle('open');
 }
 
 function updateSet(exIdx, setIdx, field, val) {
-    currentWorkout.exercises[exIdx].sets[setIdx][field] = parseFloat(val) || 0;
-    renderWorkout();
-    setTimeout(() => {
-        document.querySelectorAll('.ex-card')[exIdx].classList.add('open');
-    }, 0);
+   currentWorkout.exercises[exIdx].sets[setIdx][field] = parseFloat(val) || 0;
+   renderWorkout();
+   setTimeout(() => {
+       document.querySelectorAll('.ex-card')[exIdx].classList.add('open');
+   }, 0);
 }
 
 function toggleSet(exIdx, setIdx) {
-    const s = currentWorkout.exercises[exIdx].sets[setIdx];
-    s.done = !s.done;
-    if (s.done) startRestTimer(90);
-    renderWorkout();
-    setTimeout(() => {
-        document.querySelectorAll('.ex-card')[exIdx].classList.add('open');
-    }, 0);
+   const s = currentWorkout.exercises[exIdx].sets[setIdx];
+   s.done = !s.done;
+   if (s.done) startRestTimer(90);
+   renderWorkout();
+   setTimeout(() => {
+       document.querySelectorAll('.ex-card')[exIdx].classList.add('open');
+   }, 0);
 }
 
 function addSet(idx) {
-    currentWorkout.exercises[idx].sets.push({ weight: 0, reps: 0, done: false });
-    renderWorkout();
-    setTimeout(() => {
-        document.querySelectorAll('.ex-card')[idx].classList.add('open');
-    }, 0);
+   currentWorkout.exercises[idx].sets.push({ weight: 0, reps: 0, done: false });
+   renderWorkout();
+   setTimeout(() => {
+       document.querySelectorAll('.ex-card')[idx].classList.add('open');
+   }, 0);
 }
 
 async function finishWorkout() {
-    if (currentWorkout.exercises.length === 0) return;
-    
-    const workout = {
-        date: new Date().toISOString().slice(0, 10),
-        exercises: currentWorkout.exercises,
-        duration: Math.floor((Date.now() - currentWorkout.startTime) / 60000),
-        volume: currentWorkout.exercises.reduce((v, ex) => v + ex.sets.reduce((s, set) => s + (set.done && set.weight && set.reps ? set.weight * set.reps : 0), 0), 0),
-        programDay: currentWorkout.programDay,
-        type: 'workout'
-    };
-    
-    await dbPut('workouts', workout);
-    
-    const programs = await dbAll('programs');
-    const active = programs.find(p => p.active);
-    if (active) {
-        active.currentDay = ((active.currentDay || 0) + 1) % active.days.length;
-        await dbPut('programs', active);
-    }
-    
-    currentWorkout = { exercises: [], startTime: null, programDay: null };
-    showToast('Workout complete');
-    syncData();
-    goTab('progress');
+   if (currentWorkout.exercises.length === 0) return;
+   
+   const workout = {
+       date: new Date().toISOString().slice(0, 10),
+       exercises: currentWorkout.exercises,
+       duration: Math.floor((Date.now() - currentWorkout.startTime) / 60000),
+       volume: currentWorkout.exercises.reduce((v, ex) => v + ex.sets.reduce((s, set) => s + (set.done && set.weight && set.reps ? set.weight * set.reps : 0), 0), 0),
+       programDay: currentWorkout.programDay,
+       type: 'workout'
+   };
+   
+   await dbPut('workouts', workout);
+   
+   const programs = await dbAll('programs');
+   const active = programs.find(p => p.active);
+   if (active) {
+       active.currentDay = ((active.currentDay || 0) + 1) % active.days.length;
+       await dbPut('programs', active);
+   }
+   
+   currentWorkout = { exercises: [], startTime: null, programDay: null };
+   showToast('Workout complete');
+   syncData();
+   goTab('progress');
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1483,31 +1549,31 @@ async function finishWorkout() {
 // ═══════════════════════════════════════════════════════════════
 let restTimer = null, restSecs = 90;
 function startRestTimer(secs) {
-    restSecs = secs;
-    document.getElementById('timerBar').classList.add('on');
-    updateRestTimer();
-    clearInterval(restTimer);
-    restTimer = setInterval(() => {
-        restSecs--;
-        updateRestTimer();
-        if (restSecs <= 0) stopRestTimer();
-    }, 1000);
+   restSecs = secs;
+   document.getElementById('timerBar').classList.add('on');
+   updateRestTimer();
+   clearInterval(restTimer);
+   restTimer = setInterval(() => {
+       restSecs--;
+       updateRestTimer();
+       if (restSecs <= 0) stopRestTimer();
+   }, 1000);
 }
 
 function updateRestTimer() {
-    const m = Math.floor(restSecs / 60), s = restSecs % 60;
-    document.getElementById('timerDisp').textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-    document.getElementById('timerDisp').classList.toggle('warn', restSecs <= 10);
+   const m = Math.floor(restSecs / 60), s = restSecs % 60;
+   document.getElementById('timerDisp').textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+   document.getElementById('timerDisp').classList.toggle('warn', restSecs <= 10);
 }
 
 function adjRestTimer(d) {
-    restSecs = Math.max(0, restSecs + d);
-    updateRestTimer();
+   restSecs = Math.max(0, restSecs + d);
+   updateRestTimer();
 }
 
 function stopRestTimer() {
-    clearInterval(restTimer);
-    document.getElementById('timerBar').classList.remove('on');
+   clearInterval(restTimer);
+   document.getElementById('timerBar').classList.remove('on');
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1518,339 +1584,339 @@ const muscles = ['All', 'Chest', 'Back', 'Legs', 'Shoulders', 'Biceps', 'Triceps
 const equipment = ['All', 'Barbell', 'Dumbbell', 'Cable', 'Machine', 'Bodyweight'];
 
 function renderLibrary() {
-    document.getElementById('muscleChips').innerHTML = muscles.map(m =>
-        `<div class="chip ${m === selectedMuscle ? 'active' : ''}" onclick="selectedMuscle='${m}';renderLibrary()">${m}</div>`
-    ).join('');
-    
-    document.getElementById('equipmentChips').innerHTML = equipment.map(e =>
-        `<div class="chip equipment ${e === selectedEquipment ? 'active' : ''}" onclick="selectedEquipment='${e}';renderLibrary()">${e}</div>`
-    ).join('');
-    
-    filterLibrary();
+   document.getElementById('muscleChips').innerHTML = muscles.map(m =>
+       `<div class="chip ${m === selectedMuscle ? 'active' : ''}" onclick="selectedMuscle='${m}';renderLibrary()">${m}</div>`
+   ).join('');
+   
+   document.getElementById('equipmentChips').innerHTML = equipment.map(e =>
+       `<div class="chip equipment ${e === selectedEquipment ? 'active' : ''}" onclick="selectedEquipment='${e}';renderLibrary()">${e}</div>`
+   ).join('');
+   
+   filterLibrary();
 }
 
 function filterLibrary() {
-    const search = document.getElementById('searchBox').value.toLowerCase();
-    let filtered = exerciseDatabase;
-    
-    if (selectedMuscle !== 'All') filtered = filtered.filter(e => e.muscle === selectedMuscle || e.name.includes(selectedMuscle));
-    if (selectedEquipment !== 'All') filtered = filtered.filter(e => e.equipment === selectedEquipment);
-    if (search) filtered = filtered.filter(e => e.name.toLowerCase().includes(search));
-    
-    document.getElementById('exCount').textContent = filtered.length;
-    document.getElementById('libList').innerHTML = filtered.map(ex => `
-        <div class="lib-card" onclick="addToWorkout('${ex.name}','${ex.muscle}','${ex.equipment}')">
-            <div class="lib-name">${ex.name}</div>
-            <div>
-                <span class="tag primary">${ex.muscle}</span>
-                <span class="tag equipment">${ex.equipment}</span>
-            </div>
-        </div>
-    `).join('');
+   const search = document.getElementById('searchBox').value.toLowerCase();
+   let filtered = exerciseDatabase;
+   
+   if (selectedMuscle !== 'All') filtered = filtered.filter(e => e.muscle === selectedMuscle || e.name.includes(selectedMuscle));
+   if (selectedEquipment !== 'All') filtered = filtered.filter(e => e.equipment === selectedEquipment);
+   if (search) filtered = filtered.filter(e => e.name.toLowerCase().includes(search));
+   
+   document.getElementById('exCount').textContent = filtered.length;
+   document.getElementById('libList').innerHTML = filtered.map(ex => `
+       <div class="lib-card" onclick="addToWorkout('${ex.name}','${ex.muscle}','${ex.equipment}')">
+           <div class="lib-name">${ex.name}</div>
+           <div>
+               <span class="tag primary">${ex.muscle}</span>
+               <span class="tag equipment">${ex.equipment}</span>
+           </div>
+       </div>
+   `).join('');
 }
 
 function addToWorkout(name, muscle, equipment) {
-    currentWorkout.exercises.push({
-        name, muscle, equipment,
-        sets: [{ weight: 0, reps: 0, done: false }]
-    });
-    showToast(`${name} added`);
-    goTab('workout');
+   currentWorkout.exercises.push({
+       name, muscle, equipment,
+       sets: [{ weight: 0, reps: 0, done: false }]
+   });
+   showToast(`${name} added`);
+   goTab('workout');
 }
 
 // ═══════════════════════════════════════════════════════════════
 // PROGRAM BUILDER
 // ═══════════════════════════════════════════════════════════════
 async function renderPrograms() {
-    const programs = await dbAll('programs');
-    const active = programs.find(p => p.active);
-    
-    const activeDisplay = document.getElementById('activeProgramDisplay');
-    if (active) {
-        const today = active.currentDay || 0;
-        activeDisplay.innerHTML = `
-            <div class="prog-card active-prog">
-                <span class="active-badge">ACTIVE</span>
-                <div class="prog-name">${active.name}</div>
-                <div class="prog-meta">Day ${today + 1} of ${active.days.length}</div>
-                <div class="prog-days-preview">
-                    ${active.days.map((d, i) => `
-                        <span class="day-pill ${d.rest ? 'rest' : ''} ${i === today ? 'today' : ''}">${i + 1}</span>
-                    `).join('')}
-                </div>
-                <div class="day-progress-bar">
-                    <div class="day-progress-fill" style="width:${(today / active.days.length) * 100}%"></div>
-                </div>
-                <div class="prog-actions" style="margin-top:12px;">
-                    <button class="btn-sm accent" onclick="startProgramDay()">START TODAY</button>
-                    <button class="btn-sm" onclick="editProgram(${active.id})">EDIT</button>
-                    <button class="btn-sm danger" onclick="deactivateProgram()">STOP</button>
-                </div>
-            </div>
-        `;
-    } else {
-        activeDisplay.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);padding:24px;">No active program<br><button class="btn-sm" onclick="openNewProgram()" style="margin-top:14px;">Create One</button></div>`;
-    }
-    
-    document.getElementById('programList').innerHTML = programs.filter(p => !p.active).map(p => `
-        <div class="prog-card">
-            <div class="prog-name">${p.name}</div>
-            <div class="prog-meta">${p.days.length} days • ${p.days.filter(d => !d.rest).length} workouts</div>
-            <div class="prog-actions">
-                <button class="btn-sm accent" onclick="activateProgram(${p.id})">ACTIVATE</button>
-                <button class="btn-sm" onclick="editProgram(${p.id})">EDIT</button>
-                <button class="btn-sm danger" onclick="deleteProgram(${p.id})">DELETE</button>
-            </div>
-        </div>
-    `).join('');
+   const programs = await dbAll('programs');
+   const active = programs.find(p => p.active);
+   
+   const activeDisplay = document.getElementById('activeProgramDisplay');
+   if (active) {
+       const today = active.currentDay || 0;
+       activeDisplay.innerHTML = `
+           <div class="prog-card active-prog">
+               <span class="active-badge">ACTIVE</span>
+               <div class="prog-name">${active.name}</div>
+               <div class="prog-meta">Day ${today + 1} of ${active.days.length}</div>
+               <div class="prog-days-preview">
+                   ${active.days.map((d, i) => `
+                       <span class="day-pill ${d.rest ? 'rest' : ''} ${i === today ? 'today' : ''}">${i + 1}</span>
+                   `).join('')}
+               </div>
+               <div class="day-progress-bar">
+                   <div class="day-progress-fill" style="width:${(today / active.days.length) * 100}%"></div>
+               </div>
+               <div class="prog-actions" style="margin-top:12px;">
+                   <button class="btn-sm accent" onclick="startProgramDay()">START TODAY</button>
+                   <button class="btn-sm" onclick="editProgram(${active.id})">EDIT</button>
+                   <button class="btn-sm danger" onclick="deactivateProgram()">STOP</button>
+               </div>
+           </div>
+       `;
+   } else {
+       activeDisplay.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);padding:24px;">No active program<br><button class="btn-sm" onclick="openNewProgram()" style="margin-top:14px;">Create One</button></div>`;
+   }
+   
+   document.getElementById('programList').innerHTML = programs.filter(p => !p.active).map(p => `
+       <div class="prog-card">
+           <div class="prog-name">${p.name}</div>
+           <div class="prog-meta">${p.days.length} days • ${p.days.filter(d => !d.rest).length} workouts</div>
+           <div class="prog-actions">
+               <button class="btn-sm accent" onclick="activateProgram(${p.id})">ACTIVATE</button>
+               <button class="btn-sm" onclick="editProgram(${p.id})">EDIT</button>
+               <button class="btn-sm danger" onclick="deleteProgram(${p.id})">DELETE</button>
+           </div>
+       </div>
+   `).join('');
 }
 
 function openNewProgram() {
-    editingProgram = null;
-    document.getElementById('builderTitle').textContent = 'New Program';
-    document.getElementById('builderName').value = '';
-    renderBuilderDays([{ name: 'Day 1', rest: false, exercises: [] }]);
-    document.getElementById('builderModal').classList.add('on');
+   editingProgram = null;
+   document.getElementById('builderTitle').textContent = 'New Program';
+   document.getElementById('builderName').value = '';
+   renderBuilderDays([{ name: 'Day 1', rest: false, exercises: [] }]);
+   document.getElementById('builderModal').classList.add('on');
 }
 
 async function editProgram(id) {
-    const prog = await dbGet('programs', id);
-    editingProgram = prog;
-    document.getElementById('builderTitle').textContent = 'Edit Program';
-    document.getElementById('builderName').value = prog.name;
-    renderBuilderDays(prog.days);
-    document.getElementById('builderModal').classList.add('on');
+   const prog = await dbGet('programs', id);
+   editingProgram = prog;
+   document.getElementById('builderTitle').textContent = 'Edit Program';
+   document.getElementById('builderName').value = prog.name;
+   renderBuilderDays(prog.days);
+   document.getElementById('builderModal').classList.add('on');
 }
 
 function renderBuilderDays(days) {
-    const container = document.getElementById('builderDays');
-    container.innerHTML = days.map((day, idx) => `
-        <div class="builder-day ${day.rest ? 'rest' : ''}" data-idx="${idx}">
-            <div class="builder-day-header" onclick="this.parentElement.classList.toggle('open')">
-                <div class="builder-day-name">${day.rest ? 'REST DAY' : day.name}</div>
-                <button class="builder-day-toggle ${day.rest ? 'rest' : ''}" onclick="event.stopPropagation();toggleRestDay(${idx})">${day.rest ? 'REST' : 'WORKOUT'}</button>
-            </div>
-            <div class="builder-day-body">
-                <div class="builder-ex-list" id="dayEx-${idx}">
-                    ${day.exercises ? day.exercises.map((ex, exIdx) => `
-                        <div class="builder-ex-item">
-                            <span class="builder-ex-name">${ex.name}</span>
-                            <button class="builder-ex-remove" onclick="removeExFromDay(${idx},${exIdx})">×</button>
-                        </div>
-                    `).join('') : ''}
-                </div>
-                ${!day.rest ? `<button class="add-ex-btn" onclick="openExercisePicker(${idx})">+ ADD EXERCISE</button>` : ''}
-            </div>
-        </div>
-    `).join('');
-    
-    container.dataset.days = JSON.stringify(days);
+   const container = document.getElementById('builderDays');
+   container.innerHTML = days.map((day, idx) => `
+       <div class="builder-day ${day.rest ? 'rest' : ''}" data-idx="${idx}">
+           <div class="builder-day-header" onclick="this.parentElement.classList.toggle('open')">
+               <div class="builder-day-name">${day.rest ? 'REST DAY' : day.name}</div>
+               <button class="builder-day-toggle ${day.rest ? 'rest' : ''}" onclick="event.stopPropagation();toggleRestDay(${idx})">${day.rest ? 'REST' : 'WORKOUT'}</button>
+           </div>
+           <div class="builder-day-body">
+               <div class="builder-ex-list" id="dayEx-${idx}">
+                   ${day.exercises ? day.exercises.map((ex, exIdx) => `
+                       <div class="builder-ex-item">
+                           <span class="builder-ex-name">${ex.name}</span>
+                           <button class="builder-ex-remove" onclick="removeExFromDay(${idx},${exIdx})">×</button>
+                       </div>
+                   `).join('') : ''}
+               </div>
+               ${!day.rest ? `<button class="add-ex-btn" onclick="openExercisePicker(${idx})">+ ADD EXERCISE</button>` : ''}
+           </div>
+       </div>
+   `).join('');
+   
+   container.dataset.days = JSON.stringify(days);
 }
 
 function toggleRestDay(idx) {
-    const days = JSON.parse(document.getElementById('builderDays').dataset.days);
-    days[idx].rest = !days[idx].rest;
-    if (days[idx].rest) days[idx].exercises = [];
-    renderBuilderDays(days);
+   const days = JSON.parse(document.getElementById('builderDays').dataset.days);
+   days[idx].rest = !days[idx].rest;
+   if (days[idx].rest) days[idx].exercises = [];
+   renderBuilderDays(days);
 }
 
 function openExercisePicker(dayIdx) {
-    currentPickerDay = dayIdx;
-    document.getElementById('pickerSearch').value = '';
-    filterPicker();
-    document.getElementById('pickerModal').classList.add('on');
+   currentPickerDay = dayIdx;
+   document.getElementById('pickerSearch').value = '';
+   filterPicker();
+   document.getElementById('pickerModal').classList.add('on');
 }
 
 function filterPicker() {
-    const search = document.getElementById('pickerSearch').value.toLowerCase();
-    let filtered = exerciseDatabase;
-    if (search) filtered = filtered.filter(e => e.name.toLowerCase().includes(search));
-    
-    document.getElementById('pickerList').innerHTML = filtered.map(ex => `
-        <div class="ex-picker-item" onclick="addExToDay('${ex.name}','${ex.muscle}','${ex.equipment}')">
-            <div class="ex-picker-name">${ex.name}</div>
-            <div class="ex-picker-meta">${ex.muscle} • ${ex.equipment}</div>
-        </div>
-    `).join('');
+   const search = document.getElementById('pickerSearch').value.toLowerCase();
+   let filtered = exerciseDatabase;
+   if (search) filtered = filtered.filter(e => e.name.toLowerCase().includes(search));
+   
+   document.getElementById('pickerList').innerHTML = filtered.map(ex => `
+       <div class="ex-picker-item" onclick="addExToDay('${ex.name}','${ex.muscle}','${ex.equipment}')">
+           <div class="ex-picker-name">${ex.name}</div>
+           <div class="ex-picker-meta">${ex.muscle} • ${ex.equipment}</div>
+       </div>
+   `).join('');
 }
 
 function addExToDay(name, muscle, equipment) {
-    const days = JSON.parse(document.getElementById('builderDays').dataset.days);
-    if (!days[currentPickerDay].exercises) days[currentPickerDay].exercises = [];
-    days[currentPickerDay].exercises.push({ name, muscle, equipment });
-    renderBuilderDays(days);
-    closeModal('pickerModal');
+   const days = JSON.parse(document.getElementById('builderDays').dataset.days);
+   if (!days[currentPickerDay].exercises) days[currentPickerDay].exercises = [];
+   days[currentPickerDay].exercises.push({ name, muscle, equipment });
+   renderBuilderDays(days);
+   closeModal('pickerModal');
 }
 
 function removeExFromDay(dayIdx, exIdx) {
-    const days = JSON.parse(document.getElementById('builderDays').dataset.days);
-    days[dayIdx].exercises.splice(exIdx, 1);
-    renderBuilderDays(days);
+   const days = JSON.parse(document.getElementById('builderDays').dataset.days);
+   days[dayIdx].exercises.splice(exIdx, 1);
+   renderBuilderDays(days);
 }
 
 async function saveProgram() {
-    const name = document.getElementById('builderName').value || 'New Program';
-    const days = JSON.parse(document.getElementById('builderDays').dataset.days);
-    
-    const program = {
-        id: editingProgram?.id || undefined,
-        name,
-        days,
-        active: editingProgram?.active || false,
-        currentDay: editingProgram?.currentDay || 0
-    };
-    
-    await dbPut('programs', program);
-    closeModal('builderModal');
-    renderPrograms();
-    syncData();
+   const name = document.getElementById('builderName').value || 'New Program';
+   const days = JSON.parse(document.getElementById('builderDays').dataset.days);
+   
+   const program = {
+       id: editingProgram?.id || undefined,
+       name,
+       days,
+       active: editingProgram?.active || false,
+       currentDay: editingProgram?.currentDay || 0
+   };
+   
+   await dbPut('programs', program);
+   closeModal('builderModal');
+   renderPrograms();
+   syncData();
 }
 
 async function activateProgram(id) {
-    const programs = await dbAll('programs');
-    for (const p of programs) {
-        p.active = (p.id === id);
-        await dbPut('programs', p);
-    }
-    renderPrograms();
-    showToast('Program activated');
+   const programs = await dbAll('programs');
+   for (const p of programs) {
+       p.active = (p.id === id);
+       await dbPut('programs', p);
+   }
+   renderPrograms();
+   showToast('Program activated');
 }
 
 async function deactivateProgram() {
-    const programs = await dbAll('programs');
-    for (const p of programs) {
-        p.active = false;
-        await dbPut('programs', p);
-    }
-    renderPrograms();
+   const programs = await dbAll('programs');
+   for (const p of programs) {
+       p.active = false;
+       await dbPut('programs', p);
+   }
+   renderPrograms();
 }
 
 async function deleteProgram(id) {
-    await dbDel('programs', id);
-    renderPrograms();
+   await dbDel('programs', id);
+   renderPrograms();
 }
 
 function startProgramDay() {
-    goTab('workout');
+   goTab('workout');
 }
 
 // ═══════════════════════════════════════════════════════════════
 // PROGRESS & BODY
 // ═══════════════════════════════════════════════════════════════
 async function renderProgress() {
-    const workouts = await dbAll('workouts');
-    const days = await dbAll('days');
-    
-    const weekDays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-    const today = new Date();
-    document.getElementById('weekGrid').innerHTML = weekDays.map((d, i) => {
-        const date = new Date(); date.setDate(today.getDate() - today.getDay() + i);
-        const dateStr = date.toISOString().slice(0, 10);
-        const hasWorkout = workouts.some(w => w.date === dateStr);
-        const hasSprint = days.some(d => d.date === dateStr && d.met);
-        const isToday = i === today.getDay();
-        return `<div class="wd ${hasWorkout || hasSprint ? 'done' : ''} ${isToday ? 'today' : ''}">
-            <div class="wd-lbl">${d}</div>
-            <div class="wd-dot"></div>
-        </div>`;
-    }).join('');
-    
-    document.getElementById('streakVal').textContent = calculateStreak(days);
-    document.getElementById('totalWorkouts').textContent = workouts.length;
+   const workouts = await dbAll('workouts');
+   const days = await dbAll('days');
+   
+   const weekDays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+   const today = new Date();
+   document.getElementById('weekGrid').innerHTML = weekDays.map((d, i) => {
+       const date = new Date(); date.setDate(today.getDate() - today.getDay() + i);
+       const dateStr = date.toISOString().slice(0, 10);
+       const hasWorkout = workouts.some(w => w.date === dateStr);
+       const hasSprint = days.some(d => d.date === dateStr && d.met);
+       const isToday = i === today.getDay();
+       return `<div class="wd ${hasWorkout || hasSprint ? 'done' : ''} ${isToday ? 'today' : ''}">
+           <div class="wd-lbl">${d}</div>
+           <div class="wd-dot"></div>
+       </div>`;
+   }).join('');
+   
+   document.getElementById('streakVal').textContent = calculateStreak(days);
+   document.getElementById('totalWorkouts').textContent = workouts.length;
 
-    const bw = await dbAll('bodyweight');
-    const sortedBw = bw.sort((a, b) => new Date(b.date) - new Date(a.date));
-    document.getElementById('bwHistory').innerHTML = sortedBw.slice(0,3).map(b => `
-        <div class="card" style="display:flex;justify-content:space-between;margin-bottom:8px;padding:10px 14px;">
-            <span style="color:var(--muted);font-size:12px;">${b.date}</span>
-            <span style="font-family:'Bebas Neue';font-size:22px;color:var(--accent);">${b.weight} <span style="font-size:14px;color:var(--muted)">KG</span></span>
-        </div>
-    `).join('');
+   const bw = await dbAll('bodyweight');
+   const sortedBw = bw.sort((a, b) => new Date(b.date) - new Date(a.date));
+   document.getElementById('bwHistory').innerHTML = sortedBw.slice(0,3).map(b => `
+       <div class="card" style="display:flex;justify-content:space-between;margin-bottom:8px;padding:10px 14px;">
+           <span style="color:var(--muted);font-size:12px;">${b.date}</span>
+           <span style="font-family:'Bebas Neue';font-size:22px;color:var(--accent);">${b.weight} <span style="font-size:14px;color:var(--muted)">KG</span></span>
+       </div>
+   `).join('');
 
-    const historyList = document.getElementById('historyList');
-    const allHistory = [
-        ...workouts.map(w => ({...w, displayType: 'LIFT', label: `${w.exercises.length} Exercises`})),
-        ...days.filter(d => d.type === 'sprint').map(d => ({...d, displayType: 'SPRINT', label: `${d.rounds} Rounds`}))
-    ].sort((a, b) => new Date(b.date) - new Date(a.date));
+   const historyList = document.getElementById('historyList');
+   const allHistory = [
+       ...workouts.map(w => ({...w, displayType: 'LIFT', label: `${w.exercises.length} Exercises`})),
+       ...days.filter(d => d.type === 'sprint').map(d => ({...d, displayType: 'SPRINT', label: `${d.rounds} Rounds`}))
+   ].sort((a, b) => new Date(b.date) - new Date(a.date));
 
-    historyList.innerHTML = allHistory.slice(0, 10).map(h => `
-        <div class="history-item">
-            <div>
-                <div style="font-family:'Bebas Neue'; font-size:18px; color:var(--text);">${h.displayType}</div>
-                <div class="history-date">${h.date}</div>
-            </div>
-            <div class="history-stat">${h.label}</div>
-        </div>
-    `).join('');
+   historyList.innerHTML = allHistory.slice(0, 10).map(h => `
+       <div class="history-item">
+           <div>
+               <div style="font-family:'Bebas Neue'; font-size:18px; color:var(--text);">${h.displayType}</div>
+               <div class="history-date">${h.date}</div>
+           </div>
+           <div class="history-stat">${h.label}</div>
+       </div>
+   `).join('');
 }
 
 function calculateStreak(days) {
-    if (days.length === 0) return 0;
-    const sorted = days.filter(d => d.met).sort((a, b) => new Date(b.date) - new Date(a.date));
-    if (sorted.length === 0) return 0;
-    
-    let streak = 1;
-    const today = new Date().toISOString().slice(0, 10);
-    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-    
-    if (sorted[0].date !== today && sorted[0].date !== yesterday) return 0;
-    
-    for (let i = 1; i < sorted.length; i++) {
-        const prev = new Date(sorted[i - 1].date);
-        const curr = new Date(sorted[i].date);
-        if ((prev - curr) / 86400000 === 1) streak++;
-        else break;
-    }
-    return streak;
+   if (days.length === 0) return 0;
+   const sorted = days.filter(d => d.met).sort((a, b) => new Date(b.date) - new Date(a.date));
+   if (sorted.length === 0) return 0;
+   
+   let streak = 1;
+   const today = new Date().toISOString().slice(0, 10);
+   const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+   
+   if (sorted[0].date !== today && sorted[0].date !== yesterday) return 0;
+   
+   for (let i = 1; i < sorted.length; i++) {
+       const prev = new Date(sorted[i - 1].date);
+       const curr = new Date(sorted[i].date);
+       if ((prev - curr) / 86400000 === 1) streak++;
+       else break;
+   }
+   return streak;
 }
 
 async function logBodyweight() {
-    const val = parseFloat(document.getElementById('bwInput').value);
-    if (!val) return;
-    await dbPut('bodyweight', { date: new Date().toISOString().slice(0, 10), weight: val });
-    document.getElementById('bwInput').value = '';
-    renderProgress();
-    syncData();
+   const val = parseFloat(document.getElementById('bwInput').value);
+   if (!val) return;
+   await dbPut('bodyweight', { date: new Date().toISOString().slice(0, 10), weight: val });
+   document.getElementById('bwInput').value = '';
+   renderProgress();
+   syncData();
 }
 
 // ═══════════════════════════════════════════════════════════════
 // UTILS
 // ═══════════════════════════════════════════════════════════════
 function closeModal(id) {
-    document.getElementById(id).classList.remove('on');
+   document.getElementById(id).classList.remove('on');
 }
 
 function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.style.display = 'block';
-    setTimeout(() => t.style.display = 'none', 2000);
+   const t = document.getElementById('toast');
+   t.textContent = msg;
+   t.style.display = 'block';
+   setTimeout(() => t.style.display = 'none', 2000);
 }
 
 async function saveConfig() {
-    await dbPut('config', { key: 'settings', ...C });
+   await dbPut('config', { key: 'settings', ...C });
 }
 
 async function loadConfig() {
-    const settings = await dbGet('config', 'settings');
-    if(settings) {
-        C.work = settings.work || 30;
-        C.rest = settings.rest || 15;
-        C.rounds = settings.rounds || 8;
-        C.goal = settings.goal || 4;
-        updateSetupUI();
-    }
+   const settings = await dbGet('config', 'settings');
+   if(settings) {
+       C.work = settings.work || 30;
+       C.rest = settings.rest || 15;
+       C.rounds = settings.rounds || 8;
+       C.goal = settings.goal || 4;
+       updateSetupUI();
+   }
 }
 
 // ═══════════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════════
 async function init() {
-    await openDB();
-    await initSupabase();
-    await loadConfig();
-    updateSetupUI();
-    renderCalendar();
+   await openDB();
+   await initSupabase();
+   await loadConfig();
+   updateSetupUI();
+   renderCalendar();
 }
 
 init();
